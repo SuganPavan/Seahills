@@ -1,0 +1,143 @@
+---
+// ExploreDestinations.astro - SECTION 2: EXPLORE ANDAMAN
+// Features:
+// 1. High-definition 2048x1142 aerial photograph scaled proportionally for maximum clarity
+// 2. Real island landscape with Port Blair on left, Havelock on right, and ferry route
+// 3. Static ferry naturally featured in the photograph (no simulated moving animation)
+// 4. "Explore Andaman" header placed directly inside the image top
+// 5. 100% full-width edge-to-edge layout without inner card container
+---
+
+<section id="explore-andaman" class="relative w-full overflow-hidden bg-[#0A2635] pt-0">
+  
+  <!-- Smooth Organic Top Wave Transition from Hero -->
+  <div class="relative w-full overflow-hidden leading-none z-20 pointer-events-none -mt-1">
+    <svg class="block w-full text-[#0A2635]" viewBox="0 0 1440 60" preserveAspectRatio="none" style="width: 100%; height: 35px;">
+      <path d="M0,0 C240,40 480,55 720,30 C960,5 1200,45 1440,25 L1440,60 L0,60 Z" fill="currentColor"></path>
+    </svg>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════════════════
+       FULL-BLEED PANORAMIC REAL ISLAND MAP (NO INNER CARD CONTAINER)
+       Proportionally scaled to preserve ultra-crisp image quality and aspect ratio
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <div class="relative w-full min-h-[460px] sm:min-h-[540px] md:min-h-[620px] lg:min-h-[700px] xl:min-h-[760px] flex flex-col justify-between overflow-hidden">
+    
+    <!-- HIGH-QUALITY AERIAL ISLAND PHOTOGRAPH (HD 2048x1142) -->
+    <picture class="absolute inset-0 z-0">
+      <source srcset="/explore-andaman-map-hd.webp" type="image/webp" />
+      <img
+        src="/explore-andaman-map.jpg"
+        alt="Real aerial photograph of Andaman Islands showing Port Blair and Havelock with sea ferry route"
+        class="w-full h-full object-cover object-center"
+        style="width: 100%; height: 100%; object-fit: cover; image-rendering: -webkit-optimize-contrast;"
+        loading="eager"
+      />
+    </picture>
+    
+    <!-- Delicate top and bottom vignette overlays for text legibility without washing out the photo -->
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0A2635]/75 via-transparent to-[#0A2635]/70 pointer-events-none z-10"></div>
+
+    <!-- ════════════════════════════════════════════════════════════════════════════
+         SECTION HEADER: DISPLAYED INSIDE THE IMAGE TOP
+         "Explore Andaman / Choose your destination on the map"
+    ════════════════════════════════════════════════════════════════════════════ -->
+    <div class="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 text-center pt-6 sm:pt-8 md:pt-10 select-none">
+      <div class="inline-flex items-center justify-center gap-3 sm:gap-5 text-white text-2xl sm:text-3xl md:text-4xl font-serif tracking-wide mb-2 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+        <span class="w-10 sm:w-20 h-[1.5px] bg-white/90 shadow-md"></span>
+        <span class="font-serif italic font-normal tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">Explore Andaman</span>
+        <span class="w-10 sm:w-20 h-[1.5px] bg-white/90 shadow-md"></span>
+      </div>
+      <p class="text-xs sm:text-sm md:text-base text-teal-100 font-light tracking-wider drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+        Choose your destination on the map
+      </p>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════════════
+         DESTINATION PINS:
+         Left Side Island:  PORT BLAIR (Sri Vijaya Puram)
+         Right Side Island: HAVELOCK (Swaraj Dweep)
+    ════════════════════════════════════════════════════════════════════════════ -->
+    <div class="relative z-30 w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 my-auto py-8">
+      
+      <div class="w-full flex flex-col md:flex-row items-center justify-between gap-12 md:gap-6">
+        
+        <!-- LEFT SIDE ISLAND: PORT BLAIR (Pinned over Port Blair harbour / settlement) -->
+        <div class="flex flex-col items-center md:items-start z-30 transform hover:-translate-y-1.5 transition-all duration-300">
+          <a
+            href="#destination-port-blair"
+            class="group flex items-center gap-3.5 bg-white/95 hover:bg-white rounded-full p-2.5 pr-7 shadow-[0_18px_40px_rgba(0,0,0,0.45)] border border-white/90 hover:border-amber-300 hover:scale-105 active:scale-95 transition-all duration-300 no-underline cursor-pointer backdrop-blur-md"
+          >
+            <!-- Destination Thumbnail with Gold Rim -->
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-[#D49E1F] shadow-md flex-shrink-0" style="width: 58px; height: 58px;">
+              <img
+                src="https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?auto=format&fit=crop&w=200&q=80"
+                alt="Port Blair - Capital of Andaman"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                style="width: 100%; height: 100%; object-fit: cover;"
+                loading="lazy"
+              />
+            </div>
+            
+            <!-- Pin & Text Content -->
+            <div class="flex flex-col text-left">
+              <span class="font-serif font-bold text-base sm:text-lg text-[#062031] leading-tight flex items-center gap-1.5">
+                <span>Port Blair</span>
+                <!-- Red Location Pin -->
+                <svg class="w-4 h-4 text-red-500 fill-current animate-bounce" width="16" height="16" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="text-xs text-[#062031]/80 font-medium tracking-wide">
+                City • Heritage • Culture
+              </span>
+            </div>
+          </a>
+        </div>
+
+        <!-- RIGHT SIDE ISLAND: HAVELOCK (Pinned over Havelock tropical island & beach) -->
+        <div class="flex flex-col items-center md:items-end z-30 transform hover:-translate-y-1.5 transition-all duration-300">
+          <a
+            href="#destination-havelock"
+            class="group flex items-center gap-3.5 bg-white/95 hover:bg-white rounded-full p-2.5 pr-7 shadow-[0_18px_40px_rgba(0,0,0,0.45)] border border-white/90 hover:border-amber-300 hover:scale-105 active:scale-95 transition-all duration-300 no-underline cursor-pointer backdrop-blur-md"
+          >
+            <!-- Destination Thumbnail with Gold Rim -->
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-[#D49E1F] shadow-md flex-shrink-0" style="width: 58px; height: 58px;">
+              <img
+                src="https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?auto=format&fit=crop&w=200&q=80"
+                alt="Havelock Island - Radhanagar Beach"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                style="width: 100%; height: 100%; object-fit: cover;"
+                loading="lazy"
+              />
+            </div>
+            
+            <!-- Pin & Text Content -->
+            <div class="flex flex-col text-left">
+              <span class="font-serif font-bold text-base sm:text-lg text-[#062031] leading-tight flex items-center gap-1.5">
+                <span>Havelock</span>
+                <!-- Red Location Pin -->
+                <svg class="w-4 h-4 text-red-500 fill-current animate-bounce" width="16" height="16" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="text-xs text-[#062031]/80 font-medium tracking-wide">
+                Beaches • Adventure
+              </span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Smooth Organic Bottom Wave Divider matching template -->
+    <div class="relative w-full overflow-hidden leading-none z-20 pointer-events-none -mb-1 mt-auto">
+      <svg class="block w-full text-[#0A2635]" viewBox="0 0 1440 60" preserveAspectRatio="none" style="width: 100%; height: 35px;">
+        <path d="M0,35 C320,10 640,55 960,20 C1200,45 1360,15 1440,30 L1440,60 L0,60 Z" fill="currentColor"></path>
+      </svg>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,202 @@
+---
+// BeyondTheStay.astro - SECTION 3: BEYOND THE STAY
+// Matches the user's circled Royella/Dribbble reference:
+// - Spa removed as requested
+// - New bright swimming pool photograph (/images/facilities/pool-bright.jpg)
+// - Alternating UP & DOWN staggered cards layout (UP, DOWN, UP, DOWN, UP)
+// - Scroll-driven snake animation where each card undulates & settles into position as you scroll
+// - Rich hover animation with card lift, image zoom, gold halo glow, and label highlight
+// Palette: Champagne Gold (#D6B66C), Midnight Black (#101416), Soft Ivory (#F5F1E8), Warm Beige (#C8BFAE)
+---
+
+<section id="beyond-the-stay" class="relative w-full lg:min-h-[88vh] flex flex-col justify-center bg-[#101416] py-12 sm:py-16 overflow-hidden z-20">
+  
+  <!-- Subtle circular warm champagne radial glow centered behind the cards -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-radial from-[#D6B66C]/10 via-[#D6B66C]/3 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- ════════════════════════════════════════════════════════════════════════════
+         SECTION HEADER (MATCHING DRIBBLE REFERENCE SCREENSHOT)
+         Emblem crest + small uppercase label + main serif heading
+    ════════════════════════════════════════════════════════════════════════════ -->
+    <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10 select-none">
+      
+      <!-- Small Gold Crown / Emblem Accent -->
+      <div class="flex items-center justify-center mb-3">
+        <div class="w-8 h-8 rounded-full border border-[#D6B66C]/50 flex items-center justify-center text-[#D6B66C] shadow-sm">
+          <svg class="w-4 h-4 text-[#D6B66C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3l2.5 5 5 .5-3.8 3.5 1 5-4.7-2.8-4.7 2.8 1-5L3.5 8.5l5-.5L12 3z" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Small Gold Uppercase Label -->
+      <span class="text-[10px] sm:text-[11px] tracking-[0.3em] uppercase font-sans font-medium text-[#D6B66C] block mb-2 drop-shadow-sm">
+        ENJOY THE BEST & COMPLETE QUALITY FACILITIES
+      </span>
+
+      <!-- Main Heading in Cormorant Garamond Serif -->
+      <h2 class="font-cormorant text-3xl sm:text-4xl lg:text-[44px] font-normal text-[#F5F1E8] tracking-[0.02em] leading-tight drop-shadow-sm">
+        More Than a Stay. An Island Experience.
+      </h2>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════════════
+         ALTERNATING UP & DOWN STAGGERED CARDS (SPA REMOVED)
+         Card 01: Hotel Restaurant (UP)
+         Card 02: Swimming Pools (DOWN - Bright New Image)
+         Card 03: Hotel Sea Beach (UP)
+         Card 04: Bar & Lounge (DOWN)
+         Card 05: Events & Celebrations (UP)
+         Scroll-driven snake animation + rich interactive hover effects
+    ════════════════════════════════════════════════════════════════════════════ -->
+    <div id="snake-cards-container" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5 lg:gap-6 pt-2 pb-10 sm:pb-12">
+
+      <!-- ── CARD 01: HOTEL RESTAURANT (UP) ── -->
+      <div class="snake-card-wrapper flex flex-col items-center group cursor-pointer" data-index="0" data-offset="up">
+        <!-- Photo Card Container with Hover Animation -->
+        <div class="card-inner relative w-full h-[230px] sm:h-[260px] lg:h-[300px] rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D6B66C]/30 group-hover:border-[#D6B66C] shadow-[0_12px_32px_rgba(0,0,0,0.6)] group-hover:shadow-[0_20px_50px_rgba(214,182,108,0.35)] group-hover:-translate-y-3 group-hover:scale-[1.03] transition-all duration-500 ease-out bg-[#101416]">
+          <img
+            src="/images/facilities/restaurant.jpg"
+            alt="Hotel Restaurant at Sea Shell"
+            class="w-full h-full object-cover object-center transform scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#101416]/60 via-transparent to-transparent pointer-events-none"></div>
+        </div>
+        <!-- Centered Label Below Card -->
+        <span class="mt-3.5 text-xs sm:text-[13px] font-sans font-medium text-[#F5F1E8] group-hover:text-[#D6B66C] group-hover:-translate-y-1 transition-all duration-300 text-center tracking-wide drop-shadow-sm">
+          Hotel Restaurant
+        </span>
+      </div>
+
+      <!-- ── CARD 02: SWIMMING POOLS (DOWN - BRIGHT NEW IMAGE) ── -->
+      <div class="snake-card-wrapper flex flex-col items-center group cursor-pointer lg:translate-y-10 sm:translate-y-6" data-index="1" data-offset="down">
+        <!-- Photo Card Container with Hover Animation -->
+        <div class="card-inner relative w-full h-[230px] sm:h-[260px] lg:h-[300px] rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D6B66C]/30 group-hover:border-[#D6B66C] shadow-[0_12px_32px_rgba(0,0,0,0.6)] group-hover:shadow-[0_20px_50px_rgba(214,182,108,0.35)] group-hover:-translate-y-3 group-hover:scale-[1.03] transition-all duration-500 ease-out bg-[#101416]">
+          <img
+            src="/images/facilities/pool-bright.jpg"
+            alt="Bright sunny resort swimming pool with loungers and turquoise crystal water"
+            class="w-full h-full object-cover object-center transform scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#101416]/60 via-transparent to-transparent pointer-events-none"></div>
+        </div>
+        <!-- Centered Label Below Card -->
+        <span class="mt-3.5 text-xs sm:text-[13px] font-sans font-medium text-[#F5F1E8] group-hover:text-[#D6B66C] group-hover:-translate-y-1 transition-all duration-300 text-center tracking-wide drop-shadow-sm">
+          Swimming Pools
+        </span>
+      </div>
+
+      <!-- ── CARD 03: HOTEL SEA BEACH (UP) ── -->
+      <div class="snake-card-wrapper flex flex-col items-center group cursor-pointer" data-index="2" data-offset="up">
+        <!-- Photo Card Container with Hover Animation -->
+        <div class="card-inner relative w-full h-[230px] sm:h-[260px] lg:h-[300px] rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D6B66C]/30 group-hover:border-[#D6B66C] shadow-[0_12px_32px_rgba(0,0,0,0.6)] group-hover:shadow-[0_20px_50px_rgba(214,182,108,0.35)] group-hover:-translate-y-3 group-hover:scale-[1.03] transition-all duration-500 ease-out bg-[#101416]">
+          <img
+            src="/images/facilities/dining.jpg"
+            alt="Hotel Sea Beach at Sea Shell Resort"
+            class="w-full h-full object-cover object-center transform scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#101416]/60 via-transparent to-transparent pointer-events-none"></div>
+        </div>
+        <!-- Centered Label Below Card -->
+        <span class="mt-3.5 text-xs sm:text-[13px] font-sans font-medium text-[#F5F1E8] group-hover:text-[#D6B66C] group-hover:-translate-y-1 transition-all duration-300 text-center tracking-wide drop-shadow-sm">
+          Hotel Sea Beach
+        </span>
+      </div>
+
+      <!-- ── CARD 04: BAR & LOUNGE (DOWN) ── -->
+      <div class="snake-card-wrapper flex flex-col items-center group cursor-pointer lg:translate-y-10 sm:translate-y-6" data-index="3" data-offset="down">
+        <!-- Photo Card Container with Hover Animation -->
+        <div class="card-inner relative w-full h-[230px] sm:h-[260px] lg:h-[300px] rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D6B66C]/30 group-hover:border-[#D6B66C] shadow-[0_12px_32px_rgba(0,0,0,0.6)] group-hover:shadow-[0_20px_50px_rgba(214,182,108,0.35)] group-hover:-translate-y-3 group-hover:scale-[1.03] transition-all duration-500 ease-out bg-[#101416]">
+          <img
+            src="/images/facilities/bar.jpg"
+            alt="Bar & Lounge at Sea Shell"
+            class="w-full h-full object-cover object-center transform scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#101416]/60 via-transparent to-transparent pointer-events-none"></div>
+        </div>
+        <!-- Centered Label Below Card -->
+        <span class="mt-3.5 text-xs sm:text-[13px] font-sans font-medium text-[#F5F1E8] group-hover:text-[#D6B66C] group-hover:-translate-y-1 transition-all duration-300 text-center tracking-wide drop-shadow-sm">
+          Bar & Lounge
+        </span>
+      </div>
+
+      <!-- ── CARD 05: EVENTS & CELEBRATIONS (UP) ── -->
+      <div class="snake-card-wrapper flex flex-col items-center group cursor-pointer col-span-2 sm:col-span-1 lg:col-span-1" data-index="4" data-offset="up">
+        <!-- Photo Card Container with Hover Animation -->
+        <div class="card-inner relative w-full h-[230px] sm:h-[260px] lg:h-[300px] rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D6B66C]/30 group-hover:border-[#D6B66C] shadow-[0_12px_32px_rgba(0,0,0,0.6)] group-hover:shadow-[0_20px_50px_rgba(214,182,108,0.35)] group-hover:-translate-y-3 group-hover:scale-[1.03] transition-all duration-500 ease-out bg-[#101416]">
+          <img
+            src="/images/facilities/events.jpg"
+            alt="Events & Celebrations at Sea Shell"
+            class="w-full h-full object-cover object-center transform scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#101416]/60 via-transparent to-transparent pointer-events-none"></div>
+        </div>
+        <!-- Centered Label Below Card -->
+        <span class="mt-3.5 text-xs sm:text-[13px] font-sans font-medium text-[#F5F1E8] group-hover:text-[#D6B66C] group-hover:-translate-y-1 transition-all duration-300 text-center tracking-wide drop-shadow-sm">
+          Events & Celebrations
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     SCROLL-DRIVEN SNAKE ANIMATION (GSAP + SCROLLTRIGGER)
+     As the user scrolls, cards animate sequentially one by one in an undulating snake wave,
+     slowing down smoothly into their alternating UP/DOWN positions
+════════════════════════════════════════════════════════════════════════════ -->
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const wrappers = document.querySelectorAll('.snake-card-wrapper');
+    if (wrappers.length > 0) {
+      // Sequential one-by-one snake appear animation on scroll
+      gsap.fromTo(
+        wrappers,
+        {
+          opacity: 0,
+          x: -28,
+          y: (i) => (i % 2 === 0 ? -55 : 75),
+          scale: 0.88
+        },
+        {
+          opacity: 1,
+          x: 0,
+          y: (i) => {
+            const isDesktop = window.innerWidth >= 1024;
+            const isTablet = window.innerWidth >= 640;
+            if (i % 2 === 1) {
+              return isDesktop ? 40 : isTablet ? 24 : 0;
+            }
+            return 0;
+          },
+          scale: 1,
+          duration: 0.85,
+          stagger: 0.22,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#beyond-the-stay',
+            start: 'top 85%',
+            once: true
+          }
+        }
+      );
+
+      // Recalculate trigger positions after upstream scroll-scrubbed sections settle
+      window.addEventListener('load', () => ScrollTrigger.refresh());
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    }
+  }
+</script>

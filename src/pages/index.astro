@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import TwoIslandsDestinations from '../components/TwoIslandsDestinations.astro';
+import RoomsAndSuites from '../components/RoomsAndSuites.astro';
+import DiscoverAndaman from '../components/DiscoverAndaman.astro';
+import DiningAndBar from '../components/DiningAndBar.astro';
+import PackagesShowcase from '../components/PackagesShowcase.astro';
+import GalleryShowcase from '../components/GalleryShowcase.astro';
+import ReviewsShowcase from '../components/ReviewsShowcase.astro';
+import BookingSection from '../components/BookingSection.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Sea Hills Hotels & Resorts | Andaman & Nicobar Islands"
+  description="Experience the breathtaking beauty of turquoise waters, pristine beaches, tropical islands and unforgettable adventures in the Andaman Islands."
+>
+  <!-- Navigation Header -->
+  <Header />
+
+  <main>
+    <!-- SECTION 1: CINEMATIC RESORT JOURNEY (Hero Section) -->
+    <Hero />
+
+    <!-- SECTION 2: TWO ISLANDS. TWO DISTINCT EXPERIENCES. (Destination Discovery Section) -->
+    <TwoIslandsDestinations />
+
+    <!-- SECTION 3: ROOMS & SUITES (Scroll-Scrubbed Room & Villa Tour) -->
+    <RoomsAndSuites />
+
+    <!-- SECTION 4: DISCOVER ANDAMAN (Golden Wave Activities Showcase) -->
+    <DiscoverAndaman />
+
+    <!-- SECTION 5: DINING, BAR & SWIMMING POOL (Left-Start Scroll-Scrubbed Showcase) -->
+    <DiningAndBar />
+
+    <!-- SECTION 6: CURATED PACKAGES SHOWCASE -->
+    <PackagesShowcase />
+
+    <!-- SECTION 7: LUXURY RESORT GALLERY SHOWCASE -->
+    <GalleryShowcase />
+
+    <!-- SECTION 8: GOOGLE GUEST REVIEWS (Port Blair & Havelock) -->
+    <ReviewsShowcase />
+
+    <!-- SECTION 9: TWO DESTINATIONS BOOKING & COMPLETE ANDAMAN JOURNEY -->
+    <BookingSection />
+  </main>
+
+  <!-- FOOTER -->
+  <Footer />
+</Layout>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+
+  function initLastFourScrollAnimations() {
+    const isMobile = window.innerWidth < 768;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    const animateSection = (sectionId: string, targets: string) => {
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+      const items = section.querySelectorAll(targets);
+      if (!items.length) return;
+
+      gsap.fromTo(
+        items,
+        {
+          opacity: 0,
+          y: isMobile ? 0 : 28,
+          scale: isMobile ? 1 : 0.97,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.75,
+          stagger: 0.1,
+          ease: 'power3.out',
+          clearProps: 'transform',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+            once: true,
+          },
+        }
+      );
+    };
+
+    animateSection('packages', 'h2, #view-all-packages-btn, article');
+    animateSection('gallery', 'h2, .journal-filter-btn, .journal-photo-card, #view-full-gallery-btn');
+    animateSection('reviews', 'h2, .review-island-tab, #featured-review-card, .side-review-card');
+    animateSection('book-now', 'h2, #booking-quick-form, a[href="/packages"]');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLastFourScrollAnimations);
+  } else {
+    initLastFourScrollAnimations();
+  }
+</script>

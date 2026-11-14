@@ -1,0 +1,627 @@
+---
+// Hero.astro - SECTION 1: CINEMATIC SCROLL-CONTROLLED RESORT JOURNEY
+// Starting Landing Page: frame_0020.webp
+// Sequence: frame_0020.webp through frame_0120.webp (101 high-definition WebP frames)
+// Palette: Champagne Gold (#D6B66C), Midnight Black (#101416), Soft Ivory (#F5F1E8), Warm Beige (#C8BFAE)
+import fs from 'node:fs';
+import path from 'node:path';
+import MotionButton from './motion/MotionButton';
+import MotionBadge from './motion/MotionBadge';
+
+const heroFramesDir = path.join(process.cwd(), 'public', 'frames', 'Home_Section');
+let heroFrameUrls: string[] = [];
+if (fs.existsSync(heroFramesDir)) {
+  heroFrameUrls = fs
+    .readdirSync(heroFramesDir)
+    .filter((f) => /^frame_\d+\.webp$/i.test(f))
+    .sort()
+    .filter((f) => {
+      const m = f.match(/frame_(\d+)\.webp/i);
+      return m ? parseInt(m[1], 10) >= 20 : false;
+    })
+    .map((f) => `/frames/Home_Section/${f}`);
+}
+---
+
+<section id="hero-scrolly" class="relative w-full bg-[#101416]" style="height: 360vh;" data-frames={JSON.stringify(heroFrameUrls)}>
+
+  <!-- LUXURY PRELOADER OVERLAY (Locks scroll until Hero frames finish downloading & decoding) -->
+  <div
+    id="hero-preloader"
+    class="fixed inset-0 z-[100] bg-[#0A0F12] flex flex-col items-center justify-center px-6 transition-opacity duration-500"
+    aria-live="polite"
+  >
+    <div class="relative w-24 h-24 flex items-center justify-center mb-6">
+      <div class="absolute -inset-2 rounded-full border border-[#D6B66C]/15 animate-pulse"></div>
+      <div class="absolute inset-0 rounded-full border-2 border-[#D6B66C]/20"></div>
+      <div class="absolute inset-0 rounded-full border-2 border-transparent border-t-[#D6B66C] border-r-[#F3E7C4] animate-spin"></div>
+      <svg viewBox="0 0 40 40" class="w-10 h-10 text-[#D6B66C]" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="20" cy="15" r="7" stroke-dasharray="2 2" />
+        <path d="M20 22 C20 29 18 34 16 35" stroke-width="2" />
+        <path d="M20 22 C14 18 10 20 8 23" />
+        <path d="M20 22 C16 15 13 16 11 18" />
+        <path d="M20 22 C26 18 30 20 32 23" />
+        <path d="M20 22 C24 15 27 16 29 18" />
+        <path d="M12 35 C17 34 23 34 28 35" />
+      </svg>
+    </div>
+
+    <p class="font-cormorant text-3xl sm:text-4xl text-[#F5F1E8] tracking-[0.06em]">
+      Sea Hills
+    </p>
+    <p class="text-[10px] uppercase tracking-[0.32em] text-[#D6B66C] mt-1 mb-6">
+      Hotels &amp; Resorts · Andaman
+    </p>
+
+    <div class="w-56 sm:w-64 h-[2px] bg-white/10 rounded-full overflow-hidden">
+      <div id="hero-preloader-bar" class="h-full w-0 bg-gradient-to-r from-[#D6B66C] via-[#FFF3D6] to-[#D6B66C] transition-all duration-150"></div>
+    </div>
+    <p class="mt-3 text-[11px] font-mono tracking-[0.22em] text-[#C8BFAE]">
+      LOADING EXPERIENCE · <span id="hero-preloader-pct" class="text-[#F3E7C4]">0%</span>
+    </p>
+  </div>
+  
+  <!-- STICKY FULLSCREEN VIEWPORT (svh prevents mobile URL-bar resize jitter) -->
+  <div id="hero-sticky-viewport" class="sticky top-0 h-[100svh] w-full overflow-hidden flex flex-col justify-between">
+    
+    <!-- CANVAS FOR ULTRA-CRISP 60FPS FRAME RENDERING -->
+    <canvas
+      id="scrolly-canvas"
+      class="absolute inset-0 w-full h-full z-0 block"
+      style="filter: contrast(1.02) brightness(1.03);"
+      aria-hidden="true"
+    ></canvas>
+
+    <!-- FIRST-FRAME IMMEDIATE FALLBACK (0ms first paint starting at frame_0020.webp) -->
+    <img
+      id="scrolly-fallback"
+      src="/frames/Home_Section/frame_0020.webp"
+      alt="Illuminated grand entrance gates and architecture of Sea Hills Hotels & Resorts Andaman"
+      class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-opacity duration-300"
+      style="object-position: center center; filter: contrast(1.02) brightness(1.03);"
+      width="1600"
+      height="900"
+      loading="eager"
+      fetchpriority="high"
+      decoding="sync"
+    />
+
+    <!-- REFINED MINIMAL LUXURY SCENE LIGHTING (Soft, subtle contrast preserving full architectural visibility) -->
+    <!-- Subtle top bar gradient for navigation legibility -->
+    <div class="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#101416]/60 via-[#101416]/15 to-transparent pointer-events-none z-10"></div>
+    <!-- Subtle bottom bar gradient for chapter progress bar -->
+    <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#101416]/60 to-transparent pointer-events-none z-10"></div>
+
+    <!-- ════════════════════════════════════════════════════════════════════════════
+         VERTICAL CHAPTER NAVIGATION (Desktop right side)
+    ════════════════════════════════════════════════════════════════════════════ -->
+    <aside class="hidden md:flex flex-col gap-4 absolute right-6 lg:right-10 top-1/2 -translate-y-1/2 z-30 select-none">
+      <button type="button" class="chapter-dot group flex items-center justify-end gap-3 text-right focus:outline-none cursor-pointer" data-target="0" aria-label="Go to Chapter 1: Grand Entrance">
+        <span class="chapter-label text-[10px] tracking-[0.24em] text-[#C8BFAE] group-hover:text-[#D6B66C] uppercase font-light transition-all opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0">01 Grand Entrance</span>
+        <span class="dot-indicator w-2 h-2 rounded-full bg-[#D6B66C] ring-4 ring-[#D6B66C]/25 scale-125 transition-all duration-300 shadow-sm"></span>
+      </button>
+      <button type="button" class="chapter-dot group flex items-center justify-end gap-3 text-right focus:outline-none cursor-pointer" data-target="1" aria-label="Go to Chapter 2: Pool Oasis">
+        <span class="chapter-label text-[10px] tracking-[0.24em] text-[#C8BFAE] group-hover:text-[#D6B66C] uppercase font-light transition-all opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0">02 Pool Oasis</span>
+        <span class="dot-indicator w-2 h-2 rounded-full bg-[#C8BFAE]/35 group-hover:bg-[#D6B66C] transition-all duration-300 shadow-sm"></span>
+      </button>
+      <button type="button" class="chapter-dot group flex items-center justify-end gap-3 text-right focus:outline-none cursor-pointer" data-target="2" aria-label="Go to Chapter 3: Island Suites">
+        <span class="chapter-label text-[10px] tracking-[0.24em] text-[#C8BFAE] group-hover:text-[#D6B66C] uppercase font-light transition-all opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0">03 Island Suites</span>
+        <span class="dot-indicator w-2 h-2 rounded-full bg-[#C8BFAE]/35 group-hover:bg-[#D6B66C] transition-all duration-300 shadow-sm"></span>
+      </button>
+    </aside>
+
+    <!-- ════════════════════════════════════════════════════════════════════════════
+         EDITORIAL STORYTELLING OVERLAYS: 5 SCENES WITH SOPHISTICATED HIERARCHY
+         Synchronized with Keyframes from frame_0020.webp to frame_0120.webp
+    ════════════════════════════════════════════════════════════════════════════ -->
+    <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 w-full pt-24 sm:pt-32 pb-12 sm:pb-16 flex-1 flex flex-col justify-end">
+      
+      <!-- STAGE CONTAINER (Bottom-left anchor preserves unobstructed video across desktop & mobile) -->
+      <div class="relative w-full max-w-md sm:max-w-xl min-h-[155px] sm:min-h-[270px] flex items-end">
+
+        <!-- SCENE 1: STARTING LANDING PAGE (Frame 20-36, Grand Entrance & Sanctuary) -->
+        <div id="scene-0" class="scene-stage absolute inset-x-0 bottom-0 flex flex-col justify-end pointer-events-auto transition-opacity duration-300 rounded-2xl bg-[#101416]/68 backdrop-blur-md border border-[#D6B66C]/25 p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] sm:rounded-none sm:bg-transparent sm:backdrop-blur-none sm:border-0 sm:p-0 sm:shadow-none sm:[text-shadow:0_2px_22px_rgba(0,0,0,0.85)]">
+
+          <!-- Kicker Tag -->
+          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#101416]/65 border border-[#D6B66C]/35 text-[#D6B66C] mb-2 sm:mb-3 shadow-sm w-fit">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
+            <span class="text-[9.5px] sm:text-[11px] tracking-[0.22em] uppercase font-sans font-medium">
+              01 · The Grand Entrance
+            </span>
+          </div>
+
+          <!-- Heading -->
+          <h1 class="font-cormorant text-[28px] sm:text-5xl lg:text-[56px] font-normal text-[#F5F1E8] leading-[1.06] tracking-[0.015em] mb-1.5 scene-title drop-shadow-sm">
+            Sea Hills Resort
+            <span class="font-cormorant italic font-light text-[#D6B66C] text-xl sm:text-3xl lg:text-[38px] tracking-normal sm:mt-0.5 block">
+              Andaman Archipelago
+            </span>
+          </h1>
+
+          <!-- Sans-serif Description (Hidden on mobile so video shows clearly) -->
+          <p class="hidden sm:block text-sm sm:text-[14.5px] text-[#E5DFD2] font-light leading-relaxed tracking-[0.015em] mb-5 max-w-lg scene-desc">
+            Artisan wrought-iron gates and glowing evening lanterns welcome you to an exclusive island sanctuary where timeless luxury meets coastal serenity.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 sm:mt-0 scene-cta">
+            <MotionButton client:load href="#explore-andaman" variant="gold" className="!px-4 !py-2 sm:!px-6 sm:!py-3 !text-[10.5px] sm:!text-xs">
+              <span>Begin The Journey</span>
+              <svg class="w-3.5 h-3.5 text-[#101416]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </MotionButton>
+            <div class="hidden sm:block">
+              <MotionButton client:load href="#book-now" variant="glass">
+                <span>Reserve A Suite</span>
+              </MotionButton>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCENE 2: AZURE POOL OASIS (Frames 60-92, Milestone frame_0060) -->
+        <div id="scene-1" class="scene-stage absolute inset-x-0 bottom-0 flex flex-col justify-end opacity-0 pointer-events-none transition-opacity duration-300 rounded-2xl bg-[#101416]/68 backdrop-blur-md border border-[#D6B66C]/25 p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] sm:rounded-none sm:bg-transparent sm:backdrop-blur-none sm:border-0 sm:p-0 sm:shadow-none sm:[text-shadow:0_2px_22px_rgba(0,0,0,0.85)]">
+
+          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#101416]/65 border border-[#D6B66C]/35 text-[#D6B66C] mb-2 sm:mb-3 shadow-sm w-fit">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
+            <span class="text-[9.5px] sm:text-[11px] tracking-[0.22em] uppercase font-sans font-medium">
+              02 · The Pool Oasis
+            </span>
+          </div>
+
+          <h2 class="font-cormorant text-[28px] sm:text-5xl lg:text-[54px] font-normal text-[#F5F1E8] leading-[1.06] tracking-[0.015em] mb-1.5 scene-title drop-shadow-sm">
+            The Shimmering
+            <span class="font-cormorant italic font-light text-[#D6B66C] text-xl sm:text-3xl lg:text-[38px] tracking-normal sm:mt-0.5 block">
+              Azure Waters
+            </span>
+          </h2>
+
+          <p class="hidden sm:block text-sm sm:text-[14.5px] text-[#E5DFD2] font-light leading-relaxed tracking-[0.015em] mb-5 max-w-lg scene-desc">
+            Serene waters glowing beneath tropical palms, where handcrafted teak loungers invite quiet repose under balmy island skies.
+          </p>
+
+          <div class="hidden sm:flex flex-wrap gap-2.5 text-xs scene-badges">
+            <MotionBadge client:load icon="✦">Glowing Azure Pool</MotionBadge>
+            <MotionBadge client:load icon="✦" delay={0.08}>Teak Sunbeds</MotionBadge>
+            <MotionBadge client:load icon="✦" delay={0.16}>Tropical Palms</MotionBadge>
+          </div>
+        </div>
+
+        <!-- SCENE 3: LUXURY ISLAND SUITES (Frames 93-120, Milestone frame_0093) -->
+        <div id="scene-2" class="scene-stage absolute inset-x-0 bottom-0 flex flex-col justify-end opacity-0 pointer-events-none transition-opacity duration-300 rounded-2xl bg-[#101416]/68 backdrop-blur-md border border-[#D6B66C]/25 p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] sm:rounded-none sm:bg-transparent sm:backdrop-blur-none sm:border-0 sm:p-0 sm:shadow-none sm:[text-shadow:0_2px_22px_rgba(0,0,0,0.85)]">
+
+          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#101416]/65 border border-[#D6B66C]/35 text-[#D6B66C] mb-2 sm:mb-3 shadow-sm w-fit">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
+            <span class="text-[9.5px] sm:text-[11px] tracking-[0.22em] uppercase font-sans font-medium">
+              03 · Island Suites
+            </span>
+          </div>
+
+          <h2 class="font-cormorant text-[28px] sm:text-5xl lg:text-[54px] font-normal text-[#F5F1E8] leading-[1.06] tracking-[0.015em] mb-1.5 scene-title drop-shadow-sm">
+            Luxury Suites
+            <span class="font-cormorant italic font-light text-[#D6B66C] text-xl sm:text-3xl lg:text-[38px] tracking-normal sm:mt-0.5 block">
+              &amp; Oceanfront Living
+            </span>
+          </h2>
+
+          <p class="hidden sm:block text-sm sm:text-[14.5px] text-[#E5DFD2] font-light leading-relaxed tracking-[0.015em] mb-5 max-w-lg scene-desc">
+            Elegantly appointed multi-tier accommodations featuring private balconies overlooking the glowing pool and starlit Andaman night.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 sm:mt-0 scene-cta">
+            <MotionButton client:load href="#book-now" variant="gold" className="!px-4 !py-2 sm:!px-6 sm:!py-3 !text-[10.5px] sm:!text-xs">
+              <span>Reserve Your Stay</span>
+              <svg class="w-3.5 h-3.5 text-[#101416]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </MotionButton>
+            <div class="hidden sm:block">
+              <MotionButton client:load href="#explore-andaman" variant="glass">
+                <span>Explore Destinations ↓</span>
+              </MotionButton>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════════════
+         BOTTOM CONTROL BAR: SCROLL PROGRESS & COUNTER
+    ════════════════════════════════════════════════════════════════════════════ -->
+    <div class="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pb-6 flex items-center justify-between text-[#F5F1E8]/90 text-xs select-none">
+      
+      <!-- Current Chapter Label -->
+      <div class="flex items-center gap-2.5">
+        <span id="chapter-counter" class="font-mono text-[#D6B66C] font-medium tracking-widest text-xs drop-shadow-sm">01 / 03</span>
+        <span class="text-[#C8BFAE]/30">•</span>
+        <span id="chapter-name" class="font-sans tracking-[0.22em] text-[#F5F1E8]/90 uppercase text-[11px] font-light drop-shadow-sm">The Grand Entrance</span>
+      </div>
+
+      <!-- Scrolly Progress Line -->
+      <div class="hidden sm:block flex-1 max-w-xs mx-6 h-[2px] bg-white/10 rounded-full overflow-hidden shadow-sm">
+        <div id="scrolly-progress-bar" class="h-full bg-[#D6B66C] w-[20%] transition-all duration-150"></div>
+      </div>
+
+      <!-- Scroll Guidance Indicator -->
+      <div id="scroll-hint" class="flex items-center gap-2 text-[#C8BFAE]/80 hover:text-white transition-opacity duration-300 drop-shadow-sm">
+        <span class="tracking-[0.25em] uppercase text-[10px] font-light">Scroll to explore</span>
+        <svg class="w-3.5 h-3.5 animate-bounce text-[#D6B66C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </div>
+
+    </div>
+
+    <!-- Smooth Wave Divider blending naturally into Section 2: Explore Andaman -->
+    <div class="relative w-full overflow-hidden leading-none z-20 pointer-events-none -mb-1">
+      <svg class="block w-full text-[#0A2635]" viewBox="0 0 1440 60" preserveAspectRatio="none" style="width: 100%; height: 35px;">
+        <path d="M0,0 C240,40 480,55 720,30 C960,5 1200,45 1440,25 L1440,60 L0,60 Z" fill="currentColor"></path>
+      </svg>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     INTEGRATED GSAP SCROLLTRIGGER & LENIS ENGINE (Client Script)
+════════════════════════════════════════════════════════════════════════════ -->
+<script>
+  import Lenis from 'lenis';
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+
+  const heroSectionEl = document.getElementById('hero-scrolly');
+  let HERO_FRAME_URLS: string[] = [];
+  try {
+    HERO_FRAME_URLS = JSON.parse(heroSectionEl?.dataset.frames || '[]');
+  } catch {
+    HERO_FRAME_URLS = [];
+  }
+  const TOTAL_FRAMES = HERO_FRAME_URLS.length || 94;
+
+  const frameUrl = (relIdx: number) => {
+    if (HERO_FRAME_URLS[relIdx]) return HERO_FRAME_URLS[relIdx];
+    const frameNum = 20 + relIdx;
+    return `/frames/Home_Section/frame_${String(frameNum).padStart(4, '0')}.webp`;
+  };
+
+  const SCENES = [
+    { name: 'The Grand Entrance', id: 'scene-0', targetProgress: 0.00 },
+    { name: 'The Pool Oasis',     id: 'scene-1', targetProgress: 0.38 },
+    { name: 'Island Suites',      id: 'scene-2', targetProgress: 0.72 }
+  ];
+
+  function initCinematicExperience() {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // 1. Initialize Lenis Smooth Scroll
+    let lenis: Lenis | null = null;
+    if (!prefersReducedMotion) {
+      lenis = new Lenis({
+        duration: 1.0,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        touchMultiplier: 1.2
+      });
+
+      // Synchronize Lenis with GSAP ScrollTrigger
+      lenis.on('scroll', ScrollTrigger.update);
+
+      gsap.ticker.add((time) => {
+        lenis?.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+    }
+
+    // 2. Setup Canvas & Frame Rendering Engine
+    const section = document.getElementById('hero-scrolly');
+    const canvas = document.getElementById('scrolly-canvas') as HTMLCanvasElement | null;
+    const fallback = document.getElementById('scrolly-fallback');
+    const progressBar = document.getElementById('scrolly-progress-bar');
+    const counterEl = document.getElementById('chapter-counter');
+    const nameEl = document.getElementById('chapter-name');
+    const scrollHint = document.getElementById('scroll-hint');
+
+    if (!section || !canvas) return;
+
+    const ctx = canvas.getContext('2d', { alpha: false });
+    if (!ctx) return;
+
+    const preloader = document.getElementById('hero-preloader');
+    const preloaderBar = document.getElementById('hero-preloader-bar');
+    const preloaderPct = document.getElementById('hero-preloader-pct');
+
+    // Lock scroll until Hero frames finish downloading & decoding
+    let preloaderClosed = false;
+    if (preloader) {
+      window.scrollTo(0, 0);
+      document.documentElement.style.overflow = 'hidden';
+      lenis?.stop();
+    }
+
+    function closePreloader() {
+      if (preloaderClosed) return;
+      preloaderClosed = true;
+      document.documentElement.style.overflow = '';
+      lenis?.start();
+      ScrollTrigger.refresh();
+      if (preloader) {
+        preloader.style.opacity = '0';
+        preloader.style.pointerEvents = 'none';
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 550);
+      }
+    }
+
+    // Safety fallback so slow networks never trap the user
+    const safetyTimer = setTimeout(closePreloader, 12000);
+
+    // In-memory decoded image buffer + in-flight deduplication
+    const frames: (HTMLImageElement | null)[] = new Array(TOTAL_FRAMES).fill(null);
+    const inFlightLoads = new Map<number, Promise<void>>();
+    let loadedCount = 0;
+    let lastDrawn = -1;
+    let activeScene = 0;
+
+    function markFrameReady() {
+      loadedCount++;
+      const pct = Math.min(100, Math.round((loadedCount / TOTAL_FRAMES) * 100));
+      if (preloaderBar) preloaderBar.style.width = `${pct}%`;
+      if (preloaderPct) preloaderPct.textContent = `${pct}%`;
+      if (loadedCount >= TOTAL_FRAMES) {
+        clearTimeout(safetyTimer);
+        closePreloader();
+      }
+    }
+
+    function resizeCanvas() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas!.width = Math.round(window.innerWidth * dpr);
+      canvas!.height = Math.round(window.innerHeight * dpr);
+      ctx!.imageSmoothingEnabled = true;
+      ctx!.imageSmoothingQuality = 'high';
+      lastDrawn = -1;
+      draw(Math.round(frameTracker.frame));
+    }
+
+    function nearestLoaded(i: number): HTMLImageElement | null {
+      if (frames[i] && frames[i]!.complete && frames[i]!.naturalWidth > 0) return frames[i];
+      for (let o = 1; o < TOTAL_FRAMES; o++) {
+        const left = i - o;
+        if (left >= 0 && frames[left] && frames[left]!.complete && frames[left]!.naturalWidth > 0) return frames[left];
+        const right = i + o;
+        if (right < TOTAL_FRAMES && frames[right] && frames[right]!.complete && frames[right]!.naturalWidth > 0) return frames[right];
+      }
+      if (frames[0] && frames[0]!.complete && frames[0]!.naturalWidth > 0) return frames[0];
+      return null;
+    }
+
+    function draw(i: number) {
+      const img = nearestLoaded(i);
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+      const cw = canvas!.width, ch = canvas!.height;
+      
+      const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      const w = img.naturalWidth * s, h = img.naturalHeight * s;
+      const x = (cw - w) / 2;
+      const y = (ch - h) / 2;
+      
+      ctx!.drawImage(img, x, y, w, h);
+      lastDrawn = i;
+      if (fallback && fallback.style.opacity !== '0') {
+        fallback.style.opacity = '0';
+      }
+    }
+
+    function loadFrame(i: number): Promise<void> {
+      if (frames[i]) return Promise.resolve();
+      const existing = inFlightLoads.get(i);
+      if (existing) return existing;
+
+      const promise = new Promise<void>((resolve) => {
+        const img = new Image();
+        img.decoding = 'async';
+        img.onload = () => {
+          const finalize = () => {
+            if (!frames[i]) {
+              frames[i] = img;
+              markFrameReady();
+            }
+            inFlightLoads.delete(i);
+            const current = Math.round(frameTracker.frame);
+            if (Math.abs(i - current) <= 1) {
+              draw(current);
+            }
+            resolve();
+          };
+          if (typeof img.decode === 'function') {
+            img.decode().then(finalize, finalize);
+          } else {
+            finalize();
+          }
+        };
+        img.onerror = () => {
+          inFlightLoads.delete(i);
+          markFrameReady();
+          resolve();
+        };
+        img.src = frameUrl(i);
+      });
+
+      inFlightLoads.set(i, promise);
+      return promise;
+    }
+
+    // High-priority progressive preloading starting at frame_0020
+    async function preloadAllFrames() {
+      // 1. Immediately load frame 0 (frame_0020.webp) and draw right away
+      await loadFrame(0);
+      draw(0);
+
+      // 2. Load milestone frames proportionally
+      const milestones = [
+        0,
+        Math.round((TOTAL_FRAMES - 1) * 0.25),
+        Math.round((TOTAL_FRAMES - 1) * 0.45),
+        Math.round((TOTAL_FRAMES - 1) * 0.72),
+        TOTAL_FRAMES - 1
+      ];
+      milestones.forEach(idx => loadFrame(idx));
+
+      // 3. Sequentially buffer next 12 frames in small batches of 4 for smooth scroll start
+      for (let i = 1; i <= Math.min(12, TOTAL_FRAMES - 1); i += 4) {
+        const earlyBatch: Promise<void>[] = [];
+        for (let j = i; j < Math.min(i + 4, 13, TOTAL_FRAMES); j++) {
+          earlyBatch.push(loadFrame(j));
+        }
+        await Promise.all(earlyBatch);
+      }
+
+      // 4. Stream remaining frames in non-blocking batches of 6 so scrolling stays 60fps
+      const remaining: number[] = [];
+      for (let i = 13; i < TOTAL_FRAMES; i++) {
+        if (!frames[i] && !milestones.includes(i)) remaining.push(i);
+      }
+
+      for (let i = 0; i < remaining.length; i += 6) {
+        const batch = remaining.slice(i, i + 6);
+        await Promise.all(batch.map(idx => loadFrame(idx)));
+        await new Promise((r) => requestAnimationFrame(r));
+      }
+      clearTimeout(safetyTimer);
+      closePreloader();
+    }
+
+    // 3. GSAP ScrollTrigger for Butter-Smooth 1:1 Frame Scrubbing (Zero Double-Lag)
+    const frameTracker = { frame: 0 };
+
+    gsap.to(frameTracker, {
+      frame: TOTAL_FRAMES - 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: prefersReducedMotion ? false : true,
+        onUpdate: (self) => {
+          const currentFrame = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.round(frameTracker.frame)));
+          if (currentFrame !== lastDrawn) {
+            draw(currentFrame);
+          }
+
+          const progress = self.progress;
+
+          // Update Progress Bar & scroll hint
+          if (progressBar) progressBar.style.width = `${Math.max(8, progress * 100)}%`;
+          if (scrollHint) scrollHint.style.opacity = progress > 0.03 ? '0' : '1';
+
+          // 3 Smooth Chapters:
+          // 01: Gate / Grand Entrance (0% -> 38%)
+          // 02: Pool Oasis (38% -> 72%)
+          // 03: Hotel / Island Suites (72% -> 100%)
+          let sceneIdx = 0;
+          if (progress >= 0.72) {
+            sceneIdx = 2;
+          } else if (progress >= 0.38) {
+            sceneIdx = 1;
+          } else {
+            sceneIdx = 0;
+          }
+
+          setActiveScene(sceneIdx);
+        }
+      }
+    });
+
+    // 4. Seamless Scene Cross-Fading (No Race Conditions, Never Stuck)
+    function setActiveScene(idx: number) {
+      if (idx === activeScene) return;
+
+      const isMobile = window.innerWidth < 768;
+      SCENES.forEach((scene, i) => {
+        const el = document.getElementById(scene.id);
+        if (!el) return;
+
+        if (i === idx) {
+          el.style.pointerEvents = 'auto';
+          gsap.to(el, {
+            opacity: 1,
+            y: 0,
+            duration: 0.3,
+            ease: "power2.out",
+            overwrite: true
+          });
+        } else if (i === activeScene) {
+          el.style.pointerEvents = 'none';
+          gsap.to(el, {
+            opacity: 0,
+            y: isMobile ? 0 : (i < idx ? -8 : 8),
+            duration: 0.22,
+            ease: "power2.inOut",
+            overwrite: true
+          });
+        } else {
+          el.style.pointerEvents = 'none';
+          gsap.set(el, { opacity: 0, y: isMobile ? 0 : (i < idx ? -8 : 8) });
+        }
+      });
+
+      activeScene = idx;
+
+      if (counterEl) counterEl.textContent = `0${idx + 1} / 03`;
+      if (nameEl) nameEl.textContent = SCENES[idx].name;
+
+      document.querySelectorAll('.chapter-dot').forEach((btn, i) => {
+        const dot = btn.querySelector('.dot-indicator');
+        const label = btn.querySelector('.chapter-label');
+        const on = i === idx;
+        dot?.classList.toggle('bg-[#D6B66C]', on);
+        dot?.classList.toggle('ring-4', on);
+        dot?.classList.toggle('ring-[#D6B66C]/25', on);
+        dot?.classList.toggle('scale-125', on);
+        dot?.classList.toggle('bg-[#C8BFAE]/35', !on);
+        label?.classList.toggle('opacity-100', on);
+        label?.classList.toggle('text-[#D6B66C]', on);
+        label?.classList.toggle('opacity-0', !on);
+      });
+    }
+
+    // Direct Chapter Dot navigation with Lenis (Navigates to exact milestone frame)
+    document.querySelectorAll('.chapter-dot').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetIdx = parseInt(btn.getAttribute('data-target') || '0', 10);
+        const scene = SCENES[targetIdx];
+        if (!scene) return;
+        const track = section.offsetHeight - window.innerHeight;
+        const targetY = section.offsetTop + scene.targetProgress * track;
+
+        if (lenis) {
+          lenis.scrollTo(targetY, { duration: 1.1 });
+        } else {
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+        }
+      });
+    });
+
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    resizeCanvas();
+    preloadAllFrames();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCinematicExperience);
+  } else {
+    initCinematicExperience();
+  }
+</script>

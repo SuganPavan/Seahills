@@ -1,0 +1,22 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+const facilitiesDir = path.join(process.cwd(), 'public', 'images', 'facilities');
+// Bright sunny resort swimming pool with wooden loungers and turquoise crystal water matching user reference
+const brightPoolUrl = 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1600&q=85';
+
+let status = {};
+try {
+  const res = await fetch(brightPoolUrl);
+  const buf = Buffer.from(await res.arrayBuffer());
+  const dest = path.join(facilitiesDir, 'pool-bright.jpg');
+  fs.writeFileSync(dest, buf);
+  status = { success: true, size: buf.length };
+} catch (e) {
+  status = { error: String(e) };
+}
+---
+
+<!DOCTYPE html>
+<html><body><pre>{JSON.stringify(status, null, 2)}</pre></body></html>

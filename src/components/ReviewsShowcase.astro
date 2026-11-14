@@ -1,0 +1,378 @@
+---
+const googleReviews = {
+  portblair: [
+    {
+      name: 'Priya & Arjun',
+      stay: 'Verified Stay · Google',
+      rating: '4.8',
+      quote:
+        'Our stay at Sea Hills, Port Blair was amazing! Spacious rooms with bathtubs, scenic Ross Island views from the rooftop dining, and outstanding hospitality.',
+      location: 'Port Blair',
+      bgImage: '/frames/Home_Section/frame_0025.webp',
+      initials: 'PA',
+    },
+    {
+      name: 'Vikram Nair',
+      stay: 'Google Review',
+      rating: '5.0',
+      quote:
+        'Clean, well-maintained rooms near Cellular Jail and the airport. The staff helped us with ferry tickets and early check-in.',
+      location: 'Port Blair',
+      bgImage: '/images/facilities/restaurant.jpg',
+      initials: 'VN',
+    },
+    {
+      name: 'Meera Krishnan',
+      stay: 'Google Review',
+      rating: '4.7',
+      quote:
+        'Loved the Egyptian-themed Cleopatra restaurant and evening cocktails at Anubis Bar. Great city comfort!',
+      location: 'Port Blair',
+      bgImage: '/images/facilities/bar.jpg',
+      initials: 'MK',
+    },
+  ],
+  havelock: [
+    {
+      name: 'Anita Sharma',
+      stay: 'Verified Stay · Google',
+      rating: '4.9',
+      quote:
+        'Peaceful retreat in Shyam Nagar amidst lush tropical greenery. Our Bamboo Saa room was spotless, the outdoor pool was crystal clear, and the staff were wonderfully attentive.',
+      location: 'Havelock Island',
+      bgImage: '/images/facilities/pool-bright.jpg',
+      initials: 'AS',
+    },
+    {
+      name: 'Rohit Mehta',
+      stay: 'Google Review',
+      rating: '4.8',
+      quote:
+        'La Bougainvillea room with private bathtub was perfect after Radhanagar Beach. Tranquil ambiance and great service!',
+      location: 'Havelock Island',
+      bgImage: '/frames/rooms/frame_0105.webp',
+      initials: 'RM',
+    },
+    {
+      name: 'Sneha & Karan',
+      stay: 'Google Review',
+      rating: '5.0',
+      quote:
+        'Unforgettable candlelight dinner under the stars! Easy access to Elephant Beach and Radhanagar.',
+      location: 'Havelock Island',
+      bgImage: '/images/facilities/dining.jpg',
+      initials: 'SK',
+    },
+  ],
+};
+---
+
+<section
+  id="reviews"
+  class="relative bg-[#071115] text-[#F5F1E8] py-10 sm:py-12 px-4 sm:px-8 lg:px-12 overflow-hidden"
+  data-reviews={JSON.stringify(googleReviews)}
+>
+  <!-- Top Champagne Gold Wave Divider -->
+  <div class="pointer-events-none absolute top-0 inset-x-0 w-full overflow-hidden leading-none z-20">
+    <svg viewBox="0 0 1440 36" fill="none" class="w-full h-7 sm:h-8" preserveAspectRatio="none">
+      <path d="M0 18 Q 360 36 720 14 T 1440 18" stroke="url(#reviews-wave-top)" stroke-width="1.5" fill="none" />
+      <defs>
+        <linearGradient id="reviews-wave-top" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#D6B66C" stop-opacity="0.15" />
+          <stop offset="50%" stop-color="#F3E7C4" stop-opacity="0.85" />
+          <stop offset="100%" stop-color="#D6B66C" stop-opacity="0.15" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- Visible Scenic Coastal & Sunset Background Image -->
+  <div class="pointer-events-none absolute inset-0 z-0">
+    <img
+      src="/frames/Destination/frame_0045.webp"
+      alt="Andaman Ocean Sunset Backdrop"
+      class="w-full h-full object-cover opacity-50"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-[#071115]/70 via-[#08151C]/45 to-[#071115]/80"></div>
+  </div>
+
+  <div class="relative z-10 max-w-[1320px] mx-auto">
+    <!-- Top Palm Emblem & Header -->
+    <div class="text-center max-w-3xl mx-auto mb-6">
+      <div class="inline-flex items-center justify-center mb-1.5 text-[#D6B66C]">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M12 21V9M12 9c-2-3-5-4-8-3M12 9c2-3 5-4 8-3M12 9c-1-3-3-5-6-5M12 9c1-3 3-5 6-5" stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <div class="flex items-center justify-center gap-3 mb-1.5">
+        <span class="inline-block w-10 h-[1px] bg-gradient-to-r from-transparent to-[#D6B66C]"></span>
+        <span class="text-[10px] uppercase tracking-[0.28em] text-[#D6B66C] font-semibold">
+          Real Stories, Unforgettable Stays
+        </span>
+        <span class="inline-block w-10 h-[1px] bg-gradient-to-l from-transparent to-[#D6B66C]"></span>
+      </div>
+
+      <h2 class="font-cormorant text-3xl sm:text-[2.65rem] text-[#F5F1E8] font-normal leading-[1.06]">
+        Every Island Has a Story.
+        <span class="block text-[#F3E7C4] italic mt-0.5">Every Guest Has a Memory.</span>
+      </h2>
+
+      <!-- Port Blair / Havelock Toggle Switcher -->
+      <div class="mt-4 inline-flex items-center rounded-full bg-[#101A1F] border border-[#D6B66C]/45 p-1 shadow-[0_10px_30px_rgba(0,0,0,0.45)]">
+        <button
+          type="button"
+          data-review-island="portblair"
+          class="review-island-tab inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide bg-[#182228] text-[#F3E7C4] border border-[#D6B66C]/40 transition-all"
+        >
+          <svg class="w-3.5 h-3.5 text-[#D6B66C]" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+          </svg>
+          <span>Port Blair</span>
+        </button>
+        <button
+          type="button"
+          data-review-island="havelock"
+          class="review-island-tab inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide bg-[#F2E6CE] text-[#1D160E] transition-all"
+        >
+          <svg class="w-3.5 h-3.5 text-[#5B482C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 15c2.483 0 4.345-1.5 6-1.5s3.517 1.5 6 1.5 3.517-1.5 6-1.5M3 19c2.483 0 4.345-1.5 6-1.5s3.517 1.5 6 1.5 3.517-1.5 6-1.5" />
+          </svg>
+          <span>Havelock Island</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Guest Stories Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+      <!-- LEFT: Script "Guest Stories" + Tilted Polaroid with Andaman Stamp (2 Cols) -->
+      <div class="hidden lg:flex lg:col-span-2 flex-col items-center relative">
+        <p class="font-cormorant italic text-3xl text-[#F3E7C4] -rotate-6 mb-3 text-center leading-none">
+          Guest
+          <span class="block">Stories</span>
+        </p>
+
+        <div class="relative w-36 rounded-lg bg-[#F5ECD9] p-2 pb-5 shadow-[0_20px_45px_rgba(0,0,0,0.75)] -rotate-[6deg] border border-[#C9B38B]/60">
+          <img
+            src="/frames/Destination/frame_0045.webp"
+            alt="Andaman Guest Memory"
+            class="w-full h-32 object-cover rounded"
+          />
+          <div class="absolute -top-3 -right-4 w-12 h-12 rounded-full bg-[#EFE0C1] border border-dashed border-[#5B482C]/80 flex items-center justify-center text-[7px] font-bold uppercase tracking-wider text-[#3A2D1B] rotate-12 shadow">
+            Andaman
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER: Featured Google Review Card (6 Cols) -->
+      <div class="lg:col-span-6 relative">
+        <button
+          type="button"
+          id="review-prev-btn"
+          aria-label="Previous Review"
+          class="hidden sm:flex absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-[#101416]/85 border border-[#D6B66C]/50 text-[#F3E7C4] hover:bg-[#D6B66C] hover:text-[#101416] items-center justify-center transition-colors shadow-lg"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <article
+          id="featured-review-card"
+          class="relative rounded-2xl overflow-hidden border border-[#D6B66C]/45 bg-[#10181D] min-h-[225px] p-5 sm:p-6 shadow-[0_24px_60px_rgba(0,0,0,0.75)] flex flex-col justify-between"
+        >
+          <img
+            id="featured-review-bg"
+            src="/frames/Home_Section/frame_0025.webp"
+            alt="Sea Hills Resort Review Backdrop"
+            class="absolute inset-0 w-full h-full object-cover opacity-35 transition-opacity duration-500"
+          />
+          <div class="absolute inset-0 bg-gradient-to-r from-[#091217]/95 via-[#091217]/80 to-[#091217]/55"></div>
+
+          <div class="relative z-10 flex items-center gap-3.5">
+            <div
+              id="featured-review-avatar"
+              class="w-12 h-12 rounded-full bg-gradient-to-br from-[#D6B66C] to-[#9E7C38] text-[#101416] font-serif font-bold text-lg flex items-center justify-center border-2 border-[#F3E7C4]/70"
+            >
+              PA
+            </div>
+            <div>
+              <h3 id="featured-review-name" class="font-semibold text-base text-[#F5F1E8]">Priya &amp; Arjun</h3>
+              <p id="featured-review-stay" class="text-xs text-[#7EE2B8] flex items-center gap-1">
+                <span>✓</span> Verified Stay · Google
+              </p>
+            </div>
+          </div>
+
+          <p
+            id="featured-review-quote"
+            class="relative z-10 text-sm sm:text-[15.5px] leading-relaxed text-[#F5F1E8] my-5 max-w-lg font-light"
+          >
+            “Our stay at Sea Hills, Port Blair was amazing! Spacious rooms with bathtubs, scenic Ross Island views from the rooftop dining, and outstanding hospitality.”
+          </p>
+
+          <div class="relative z-10 flex items-center justify-between gap-4 pt-3 border-t border-white/10">
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-[11px] font-bold text-[#4285F4]">G</span>
+              <span class="text-sm font-medium text-[#F5F1E8]">Google Reviews</span>
+              <span id="featured-review-rating" class="text-xs text-[#D6B66C] font-semibold ml-1">★ 4.8</span>
+            </div>
+
+            <span id="featured-review-loc" class="text-xs text-[#F3E7C4] flex items-center gap-1 font-medium">
+              <span class="text-[#D6B66C]">📍</span> Port Blair
+            </span>
+          </div>
+        </article>
+
+        <button
+          type="button"
+          id="review-next-btn"
+          aria-label="Next Review"
+          class="hidden sm:flex absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-[#101416]/85 border border-[#D6B66C]/50 text-[#F3E7C4] hover:bg-[#D6B66C] hover:text-[#101416] items-center justify-center transition-colors shadow-lg"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- RIGHT: Two Stacked Compact Google Review Cards (4 Cols) -->
+      <div class="lg:col-span-4 flex flex-col gap-3" id="side-reviews-stack">
+        {googleReviews.havelock.slice(0, 2).map((rev, i) => (
+          <article class="side-review-card relative rounded-2xl overflow-hidden border border-[#D6B66C]/30 bg-[#10181D] p-4 shadow-[0_18px_45px_rgba(0,0,0,0.65)]">
+            <img
+              src={rev.bgImage}
+              alt={rev.location}
+              class="side-review-bg absolute inset-0 w-full h-full object-cover opacity-30"
+            />
+            <div class="absolute inset-0 bg-gradient-to-r from-[#091217]/95 via-[#091217]/82 to-[#091217]/60"></div>
+
+            <div class="relative z-10 flex items-center gap-3 mb-2.5">
+              <div class="side-review-avatar w-10 h-10 rounded-full bg-[#D6B66C]/20 border border-[#D6B66C]/60 text-[#F3E7C4] font-serif font-semibold text-sm flex items-center justify-center">
+                {rev.initials}
+              </div>
+              <div>
+                <h4 class="side-review-name text-sm font-semibold text-[#F5F1E8]">{rev.name}</h4>
+                <div class="text-[11px] text-[#E6B84D] tracking-widest">★★★★★</div>
+              </div>
+            </div>
+
+            <p class="side-review-quote relative z-10 text-xs text-[#E5DFD2] leading-relaxed line-clamp-2 mb-3">
+              “{rev.quote}”
+            </p>
+
+            <div class="relative z-10 flex items-center justify-between text-[11px] text-[#C8BFAE]">
+              <span class="flex items-center gap-1.5">
+                <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white text-[9px] font-bold text-[#4285F4]">G</span>
+                <span>Google</span>
+              </span>
+              <span class="side-review-loc text-[#F3E7C4]">📍 {rev.location}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <!-- Bottom Pagination Dots + Google Reviews CTA -->
+    <div class="mt-5 flex flex-col items-center gap-3">
+      <div class="flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-[#D6B66C]"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-white/30"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-white/30"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-white/30"></span>
+      </div>
+      <a
+        href="https://www.google.com/search?q=Sea+Hills+Hotels+and+Resorts+Andaman+reviews"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2.5 rounded-full border border-[#D6B66C]/65 bg-[#0B171D]/85 hover:bg-[#D6B66C] text-[#F3E7C4] hover:text-[#101416] px-6 py-2 text-xs font-semibold tracking-wide transition-all duration-300"
+      >
+        <span>Read More Reviews</span>
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const section = document.getElementById('reviews');
+  const reviewsData = section ? JSON.parse(section.dataset.reviews || '{}') : {};
+  const tabs = Array.from(document.querySelectorAll('.review-island-tab')) as HTMLElement[];
+
+  let activeIsland: 'portblair' | 'havelock' = 'portblair';
+  let activeIdx = 0;
+
+  function renderReviews() {
+    const list = reviewsData[activeIsland] || [];
+    if (!list.length) return;
+    const featured = list[activeIdx % list.length];
+    const sideTwo = [list[(activeIdx + 1) % list.length], list[(activeIdx + 2) % list.length]];
+
+    const fName = document.getElementById('featured-review-name');
+    const fStay = document.getElementById('featured-review-stay');
+    const fQuote = document.getElementById('featured-review-quote');
+    const fRating = document.getElementById('featured-review-rating');
+    const fLoc = document.getElementById('featured-review-loc');
+    const fAvatar = document.getElementById('featured-review-avatar');
+    const fBg = document.getElementById('featured-review-bg') as HTMLImageElement | null;
+
+    if (fName) fName.textContent = featured.name;
+    if (fStay) fStay.textContent = `✓ ${featured.stay}`;
+    if (fQuote) fQuote.textContent = `“${featured.quote}”`;
+    if (fRating) fRating.textContent = `★ ${featured.rating}`;
+    if (fLoc) fLoc.innerHTML = `<span class="text-[#D6B66C]">📍</span> ${featured.location}`;
+    if (fAvatar) fAvatar.textContent = featured.initials;
+    if (fBg) fBg.src = featured.bgImage;
+
+    const sideCards = Array.from(document.querySelectorAll('.side-review-card'));
+    sideCards.forEach((card, i) => {
+      const item = sideTwo[i];
+      if (!item) return;
+      const nm = card.querySelector('.side-review-name');
+      const qt = card.querySelector('.side-review-quote');
+      const lc = card.querySelector('.side-review-loc');
+      const av = card.querySelector('.side-review-avatar');
+      const bg = card.querySelector('.side-review-bg') as HTMLImageElement | null;
+      if (nm) nm.textContent = item.name;
+      if (qt) qt.textContent = `“${item.quote}”`;
+      if (lc) lc.textContent = `📍 ${item.location}`;
+      if (av) av.textContent = item.initials;
+      if (bg) bg.src = item.bgImage;
+    });
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      activeIsland = (tab.dataset.reviewIsland as 'portblair' | 'havelock') || 'portblair';
+      activeIdx = 0;
+
+      tabs.forEach((t) => {
+        const isSelected = t === tab;
+        t.classList.toggle('bg-[#182228]', isSelected);
+        t.classList.toggle('text-[#F3E7C4]', isSelected);
+        t.classList.toggle('border', isSelected);
+        t.classList.toggle('border-[#D6B66C]/40', isSelected);
+        t.classList.toggle('bg-[#F2E6CE]', !isSelected);
+        t.classList.toggle('text-[#1D160E]', !isSelected);
+      });
+
+      renderReviews();
+    });
+  });
+
+  document.getElementById('review-prev-btn')?.addEventListener('click', () => {
+    const len = (reviewsData[activeIsland] || []).length || 1;
+    activeIdx = (activeIdx - 1 + len) % len;
+    renderReviews();
+  });
+
+  document.getElementById('review-next-btn')?.addEventListener('click', () => {
+    const len = (reviewsData[activeIsland] || []).length || 1;
+    activeIdx = (activeIdx + 1) % len;
+    renderReviews();
+  });
+
+  renderReviews();
+</script>

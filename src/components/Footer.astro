@@ -1,0 +1,155 @@
+---
+// Footer.astro - Official Sea Hills Hotels & Resorts Footer
+// Details verified from https://www.seahillshotels.com/
+---
+
+<footer
+  id="contact"
+  class="relative bg-[#050C0F] text-[#F5F1E8] pt-14 pb-8 px-4 sm:px-8 lg:px-12 border-t border-[#D6B66C]/25 overflow-hidden"
+>
+  <!-- Subtle Top Champagne Glow -->
+  <div
+    class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[720px] h-[180px] opacity-25 blur-3xl"
+    style="background: radial-gradient(ellipse at top, rgba(214, 182, 108, 0.35), transparent 70%);"
+  ></div>
+
+  <div class="relative z-10 max-w-[1320px] mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-10 border-b border-[#D6B66C]/15">
+
+      <!-- Brand & Official Overview (4 Cols) -->
+      <div class="lg:col-span-4 space-y-4">
+        <a href="/" class="inline-flex items-center gap-3.5 group no-underline text-[#F5F1E8]">
+          <div class="w-11 h-11 rounded-full border border-[#D6B66C]/60 bg-[#101416] flex items-center justify-center p-2 shadow-[0_4px_16px_rgba(0,0,0,0.4)] group-hover:border-[#D6B66C] transition-colors">
+            <svg
+              viewBox="0 0 40 40"
+              class="w-6 h-6 text-[#D6B66C]"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="20" cy="15" r="7" stroke-dasharray="2 2" />
+              <path d="M20 22 C20 29 18 34 16 35" stroke-width="2" />
+              <path d="M20 22 C14 18 10 20 8 23" />
+              <path d="M20 22 C16 15 13 16 11 18" />
+              <path d="M20 22 C26 18 30 20 32 23" />
+              <path d="M20 22 C24 15 27 16 29 18" />
+              <path d="M12 35 C17 34 23 34 28 35" />
+            </svg>
+          </div>
+          <div class="flex flex-col text-left">
+            <span class="font-cormorant text-2xl font-normal tracking-[0.05em] text-[#F5F1E8] leading-none group-hover:text-[#D6B66C] transition-colors">
+              Sea Hills
+            </span>
+            <span class="text-[9px] tracking-[0.3em] font-medium text-[#D6B66C] uppercase mt-1 font-sans">
+              Hotels &amp; Resorts · Andaman
+            </span>
+          </div>
+        </a>
+
+        <p class="text-xs sm:text-[13px] text-[#C8BFAE] font-light leading-relaxed max-w-sm">
+          Luxury island hospitality across Port Blair (Sri Vijaya Puram) and Havelock Island (Swaraj Dweep), crafted for serene coastal stays, curated dining, and unforgettable Andaman journeys.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-3 pt-1">
+          <a
+            href="#book-now"
+            class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#D6B66C] to-[#E6C987] text-[#101416] px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.15em] shadow-md hover:brightness-105 transition-all no-underline"
+          >
+            <span>Book Your Stay</span>
+            <span>→</span>
+          </a>
+          <a
+            href="https://www.seahillshotels.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 rounded-full border border-[#D6B66C]/45 px-4 py-2 text-[11px] text-[#F3E7C4] hover:border-[#D6B66C] hover:bg-[#D6B66C]/10 transition-colors no-underline"
+          >
+            <span>seahillshotels.com</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Explore Links (2 Cols) -->
+      <div class="lg:col-span-2 space-y-3.5">
+        <h3 class="text-[11px] uppercase tracking-[0.24em] text-[#D6B66C] font-semibold">
+          Explore
+        </h3>
+        <ul class="space-y-2 text-xs sm:text-[13px] text-[#C8BFAE]">
+          <li><a href="#hero-scrolly" class="hover:text-[#F3E7C4] transition-colors no-underline">Home</a></li>
+          <li><a href="#destinations-section" class="hover:text-[#F3E7C4] transition-colors no-underline">Two Islands</a></li>
+          <li><a href="#rooms-suites-banner" class="hover:text-[#F3E7C4] transition-colors no-underline">Rooms &amp; Suites</a></li>
+          <li><a href="#dining-bar-banner" class="hover:text-[#F3E7C4] transition-colors no-underline">Dining &amp; Bar</a></li>
+          <li><a href="/packages" class="hover:text-[#F3E7C4] transition-colors no-underline">Packages</a></li>
+          <li><a href="/gallery" class="hover:text-[#F3E7C4] transition-colors no-underline">Gallery</a></li>
+          <li><a href="#reviews" class="hover:text-[#F3E7C4] transition-colors no-underline">Guest Reviews</a></li>
+        </ul>
+      </div>
+
+      <!-- Property 1: Sea Hills Hotel – Port Blair (3 Cols) -->
+      <div class="lg:col-span-3 space-y-3">
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
+          <h3 class="text-[11px] uppercase tracking-[0.22em] text-[#D6B66C] font-semibold">
+            Sea Hills Hotel · Port Blair
+          </h3>
+        </div>
+        <p class="text-xs sm:text-[13px] text-[#E5DFD2] font-light leading-relaxed">
+          Subhash Nagar, Shadipur, Sri Vijaya Puram (Port Blair), Andaman &amp; Nicobar Islands – 744103
+        </p>
+        <div class="space-y-1.5 text-xs text-[#C8BFAE] pt-1">
+          <p>
+            <span class="text-[#D6B66C] font-medium">Tel:</span>{' '}
+            <a href="tel:+919933280806" class="hover:text-[#F3E7C4] transition-colors no-underline">
+              +91 99332 80806
+            </a>
+          </p>
+          <p>
+            <span class="text-[#D6B66C] font-medium">Email:</span>{' '}
+            <a href="mailto:reservation@seahillshotels.com" class="hover:text-[#F3E7C4] transition-colors no-underline">
+              reservation@seahillshotels.com
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Property 2: Sea Hills Resort – Havelock Island (3 Cols) -->
+      <div class="lg:col-span-3 space-y-3">
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
+          <h3 class="text-[11px] uppercase tracking-[0.22em] text-[#D6B66C] font-semibold">
+            Sea Hills Resort · Havelock
+          </h3>
+        </div>
+        <p class="text-xs sm:text-[13px] text-[#E5DFD2] font-light leading-relaxed">
+          Shyam Nagar, Havelock Island (Swaraj Dweep), Andaman &amp; Nicobar Islands – 744211
+        </p>
+        <div class="space-y-1.5 text-xs text-[#C8BFAE] pt-1">
+          <p>
+            <span class="text-[#D6B66C] font-medium">Tel:</span>{' '}
+            <a href="tel:+919933280806" class="hover:text-[#F3E7C4] transition-colors no-underline">
+              +91 99332 80806
+            </a>
+          </p>
+          <p>
+            <span class="text-[#D6B66C] font-medium">Email:</span>{' '}
+            <a href="mailto:reservation@seahillshotels.com" class="hover:text-[#F3E7C4] transition-colors no-underline">
+              reservation@seahillshotels.com
+            </a>
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Legal / Copyright Bar -->
+    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-[#C8BFAE]/80">
+      <p>© {new Date().getFullYear()} Sea Hills Hotels &amp; Resorts. All rights reserved.</p>
+      <p class="tracking-[0.18em] uppercase text-[10px] text-[#D6B66C]/85">
+        Port Blair · Havelock Island · Andaman &amp; Nicobar
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,545 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+const diningDir = path.join(process.cwd(), 'public', 'frames', 'Dinning');
+const fallbackDir = path.join(process.cwd(), 'public', 'frames', 'dining');
+const activeDir = fs.existsSync(diningDir) ? diningDir : fallbackDir;
+const urlPrefix = fs.existsSync(diningDir) ? '/frames/Dinning' : '/frames/dining';
+let frameFiles: string[] = [];
+
+if (fs.existsSync(activeDir)) {
+  frameFiles = fs
+    .readdirSync(activeDir)
+    .filter((f) => /\.(webp|jpe?g|png)$/i.test(f))
+    .sort()
+    .map((f) => `${urlPrefix}/${f}`);
+}
+
+const experiences = [
+  {
+    index: '01 / 03',
+    eyebrow: 'CLEOPATRA RESTAURANT',
+    title: 'Egyptian-Themed & Candlelight Dining',
+    subtitle: 'Sea Hills Port Blair & Havelock',
+    timing: 'Buffet Breakfast · À La Carte · Dinner',
+    highlights: ['Cleopatra Restaurant', 'Local & Continental Cuisine', 'Candlelight Under the Stars'],
+    description:
+      'Savour Andaman coastal specialities and continental favourites at our Egyptian-themed Cleopatra Restaurant in Port Blair—or reserve a romantic candlelit dinner under the stars at Havelock.',
+    image: '/images/facilities/restaurant.jpg',
+  },
+  {
+    index: '02 / 03',
+    eyebrow: 'ANUBIS BAR & LOUNGE',
+    title: 'Signature Spirits & Island Evenings',
+    subtitle: 'Anubis Bar · Middle Point Port Blair',
+    timing: 'Cocktails · Fine Wines · Spirits',
+    highlights: ['Anubis Bar', 'Handcrafted Cocktails', 'Relaxed Evening Lounge'],
+    description:
+      'Unwind after island-hopping at Anubis Bar and our open-air resort lounges with curated cocktails, fine wines, and chilled spirits in a tranquil evening setting.',
+    image: '/images/facilities/bar.jpg',
+  },
+  {
+    index: '03 / 03',
+    eyebrow: 'OUTDOOR POOLS & ALFALFA SPA',
+    title: 'Tropical Pools Amidst Greenery',
+    subtitle: 'Port Blair & Havelock Resorts',
+    timing: 'Main Pool · Kids’ Pool · Alfalfa Spa',
+    highlights: ['Lush Palm Surroundings', 'Dedicated Children’s Pool', 'Alfalfa Spa & Poolside Patios'],
+    description:
+      'Refresh in our outdoor swimming pools surrounded by lush tropical greenery at both Port Blair and Havelock, complete with a dedicated kids’ pool, poolside patios, and Alfalfa Spa.',
+    image: '/images/facilities/pool-bright.jpg',
+  },
+];
+---
+
+<section
+  id="dining-bar-banner"
+  class="relative bg-[#101416] text-[#F5F1E8] border-t border-white/5"
+  style="height: 400vh;"
+  data-frame-files={JSON.stringify(frameFiles)}
+  data-experiences={JSON.stringify(experiences)}
+>
+  <div class="sticky top-0 h-[100svh] w-full flex items-center justify-center px-4 sm:px-8 lg:px-12 overflow-hidden">
+    <!-- Ambient Gold Glow -->
+    <div
+      class="pointer-events-none absolute inset-0 opacity-30"
+      style="background: radial-gradient(circle at 30% 50%, rgba(214, 182, 108, 0.14), transparent 55%);"
+    ></div>
+
+    <div class="relative w-full max-w-[1320px] mx-auto">
+      <!-- Stage Banner (Responsive height, never oversized on mobile) -->
+      <div
+        id="dining-stage-banner"
+        class="relative w-full h-[380px] sm:h-[440px] lg:h-[460px] xl:h-[500px] rounded-[24px] overflow-hidden border border-[#D6B66C]/25 bg-[#151A1D] shadow-[0_30px_90px_rgba(0,0,0,0.65)]"
+      >
+        <!-- RIGHT Editorial Text Panel (38%, revealed when canvas is on the LEFT at 62%) -->
+        <div
+          id="dining-right-text"
+          class="hidden lg:flex absolute top-0 right-0 bottom-0 w-[38%] z-10 flex-col justify-between p-8 xl:p-11 bg-gradient-to-l from-[#14191C] via-[#14191C]/95 to-[#14191C]/85 border-l border-[#D6B66C]/15"
+        >
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <span class="inline-block w-7 h-[1px] bg-[#D6B66C]"></span>
+              <span class="text-[11px] uppercase tracking-[0.28em] text-[#D6B66C] font-semibold">
+                Dining · Bar · Pool
+              </span>
+            </div>
+
+            <h2 class="font-serif text-3xl xl:text-[2.35rem] leading-[1.12] text-[#F5F1E8] tracking-tight mb-4">
+              Flavours, Spirits
+              <span class="block text-[#F3E7C4] italic font-normal">&amp; Poolside Leisure</span>
+            </h2>
+
+            <p class="text-[14px] leading-relaxed text-[#C8BFAE] max-w-sm">
+              From candlelit island gastronomy and sunset mixology to palm-fringed infinity pools, every hour flows effortlessly from table to water.
+            </p>
+          </div>
+
+          <div class="space-y-4 pt-5 border-t border-white/10">
+            <div class="grid grid-cols-3 gap-2.5 text-left">
+              <div class="rounded-xl bg-white/[0.03] border border-white/10 px-3 py-2.5">
+                <p class="text-[10px] uppercase tracking-[0.18em] text-[#D6B66C]">01</p>
+                <p class="text-xs font-medium text-[#F5F1E8] mt-0.5">Dining</p>
+              </div>
+              <div class="rounded-xl bg-white/[0.03] border border-white/10 px-3 py-2.5">
+                <p class="text-[10px] uppercase tracking-[0.18em] text-[#D6B66C]">02</p>
+                <p class="text-xs font-medium text-[#F5F1E8] mt-0.5">Bar &amp; Lounge</p>
+              </div>
+              <div class="rounded-xl bg-white/[0.03] border border-white/10 px-3 py-2.5">
+                <p class="text-[10px] uppercase tracking-[0.18em] text-[#D6B66C]">03</p>
+                <p class="text-xs font-medium text-[#F5F1E8] mt-0.5">Pool Oasis</p>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-[#C8BFAE]/80">
+              <span>Scroll to Explore</span>
+              <span class="text-[#D6B66C]">Port Blair &amp; Havelock</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEFT Canvas Panel (Starts at 62% on LEFT, expands to 100% full-card, returns to 62% on LEFT) -->
+        <div
+          id="dining-canvas-panel"
+          class="absolute top-0 left-0 bottom-0 z-20 w-full lg:w-[62%] overflow-hidden bg-[#0E1214]"
+        >
+          <canvas
+            id="dining-canvas"
+            class="w-full h-full block"
+          ></canvas>
+
+          <!-- Subtle cinematic vignette (kept light so every frame renders crisply) -->
+          <div
+            class="pointer-events-none absolute inset-0"
+            style="background: linear-gradient(180deg, rgba(16,20,22,0.08) 0%, rgba(16,20,22,0.02) 50%, rgba(16,20,22,0.48) 100%);"
+          ></div>
+
+          <!-- Mobile / Initial Compact Badge (visible when not expanded on mobile or at start) -->
+          <div
+            id="dining-left-badge"
+            class="absolute top-5 left-5 sm:top-6 sm:left-6 z-20 flex items-center gap-2.5 rounded-full bg-[#101416]/75 backdrop-blur-md border border-[#D6B66C]/35 px-3.5 py-1.5"
+          >
+            <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
+            <span id="dining-badge-label" class="text-[11px] uppercase tracking-[0.2em] text-[#F3E7C4] font-medium">
+              01 / 03 · Signature Dining
+            </span>
+          </div>
+
+          <!-- Bottom-Left Compact Corner Card (Never hides the frame on mobile or desktop) -->
+          <div
+            id="dining-corner-card"
+            class="absolute bottom-3 left-3 right-3 sm:right-auto sm:bottom-5 sm:left-5 z-30 sm:max-w-[360px] rounded-xl sm:rounded-2xl bg-[#101416]/78 backdrop-blur-lg border border-[#D6B66C]/35 p-3 sm:p-4 shadow-[0_14px_35px_rgba(0,0,0,0.55)] opacity-0 translate-y-4 pointer-events-none"
+          >
+            <div class="flex items-center justify-between gap-2 mb-1">
+              <span
+                id="dining-card-eyebrow"
+                class="text-[9.5px] uppercase tracking-[0.22em] text-[#D6B66C] font-semibold"
+              >
+                SIGNATURE DINING
+              </span>
+              <span
+                id="dining-card-index"
+                class="text-[10px] font-mono tracking-widest text-[#F3E7C4] bg-[#D6B66C]/15 border border-[#D6B66C]/30 rounded-full px-2 py-0.5"
+              >
+                01 / 03
+              </span>
+            </div>
+
+            <h3
+              id="dining-card-title"
+              class="font-serif text-base sm:text-xl text-[#F5F1E8] leading-snug"
+            >
+              Egyptian-Themed &amp; Candlelight Dining
+            </h3>
+
+            <p
+              id="dining-card-subtitle"
+              class="text-[10.5px] sm:text-[11px] uppercase tracking-[0.14em] text-[#D6B66C]/90 mt-0.5 sm:mb-1.5"
+            >
+              Sea Hills Port Blair &amp; Havelock
+            </p>
+
+            <p
+              id="dining-card-desc"
+              class="hidden sm:block text-[12px] leading-relaxed text-[#C8BFAE] line-clamp-2 mb-2.5"
+            >
+              Savour Andaman coastal specialities and continental favourites at Cleopatra Restaurant—or a candlelit dinner under the stars at Havelock.
+            </p>
+
+            <div
+              id="dining-card-highlights"
+              class="hidden sm:flex flex-wrap gap-1.5"
+            >
+              <span class="text-[10px] text-[#F3E7C4] bg-white/[0.06] border border-white/10 rounded-full px-2 py-0.5">
+                Cleopatra Restaurant
+              </span>
+              <span class="text-[10px] text-[#F3E7C4] bg-white/[0.06] border border-white/10 rounded-full px-2 py-0.5">
+                Anubis Bar
+              </span>
+              <span class="text-[10px] text-[#F3E7C4] bg-white/[0.06] border border-white/10 rounded-full px-2 py-0.5">
+                Outdoor Pools
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subtle Progress Strip Below Stage -->
+      <div class="mt-4 flex items-center justify-between px-1 text-[11px] uppercase tracking-[0.2em] text-[#C8BFAE]/75">
+        <div class="flex items-center gap-4">
+          <button type="button" data-dining-step="0" class="dining-step-pill text-[#F3E7C4] font-semibold transition-colors">
+            01 Dining
+          </button>
+          <span class="text-white/20">/</span>
+          <button type="button" data-dining-step="1" class="dining-step-pill hover:text-[#F3E7C4] transition-colors">
+            02 Bar &amp; Lounge
+          </button>
+          <span class="text-white/20">/</span>
+          <button type="button" data-dining-step="2" class="dining-step-pill hover:text-[#F3E7C4] transition-colors">
+            03 Swimming Pool
+          </button>
+        </div>
+
+        <div class="hidden sm:flex items-center gap-3 w-44">
+          <div class="h-[2px] flex-1 bg-white/10 rounded-full overflow-hidden">
+            <div id="dining-progress-bar" class="h-full w-0 bg-[#D6B66C]"></div>
+          </div>
+          <span id="dining-progress-pct" class="font-mono text-[10px] text-[#D6B66C] w-8 text-right">0%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initDiningSection() {
+    const section = document.getElementById('dining-bar-banner') as HTMLElement | null;
+    const stageBanner = document.getElementById('dining-stage-banner') as HTMLElement | null;
+    const canvasPanel = document.getElementById('dining-canvas-panel') as HTMLElement | null;
+    const rightText = document.getElementById('dining-right-text') as HTMLElement | null;
+    const cornerCard = document.getElementById('dining-corner-card') as HTMLElement | null;
+    const badgeLabel = document.getElementById('dining-badge-label') as HTMLElement | null;
+    const canvas = document.getElementById('dining-canvas') as HTMLCanvasElement | null;
+    const progressBar = document.getElementById('dining-progress-bar') as HTMLElement | null;
+    const progressPct = document.getElementById('dining-progress-pct') as HTMLElement | null;
+
+    const cardEyebrow = document.getElementById('dining-card-eyebrow') as HTMLElement | null;
+    const cardIndex = document.getElementById('dining-card-index') as HTMLElement | null;
+    const cardTitle = document.getElementById('dining-card-title') as HTMLElement | null;
+    const cardSubtitle = document.getElementById('dining-card-subtitle') as HTMLElement | null;
+    const cardDesc = document.getElementById('dining-card-desc') as HTMLElement | null;
+    const cardHighlights = document.getElementById('dining-card-highlights') as HTMLElement | null;
+    const stepPills = Array.from(document.querySelectorAll('.dining-step-pill')) as HTMLElement[];
+
+    if (!section || !stageBanner || !canvasPanel || !canvas) return;
+    if (section.dataset.initialized === 'true') return;
+    section.dataset.initialized = 'true';
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const frameFiles: string[] = JSON.parse(section.dataset.frameFiles || '[]');
+    const experiences: Array<{
+      index: string;
+      eyebrow: string;
+      title: string;
+      subtitle: string;
+      timing: string;
+      highlights: string[];
+      description: string;
+      image: string;
+    }> = JSON.parse(section.dataset.experiences || '[]');
+
+    const hasFrameSeq = frameFiles.length > 0;
+    const imageSources = hasFrameSeq ? frameFiles : experiences.map((e) => e.image);
+    const loadedImages: HTMLImageElement[] = new Array(imageSources.length);
+
+    let lastActiveIdx = -1;
+    let currentProgress = 0;
+
+    function syncCanvasResolution() {
+      if (!canvas || !canvasPanel) return;
+      const rect = canvasPanel.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const targetW = Math.round(rect.width * dpr);
+      const targetH = Math.round(rect.height * dpr);
+      if (canvas.width !== targetW || canvas.height !== targetH) {
+        canvas.width = targetW;
+        canvas.height = targetH;
+      }
+    }
+
+    function drawCoverImage(img: HTMLImageElement, alpha = 1, zoom = 1) {
+      if (!canvas || !ctx || !img || !img.complete || img.naturalWidth === 0) return;
+      const cw = canvas.width;
+      const ch = canvas.height;
+      if (cw === 0 || ch === 0) return;
+
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+      const scale = Math.max(cw / iw, ch / ih) * zoom;
+      const dw = iw * scale;
+      const dh = ih * scale;
+      const dx = (cw - dw) / 2;
+      const dy = (ch - dh) / 2;
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, dx, dy, dw, dh);
+      ctx.restore();
+    }
+
+    function renderCanvas(progress: number) {
+      if (!canvas || !ctx) return;
+      syncCanvasResolution();
+      const cw = canvas.width;
+      const ch = canvas.height;
+      if (cw === 0 || ch === 0) return;
+
+      ctx.clearRect(0, 0, cw, ch);
+
+      if (hasFrameSeq) {
+        const frameIdx = Math.min(
+          loadedImages.length - 1,
+          Math.max(0, Math.round(progress * (loadedImages.length - 1)))
+        );
+        let img = loadedImages[frameIdx];
+        if (!img || !img.complete || img.naturalWidth === 0) {
+          for (let d = 1; d < loadedImages.length; d++) {
+            const prev = loadedImages[frameIdx - d];
+            if (prev && prev.complete && prev.naturalWidth > 0) {
+              img = prev;
+              break;
+            }
+            const next = loadedImages[frameIdx + d];
+            if (next && next.complete && next.naturalWidth > 0) {
+              img = next;
+              break;
+            }
+          }
+        }
+        if (img && img.complete && img.naturalWidth > 0) drawCoverImage(img, 1, 1);
+        return;
+      }
+
+      // Cross-fade + subtle Ken Burns motion across Dining (0..0.38), Bar (0.38..0.72), Swimming (0.72..1.0)
+      const count = loadedImages.length;
+      if (count === 0) return;
+
+      const scaled = Math.max(0, Math.min(count - 1, progress * (count - 1)));
+      const idxA = Math.floor(scaled);
+      const idxB = Math.min(count - 1, idxA + 1);
+      const frac = scaled - idxA;
+
+      const imgA = loadedImages[idxA];
+      const imgB = loadedImages[idxB];
+
+      const zoomA = 1.02 + frac * 0.04;
+      const zoomB = 1.06 - frac * 0.04;
+
+      if (imgA && imgA.complete && imgA.naturalWidth > 0) {
+        drawCoverImage(imgA, 1, zoomA);
+      }
+      if (idxB !== idxA && frac > 0 && imgB && imgB.complete && imgB.naturalWidth > 0) {
+        drawCoverImage(imgB, frac, zoomB);
+      }
+    }
+
+    function updateCardContent(expIdx: number) {
+      if (expIdx === lastActiveIdx || !experiences[expIdx]) return;
+      lastActiveIdx = expIdx;
+      const exp = experiences[expIdx];
+
+      if (badgeLabel) badgeLabel.textContent = `${exp.index} · ${exp.eyebrow}`;
+      if (cardEyebrow) cardEyebrow.textContent = exp.eyebrow;
+      if (cardIndex) cardIndex.textContent = exp.index;
+      if (cardTitle) cardTitle.textContent = exp.title;
+      if (cardSubtitle) cardSubtitle.textContent = `${exp.subtitle} · ${exp.timing}`;
+      if (cardDesc) cardDesc.textContent = exp.description;
+      if (cardHighlights) {
+        cardHighlights.innerHTML = exp.highlights
+          .map(
+            (h) =>
+              `<span class="text-[11px] text-[#F3E7C4] bg-white/[0.06] border border-white/10 rounded-full px-2.5 py-1">${h}</span>`
+          )
+          .join('');
+      }
+
+      stepPills.forEach((pill, i) => {
+        if (i === expIdx) {
+          pill.classList.add('text-[#F3E7C4]', 'font-semibold');
+          pill.classList.remove('text-[#C8BFAE]/75');
+        } else {
+          pill.classList.remove('text-[#F3E7C4]', 'font-semibold');
+        }
+      });
+    }
+
+    function applyLayoutForProgress(p: number) {
+      currentProgress = p;
+      const isDesktop = window.innerWidth >= 1024;
+
+      // Expand from LEFT 62% -> 100% (0.04..0.18), hold 100% (0.18..0.82), return to LEFT 62% (0.82..0.96)
+      let expand = 0;
+      if (p <= 0.04) {
+        expand = 0;
+      } else if (p < 0.18) {
+        expand = (p - 0.04) / 0.14;
+      } else if (p <= 0.82) {
+        expand = 1;
+      } else if (p < 0.96) {
+        expand = 1 - (p - 0.82) / 0.14;
+      } else {
+        expand = 0;
+      }
+
+      // Smoothstep easing for panel expansion
+      const eased = expand * expand * (3 - 2 * expand);
+
+      if (canvasPanel) {
+        if (isDesktop) {
+          const widthPct = 62 + 38 * eased;
+          canvasPanel.style.width = `${widthPct.toFixed(3)}%`;
+        } else {
+          canvasPanel.style.width = '100%';
+        }
+      }
+
+      if (rightText && isDesktop) {
+        const textOpacity = Math.max(0, 1 - eased * 1.45);
+        rightText.style.opacity = textOpacity.toFixed(3);
+        rightText.style.transform = `translateX(${(eased * 28).toFixed(1)}px)`;
+      }
+
+      if (cornerCard) {
+        const cardVisible = isDesktop ? Math.max(0, Math.min(1, (eased - 0.55) / 0.35)) : 1;
+        cornerCard.style.opacity = cardVisible.toFixed(3);
+        cornerCard.style.transform = isDesktop ? `translateY(${((1 - cardVisible) * 16).toFixed(1)}px)` : 'none';
+      }
+
+      // Map scroll progress to 3 experiences: 0 = Dining, 1 = Bar, 2 = Swimming
+      const expIdx = p < 0.36 ? 0 : p < 0.7 ? 1 : 2;
+      updateCardContent(expIdx);
+
+      if (progressBar) progressBar.style.width = `${Math.round(p * 100)}%`;
+      if (progressPct) progressPct.textContent = `${Math.round(p * 100)}%`;
+
+      renderCanvas(p);
+    }
+
+    function loadDiningImage(i: number): Promise<void> {
+      return new Promise((resolve) => {
+        if (loadedImages[i]) return resolve();
+        const img = new Image();
+        img.decoding = 'async';
+        img.onload = () => {
+          loadedImages[i] = img;
+          if (i === 0 || Math.abs(currentProgress * (imageSources.length - 1) - i) <= 1.2) {
+            renderCanvas(currentProgress);
+          }
+          resolve();
+        };
+        img.onerror = () => resolve();
+        img.src = imageSources[i];
+      });
+    }
+
+    async function preloadDiningBatch() {
+      for (let i = 1; i < imageSources.length; i += 6) {
+        const batch: Promise<void>[] = [];
+        for (let j = i; j < Math.min(i + 6, imageSources.length); j++) {
+          batch.push(loadDiningImage(j));
+        }
+        await Promise.all(batch);
+      }
+    }
+
+    // Load frame 0 immediately; defer remaining 113 frames until approaching Dining section
+    loadDiningImage(0);
+    let diningPreloaded = false;
+    const startDiningPreload = () => {
+      if (diningPreloaded) return;
+      diningPreloaded = true;
+      preloadDiningBatch();
+    };
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            startDiningPreload();
+            io.disconnect();
+          }
+        },
+        { rootMargin: '1400px 0px' }
+      );
+      io.observe(section);
+    } else {
+      startDiningPreload();
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      syncCanvasResolution();
+      renderCanvas(currentProgress);
+    });
+    resizeObserver.observe(canvasPanel);
+
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: true,
+      onUpdate: (self) => {
+        applyLayoutForProgress(self.progress);
+      },
+    });
+
+    // Clickable step pills jump smoothly to that chapter
+    stepPills.forEach((pill, i) => {
+      pill.addEventListener('click', () => {
+        const rect = section.getBoundingClientRect();
+        const sectionTop = window.scrollY + rect.top;
+        const scrollable = Math.max(1, section.offsetHeight - window.innerHeight);
+        const targets = [0.24, 0.52, 0.78];
+        const targetY = sectionTop + scrollable * (targets[i] ?? 0.24);
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      });
+    });
+
+    applyLayoutForProgress(0);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDiningSection);
+  } else {
+    initDiningSection();
+  }
+</script>

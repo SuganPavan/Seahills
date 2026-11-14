@@ -1,0 +1,213 @@
+---
+import { RESORT_PACKAGES } from '../data/packagesData';
+
+const romantic = RESORT_PACKAGES[0];
+const explorer = RESORT_PACKAGES[1];
+const family = RESORT_PACKAGES[2];
+---
+
+<section
+  id="packages"
+  class="relative bg-gradient-to-b from-[#0A1419] via-[#0D1A20] to-[#081216] text-[#F5F1E8] py-14 sm:py-16 px-4 sm:px-8 lg:px-12 overflow-hidden"
+>
+  <!-- Ambient Sunset & Ocean Horizon Glow -->
+  <div
+    class="pointer-events-none absolute top-0 right-0 w-[680px] h-[360px] opacity-35 blur-3xl"
+    style="background: radial-gradient(ellipse at top right, rgba(214, 182, 108, 0.36), rgba(20, 90, 100, 0.18), transparent 72%);"
+  ></div>
+
+  <!-- Dashed Flight Path Arc SVG -->
+  <svg
+    class="pointer-events-none hidden lg:block absolute top-8 left-[19%] w-[340px] h-[115px] opacity-60 z-10"
+    viewBox="0 0 340 115"
+    fill="none"
+  >
+    <path
+      d="M 10 100 Q 145 15 315 48"
+      stroke="#D6B66C"
+      stroke-width="1.5"
+      stroke-dasharray="5 6"
+    />
+    <g transform="translate(245, 27) rotate(12)">
+      <path
+        d="M2 10 L18 6 L14 0 L17 0 L23 6 L29 6 C31 6 32 7 32 8 C32 9 31 10 29 10 L23 10 L17 16 L14 16 L18 10 L8 10 L5 13 L3 13 L5 10 L2 10 Z"
+        fill="#F3E7C4"
+      />
+    </g>
+  </svg>
+
+  <div class="relative z-20 max-w-[1320px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+    <!-- LEFT: Editorial Intro & Explore All Packages CTA (4 Cols) -->
+    <div class="lg:col-span-4 space-y-4">
+      <div class="flex items-center gap-3">
+        <span class="inline-block w-6 h-[1px] bg-[#D6B66C]"></span>
+        <span class="text-[10px] uppercase tracking-[0.28em] text-[#D6B66C] font-semibold">
+          Curated Island Escapes
+        </span>
+        <span class="inline-block w-6 h-[1px] bg-[#D6B66C]"></span>
+      </div>
+
+      <h2 class="font-cormorant text-4xl sm:text-[2.85rem] xl:text-[3.1rem] leading-[1.06] text-[#F5F1E8] font-normal">
+        Not Just a Stay.
+        <span class="block text-[#F3E7C4] italic mt-0.5">An Island Journey.</span>
+      </h2>
+
+      <p class="text-xs sm:text-sm text-[#C8BFAE] font-light leading-relaxed max-w-xs">
+        Discover handpicked holiday packages for your perfect Andaman experience.
+      </p>
+
+      <div class="pt-1">
+        <a
+          id="view-all-packages-btn"
+          href="/packages"
+          class="inline-flex items-center gap-3 rounded-full border border-[#D6B66C] bg-[#101416]/60 hover:bg-[#D6B66C] text-[#F3E7C4] hover:text-[#101416] px-6 py-3 text-[11px] uppercase tracking-[0.18em] font-semibold shadow-[0_8px_24px_rgba(0,0,0,0.45)] transition-all duration-300"
+        >
+          <span>Explore All Packages</span>
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT: Direct Tilted Sandle-Parchment Pages Floating on Ocean Backdrop (No Outer Wrapper Box) -->
+    <div class="lg:col-span-8 relative">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-2 relative z-10 items-center">
+        <!-- LEFT TILTED SANDLE PAGE: Romantic Escape (6 Cols) -->
+        <article class="md:col-span-6 relative rounded-xl bg-gradient-to-br from-[#F2E3C6] via-[#E8D4AE] to-[#DBC091] text-[#23190E] p-4 sm:p-5 shadow-[0_28px_70px_rgba(0,0,0,0.8)] border border-[#F6E8CC]/70 md:-rotate-[3.5deg] hover:rotate-0 hover:z-30 transition-transform duration-500 flex flex-col justify-between">
+          <!-- Postage Stamp Seal -->
+          <div class="absolute -top-3.5 -right-2 z-30 w-16 h-16 rounded-full bg-[#EFE0C1] border-2 border-dashed border-[#5B482C]/75 shadow-md flex flex-col items-center justify-center text-center rotate-12 p-1">
+            <span class="text-[7px] font-bold uppercase tracking-[0.1em] text-[#3A2D1B] leading-tight">
+              Havelock
+              <br />
+              Island
+            </span>
+            <span class="text-[6px] text-[#7A5E35] mt-0.5">★ ★ ★</span>
+          </div>
+
+          <div>
+            <div class="relative h-48 sm:h-52 rounded-lg overflow-hidden border border-[#B89D72]/60 shadow-inner mb-3.5">
+              <img
+                src={romantic.image}
+                alt={romantic.title}
+                loading="lazy"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="text-center px-1">
+              <h3 class="font-cormorant text-2xl sm:text-[1.8rem] italic font-semibold text-[#1E1710] leading-tight">
+                Romantic Escape
+              </h3>
+              <p class="text-xs text-[#4F3F2D] mt-0.5">
+                Love in the Andamans
+              </p>
+
+              <div class="inline-flex items-center gap-1.5 text-[11px] text-[#3A2D1B] font-medium mt-2">
+                <svg class="w-3 h-3 text-[#7D5E2A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span>{romantic.duration}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3.5 flex justify-center">
+            <a
+              href={`/packages#${romantic.slug}`}
+              class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#D6B66C] to-[#E6C987] hover:from-[#c4a254] hover:to-[#d9b86c] text-[#1C150D] px-6 py-2.5 text-[11px] font-semibold tracking-wide shadow-[0_6px_18px_rgba(120,88,35,0.3)] transition-all"
+            >
+              <span>Explore Journey</span>
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- RIGHT TILTED SANDLE PAGES: Two Stacked Postcards (6 Cols) -->
+        <div class="md:col-span-6 flex flex-col gap-3.5 justify-between md:-ml-2">
+          <!-- Top Right: Island Explorer -->
+          <article class="relative rounded-xl bg-gradient-to-br from-[#F2E3C6] via-[#E8D4AE] to-[#DBC091] text-[#23190E] p-3.5 shadow-[0_24px_60px_rgba(0,0,0,0.75)] border border-[#F6E8CC]/70 md:rotate-[2deg] hover:rotate-0 hover:z-30 transition-transform duration-500">
+            <div class="absolute -top-2.5 -right-2 z-30 w-14 h-14 rounded-full bg-[#EFE0C1] border-2 border-dashed border-[#5B482C]/75 shadow-md flex flex-col items-center justify-center text-center rotate-12 p-1">
+              <span class="text-[6.5px] font-bold uppercase tracking-[0.08em] text-[#3A2D1B] leading-tight">
+                Andaman
+                <br />
+                Adventure
+              </span>
+            </div>
+
+            <div class="relative h-28 sm:h-32 rounded-lg overflow-hidden border border-[#B89D72]/60 mb-2.5">
+              <img
+                src={explorer.image}
+                alt={explorer.title}
+                loading="lazy"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="flex items-end justify-between gap-2 px-0.5">
+              <div>
+                <h3 class="font-cormorant text-xl sm:text-2xl font-semibold text-[#1E1710] leading-none">
+                  Island Explorer
+                </h3>
+                <p class="text-[11px] text-[#4F3F2D] mt-0.5">Dive. Discover. Unwind.</p>
+                <p class="text-[10.5px] font-medium text-[#3A2D1B] mt-1">{explorer.duration}</p>
+              </div>
+
+              <a
+                href={`/packages#${explorer.slug}`}
+                aria-label="Explore Island Explorer Package"
+                class="w-8 h-8 rounded-full bg-[#241E17] hover:bg-[#D6B66C] text-[#F5F1E8] hover:text-[#101416] flex items-center justify-center transition-colors flex-shrink-0"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Bottom Right: Tropical Getaway -->
+          <article class="relative rounded-xl bg-gradient-to-br from-[#F2E3C6] via-[#E8D4AE] to-[#DBC091] text-[#23190E] p-3.5 shadow-[0_24px_60px_rgba(0,0,0,0.75)] border border-[#F6E8CC]/70 md:-rotate-[1.2deg] hover:rotate-0 hover:z-30 transition-transform duration-500">
+            <div class="absolute -top-2.5 -right-2 z-30 w-14 h-14 rounded-full bg-[#EFE0C1] border-2 border-dashed border-[#5B482C]/75 shadow-md flex flex-col items-center justify-center text-center -rotate-6 p-1">
+              <span class="text-[6.5px] font-bold uppercase tracking-[0.08em] text-[#3A2D1B] leading-tight">
+                Family
+                <br />
+                Holiday
+              </span>
+            </div>
+
+            <div class="relative h-28 sm:h-32 rounded-lg overflow-hidden border border-[#B89D72]/60 mb-2.5">
+              <img
+                src={family.image}
+                alt={family.title}
+                loading="lazy"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="flex items-end justify-between gap-2 px-0.5">
+              <div>
+                <h3 class="font-cormorant text-xl sm:text-2xl font-semibold text-[#1E1710] leading-none">
+                  Tropical Getaway
+                </h3>
+                <p class="text-[11px] text-[#4F3F2D] mt-0.5">Fun. Relax &amp; Reconnect.</p>
+                <p class="text-[10.5px] font-medium text-[#3A2D1B] mt-1">{family.duration}</p>
+              </div>
+
+              <a
+                href={`/packages#${family.slug}`}
+                aria-label="Explore Tropical Getaway Package"
+                class="w-8 h-8 rounded-full bg-[#241E17] hover:bg-[#D6B66C] text-[#F5F1E8] hover:text-[#101416] flex items-center justify-center transition-colors flex-shrink-0"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

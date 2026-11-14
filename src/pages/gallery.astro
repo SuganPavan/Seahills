@@ -1,0 +1,262 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+
+const galleryItems = [
+  {
+    title: 'Sea Hills Grand Entrance · Middle Point',
+    category: 'Resorts & Suites',
+    location: 'Port Blair (Sri Vijaya Puram)',
+    image: '/frames/Home_Section/frame_0025.webp',
+  },
+  {
+    title: 'Twilight Courtyard & Lanterns',
+    category: 'Resorts & Suites',
+    location: 'Sea Hills Estate',
+    image: '/frames/Home_Section/frame_0075.webp',
+  },
+  {
+    title: 'Premium Sea View Suite',
+    category: 'Resorts & Suites',
+    location: 'Sea Hills Port Blair',
+    image: '/frames/rooms/frame_0035.webp',
+  },
+  {
+    title: 'La Bougainvillea & Bamboo Saa Rooms',
+    category: 'Resorts & Suites',
+    location: 'Sea Hills Havelock (410 sq. ft.)',
+    image: '/frames/rooms/frame_0105.webp',
+  },
+  {
+    title: 'Cleopatra Egyptian-Themed Restaurant',
+    category: 'Dining & Bar',
+    location: 'Sea Hills Port Blair',
+    image: '/images/facilities/restaurant.jpg',
+  },
+  {
+    title: 'Anubis Bar & Cocktail Lounge',
+    category: 'Dining & Bar',
+    location: 'Sea Hills Port Blair',
+    image: '/images/facilities/bar.jpg',
+  },
+  {
+    title: 'Candlelight Dinner Under the Stars',
+    category: 'Dining & Bar',
+    location: 'Havelock Island',
+    image: '/images/facilities/dining.jpg',
+  },
+  {
+    title: 'Evening Wine & Spirits',
+    category: 'Dining & Bar',
+    location: 'Anubis Bar',
+    image: '/frames/Dinning/frame_0085.webp',
+  },
+  {
+    title: 'Palm-Fringed Outdoor Swimming Pool',
+    category: 'Swimming Pools',
+    location: 'Port Blair & Havelock',
+    image: '/images/facilities/pool-bright.jpg',
+  },
+  {
+    title: 'Resort Pool Oasis',
+    category: 'Swimming Pools',
+    location: 'Sea Hills Resort',
+    image: '/frames/Home_Section/frame_0060.webp',
+  },
+  {
+    title: 'Two Islands Aerial Panorama',
+    category: 'Islands & Coast',
+    location: 'Port Blair to Havelock',
+    image: '/frames/Destination/frame_0001.webp',
+  },
+  {
+    title: 'Emerald Bay & Coral Lagoons',
+    category: 'Islands & Coast',
+    location: 'Swaraj Dweep (Havelock)',
+    image: '/frames/Destination/frame_0045.webp',
+  },
+];
+
+const categories = ['All', 'Resorts & Suites', 'Dining & Bar', 'Swimming Pools', 'Islands & Coast'];
+---
+
+<Layout
+  title="Full Gallery | Sea Hills Hotels & Resorts Andaman"
+  description="Browse high-resolution photographs of Sea Hills Port Blair & Havelock suites, Egyptian-themed dining, Anubis Bar, outdoor pools, and Andaman beaches."
+>
+  <Header />
+
+  <main class="bg-[#0D1113] text-[#F5F1E8] min-h-screen pt-32 pb-24 px-4 sm:px-8 lg:px-12">
+    <div class="max-w-[1320px] mx-auto">
+      <!-- Top Breadcrumb & Title -->
+      <div class="mb-12 border-b border-[#D6B66C]/20 pb-10">
+        <a
+          href="/#gallery"
+          class="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-[#D6B66C] hover:text-[#FFF3D6] transition-colors mb-5"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>Back to Homepage</span>
+        </a>
+
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.28em] text-[#D6B66C] font-semibold mb-3">
+              Visual Chronicle · Port Blair &amp; Havelock
+            </p>
+            <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#F5F1E8] leading-[1.08]">
+              Full Resort
+              <span class="text-[#F3E7C4] italic font-normal"> Gallery</span>
+            </h1>
+          </div>
+
+          <p class="text-sm sm:text-[15px] text-[#C8BFAE] font-light leading-relaxed max-w-xl">
+            Explore every corner of Sea Hills Hotels &amp; Resorts—from private suites and lantern-lit dining rooms to Anubis Bar, infinity pools, and emerald island shores.
+          </p>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="flex flex-wrap gap-2.5 mt-8">
+          {categories.map((cat, idx) => (
+            <button
+              type="button"
+              data-gallery-filter={cat}
+              class={`gallery-filter-btn rounded-full px-5 py-2 text-[11px] uppercase tracking-[0.18em] font-semibold border transition-all duration-300 ${
+                idx === 0
+                  ? 'bg-[#D6B66C] text-[#101416] border-[#D6B66C]'
+                  : 'bg-white/[0.03] text-[#F3E7C4] border-[#D6B66C]/35 hover:border-[#D6B66C]'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        {galleryItems.map((item) => (
+          <button
+            type="button"
+            data-gallery-card
+            data-gallery-category={item.category}
+            data-src={item.image}
+            data-title={item.title}
+            data-location={item.location}
+            class="gallery-item-card group relative text-left rounded-[20px] overflow-hidden border border-[#D6B66C]/25 hover:border-[#D6B66C]/75 bg-[#151A1D] aspect-[4/3] shadow-[0_18px_45px_rgba(0,0,0,0.55)] transition-all duration-500"
+          >
+            <img
+              src={item.image}
+              alt={item.title}
+              loading="lazy"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#101416]/90 via-[#101416]/15 to-transparent"></div>
+
+            <div class="absolute top-4 left-4">
+              <span class="rounded-full bg-[#101416]/80 backdrop-blur-md border border-[#D6B66C]/40 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[#F3E7C4]">
+                {item.category}
+              </span>
+            </div>
+
+            <div class="absolute bottom-4 left-4 right-4">
+              <p class="text-[10px] uppercase tracking-[0.2em] text-[#D6B66C] mb-1">
+                {item.location}
+              </p>
+              <h2 class="font-serif text-xl text-[#F5F1E8] group-hover:text-[#F3E7C4] transition-colors">
+                {item.title}
+              </h2>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div
+      id="gallery-lightbox"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-[#0A0D0F]/92 backdrop-blur-xl p-4 sm:p-8"
+    >
+      <button
+        type="button"
+        id="lightbox-close"
+        aria-label="Close Lightbox"
+        class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/10 hover:bg-[#D6B66C] text-[#F5F1E8] hover:text-[#101416] flex items-center justify-center transition-colors"
+      >
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div class="max-w-5xl w-full">
+        <img
+          id="lightbox-img"
+          src=""
+          alt=""
+          class="w-full max-h-[75vh] object-contain rounded-2xl border border-[#D6B66C]/35 shadow-2xl"
+        />
+        <div class="mt-4 flex items-center justify-between text-[#F5F1E8]">
+          <div>
+            <p id="lightbox-location" class="text-[11px] uppercase tracking-[0.22em] text-[#D6B66C]"></p>
+            <h3 id="lightbox-title" class="font-serif text-2xl mt-0.5"></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  const filterBtns = Array.from(document.querySelectorAll('.gallery-filter-btn')) as HTMLElement[];
+  const cards = Array.from(document.querySelectorAll('.gallery-item-card')) as HTMLElement[];
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.galleryFilter || 'All';
+
+      filterBtns.forEach((b) => {
+        const active = b === btn;
+        b.classList.toggle('bg-[#D6B66C]', active);
+        b.classList.toggle('text-[#101416]', active);
+        b.classList.toggle('border-[#D6B66C]', active);
+        b.classList.toggle('bg-white/[0.03]', !active);
+        b.classList.toggle('text-[#F3E7C4]', !active);
+      });
+
+      cards.forEach((card) => {
+        const cat = card.dataset.galleryCategory;
+        card.style.display = target === 'All' || cat === target ? '' : 'none';
+      });
+    });
+  });
+
+  const lightbox = document.getElementById('gallery-lightbox');
+  const lbImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
+  const lbTitle = document.getElementById('lightbox-title');
+  const lbLocation = document.getElementById('lightbox-location');
+  const lbClose = document.getElementById('lightbox-close');
+
+  cards.forEach((card) => {
+    card.addEventListener('click', () => {
+      if (!lightbox || !lbImg) return;
+      lbImg.src = card.dataset.src || '';
+      lbImg.alt = card.dataset.title || '';
+      if (lbTitle) lbTitle.textContent = card.dataset.title || '';
+      if (lbLocation) lbLocation.textContent = card.dataset.location || '';
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+    });
+  });
+
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+  }
+
+  lbClose?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+</script>

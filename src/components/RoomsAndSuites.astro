@@ -1,0 +1,488 @@
+---
+// RoomsAndSuites.astro - SECTION 4: ROOMS & SUITES (SLOW, CRISP 120-FRAME FULL-CARD SCROLL TOUR)
+// Uses public/frames/rooms (frame_0001.webp .. frame_0120.webp)
+//   - Frames 1–49:  Port Blair (Sea Hills Hotels & Resorts, Port Blair) + Tariff Details
+//   - Frames 50–120: Havelock Island (Sea Hills Resort, Havelock Island) + Tariff Details
+// Choreography (460vh track for unhurried frame-by-frame clarity):
+//   1. Enters with text LEFT (38%) and room canvas RIGHT (62%)
+//   2. On scroll, canvas smoothly expands to cover 100% of the card while scrubbing all 120 frames slowly,
+//      displaying live Port Blair -> Havelock pricing details in a luxury bottom-left corner card
+//   3. On completion, canvas smoothly returns to the RIGHT side (62%) alongside the left editorial panel
+// Palette: Champagne Gold (#D6B66C), Midnight Black (#101416), Soft Ivory (#F5F1E8), Warm Beige (#C8BFAE)
+---
+
+<section id="rooms-suites-banner" class="relative w-full bg-[#101416] z-20" style="height: 460vh;">
+
+  <!-- Sticky Viewport Stage (svh prevents mobile URL-bar jitter) -->
+  <div class="sticky top-0 h-[100svh] w-full overflow-hidden flex items-center py-6 sm:py-10 px-4 sm:px-6 lg:px-8">
+
+    <!-- Subtle Champagne Radial Ambient Glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[820px] h-[540px] bg-gradient-radial from-[#D6B66C]/10 via-[#D6B66C]/3 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative w-full max-w-7xl mx-auto">
+
+      <!-- SINGLE WIDE EDITORIAL & FULL-CARD CINEMATIC STAGE -->
+      <div
+        id="rooms-stage-banner"
+        class="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D6B66C]/35 hover:border-[#D6B66C]/70 shadow-[0_24px_70px_rgba(0,0,0,0.85),0_0_40px_rgba(214,182,108,0.12)] bg-[#101416] transition-colors duration-500 flex flex-col lg:block lg:h-[480px] xl:h-[520px]"
+      >
+
+        <!-- LEFT SIDE (38% WIDTH AT START & END): EDITORIAL & PRICING PANEL -->
+        <div
+          id="rooms-text-panel"
+          class="relative lg:absolute lg:top-0 lg:left-0 w-full lg:w-[38%] lg:h-full p-6 sm:p-8 lg:p-10 flex flex-col justify-center bg-gradient-to-r from-[#101416] via-[#101416] to-[#151a1d] z-10 order-2 lg:order-1"
+        >
+          <div id="rooms-info-content" class="transition-all duration-300">
+            <span id="rooms-location-kicker" class="text-[10px] sm:text-[11px] tracking-[0.22em] uppercase font-sans font-semibold text-[#D6B66C] mb-1.5 sm:mb-2 block drop-shadow-sm">
+              PORT BLAIR · SRI VIJAYA PURAM
+            </span>
+
+            <h2 id="rooms-heading" class="font-cormorant text-2xl sm:text-3xl lg:text-[38px] font-normal text-[#F5F1E8] leading-[1.1] tracking-[0.015em] mb-2.5 drop-shadow-sm">
+              Rooms & Suites
+            </h2>
+
+            <p id="rooms-description" class="text-xs sm:text-[13.5px] text-[#C8BFAE] font-light leading-relaxed mb-4 max-w-sm drop-shadow-sm">
+              Boutique stays at Middle Point near Marine Drive with handmade furniture, private bathtubs &amp; sea-facing suites.
+            </p>
+
+            <!-- Live Tariff Box (Sourced from seahillshotels.com) -->
+            <div class="mb-5 p-3.5 rounded-xl bg-[#161B1E]/90 border border-[#D6B66C]/35 shadow-inner">
+              <div class="flex items-baseline justify-between gap-2 mb-1">
+                <span class="text-[10px] uppercase tracking-[0.18em] text-[#C8BFAE] font-medium">Starting Tariff</span>
+                <span id="rooms-room-type" class="text-[10px] uppercase tracking-[0.14em] text-[#D6B66C] font-medium">Premium · Deluxe · Sea View Suite</span>
+              </div>
+              <div class="flex items-baseline gap-1.5">
+                <span id="rooms-price-main" class="font-cormorant text-2xl sm:text-[28px] font-semibold text-[#F3E7C4] leading-none">
+                  ₹5,500 – ₹8,500+
+                </span>
+                <span class="text-[11px] text-[#C8BFAE] font-light">/ night</span>
+              </div>
+              <p id="rooms-price-note" class="text-[10.5px] text-[#C8BFAE]/80 mt-1.5 leading-snug">
+                Premium &amp; Premium Deluxe ₹5,500+ · Sea View Suites ₹8,500 – ₹12,000+
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <a
+              href="https://www.seahillshotels.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#D6B66C]/60 text-[#D6B66C] hover:bg-[#D6B66C] hover:text-[#101416] transition-all duration-300 text-[10.5px] sm:text-[11px] uppercase tracking-[0.16em] font-sans font-medium shadow-sm hover:shadow-[0_4px_18px_rgba(214,182,108,0.35)] group/btn"
+            >
+              <span id="rooms-cta-text">View Port Blair Rooms</span>
+              <svg class="w-3.5 h-3.5 transition-transform duration-300 group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE (62% -> EXPANDS TO 100% FULL CARD ON SCROLL -> RETURNS TO RIGHT 62%): 120-FRAME CANVAS -->
+        <div
+          id="rooms-canvas-panel"
+          class="relative lg:absolute lg:top-0 lg:right-0 w-full lg:w-[62%] h-[280px] sm:h-[340px] lg:h-full overflow-hidden z-20 bg-[#101416] order-1 lg:order-2"
+        >
+          <!-- High-DPI Canvas for Crisp Frame-by-Frame Scrubbing (Zero Blur) -->
+          <canvas
+            id="rooms-canvas"
+            class="absolute inset-0 w-full h-full block z-0"
+            aria-hidden="true"
+          ></canvas>
+
+          <!-- Immediate First-Frame Fallback (0ms paint at frame_0001.webp) -->
+          <img
+            id="rooms-fallback"
+            src="/frames/rooms/frame_0001.webp"
+            alt="Sea Hills Luxury Suite in Port Blair"
+            class="absolute inset-0 w-full h-full object-cover object-center z-0 pointer-events-none transition-opacity duration-300"
+            loading="eager"
+            fetchpriority="high"
+            decoding="sync"
+          />
+
+          <!-- Subtle Edge Blends -->
+          <div id="rooms-left-blend" class="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#101416] via-[#101416]/35 to-transparent hidden lg:block pointer-events-none z-10 transition-opacity duration-300"></div>
+          <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#101416]/85 via-[#101416]/25 to-transparent pointer-events-none z-10"></div>
+
+          <!-- Top-Left Live Suite & Price Pill -->
+          <div class="absolute top-4 left-4 sm:top-6 sm:left-6 z-20 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#101416]/85 backdrop-blur-md border border-[#D6B66C]/50 shadow-lg select-none">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C] animate-pulse"></span>
+            <span id="rooms-tour-label" class="text-[10px] sm:text-[11px] tracking-[0.16em] uppercase font-sans font-medium text-[#F5F1E8]">
+              Port Blair · ₹5,500+ / Night
+            </span>
+          </div>
+
+          <!-- CORNER DETAIL CARD (VISIBLE IN BOTTOM-LEFT CORNER WHEN FRAME COVERS ENTIRE CARD) -->
+          <div
+            id="rooms-corner-card"
+            class="hidden lg:block absolute bottom-6 left-6 z-30 w-[340px] p-4 rounded-2xl bg-[#101416]/85 backdrop-blur-md border border-[#D6B66C]/45 shadow-[0_16px_40px_rgba(0,0,0,0.75)] opacity-0 translate-y-3 pointer-events-auto"
+          >
+            <span id="corner-kicker" class="text-[9.5px] tracking-[0.22em] uppercase font-sans font-semibold text-[#D6B66C] block mb-1">
+              PORT BLAIR · SRI VIJAYA PURAM
+            </span>
+            <div class="flex items-baseline justify-between gap-2 mb-1">
+              <h3 id="corner-heading" class="font-cormorant text-2xl font-normal text-[#F5F1E8] leading-tight">
+                Rooms & Suites
+              </h3>
+              <span id="corner-price" class="font-cormorant text-xl font-semibold text-[#F3E7C4] whitespace-nowrap">
+                ₹5,500 – ₹8,500+
+              </span>
+            </div>
+            <p id="corner-note" class="text-[11px] text-[#C8BFAE] font-light leading-snug mb-3">
+              Standard Deluxe ₹5,500+ · Bathtub Suites ₹8,500 – ₹12,000+ / night
+            </p>
+            <a
+              href="https://www.seahillshotels.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] font-sans font-semibold text-[#D6B66C] hover:text-[#F3E7C4] transition-colors"
+            >
+              <span id="corner-cta">View Port Blair Rooms</span>
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Bottom-Right Room Milestone Counter (01 / 02 -> 02 / 02) -->
+          <div class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-20 flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#101416]/85 backdrop-blur-md border border-[#D6B66C]/40 text-[#F5F1E8] shadow-lg select-none">
+            <span id="rooms-step-counter" class="text-xs font-mono tracking-widest text-[#D6B66C]">01 / 02</span>
+            <span class="text-[10px] uppercase tracking-[0.16em] text-[#C8BFAE] hidden sm:inline">Scroll Tour</span>
+          </div>
+
+          <!-- Bottom Golden Scroll Progress Line -->
+          <div class="absolute bottom-0 inset-x-0 h-[3px] bg-white/10 z-20">
+            <div
+              id="rooms-progress-bar"
+              class="h-full bg-gradient-to-r from-[#D6B66C] via-[#F3E7C4] to-[#D6B66C] shadow-[0_0_12px_rgba(214,182,108,0.65)] transition-[width] duration-75"
+              style="width: 3%;"
+            ></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = document.getElementById('rooms-suites-banner');
+    const canvasPanel = document.getElementById('rooms-canvas-panel');
+    const textPanel = document.getElementById('rooms-text-panel');
+    const leftBlend = document.getElementById('rooms-left-blend');
+    const cornerCard = document.getElementById('rooms-corner-card');
+    const infoContent = document.getElementById('rooms-info-content');
+    const canvas = document.getElementById('rooms-canvas') as HTMLCanvasElement | null;
+    const fallbackImg = document.getElementById('rooms-fallback') as HTMLImageElement | null;
+    const tourLabel = document.getElementById('rooms-tour-label');
+    const stepCounter = document.getElementById('rooms-step-counter');
+    const progressBar = document.getElementById('rooms-progress-bar');
+
+    // Left panel elements
+    const locKicker = document.getElementById('rooms-location-kicker');
+    const heading = document.getElementById('rooms-heading');
+    const description = document.getElementById('rooms-description');
+    const roomType = document.getElementById('rooms-room-type');
+    const priceMain = document.getElementById('rooms-price-main');
+    const priceNote = document.getElementById('rooms-price-note');
+    const ctaText = document.getElementById('rooms-cta-text');
+
+    // Corner overlay card elements (when full-card mode is active)
+    const cornerKicker = document.getElementById('corner-kicker');
+    const cornerHeading = document.getElementById('corner-heading');
+    const cornerPrice = document.getElementById('corner-price');
+    const cornerNote = document.getElementById('corner-note');
+    const cornerCta = document.getElementById('corner-cta');
+
+    if (section && canvasPanel && textPanel && canvas) {
+      const ctx = canvas.getContext('2d', { alpha: false });
+      const TOTAL_FRAMES = 120;
+      const HAVELOCK_START_FRAME = 49; // frame_0050.webp onwards = Havelock canopy villa
+      const pad = (n: number) => String(n).padStart(4, '0');
+      const frameUrl = (i: number) => `/frames/rooms/frame_${pad(i + 1)}.webp`;
+
+      const frames: (HTMLImageElement | null)[] = new Array(TOTAL_FRAMES).fill(null);
+      let lastDrawn = -1;
+      let initialDrawComplete = false;
+      let activeProperty: 'portblair' | 'havelock' = 'portblair';
+
+      const ROOM_DATA = {
+        portblair: {
+          kicker: 'PORT BLAIR · SRI VIJAYA PURAM',
+          heading: 'Rooms & Suites',
+          description:
+            'Boutique stays at Middle Point near Marine Drive with handmade furniture, private bathtubs & sea-facing suites.',
+          roomType: 'Premium · Deluxe · Sea View Suite',
+          priceMain: '₹5,500 – ₹8,500+',
+          priceNote: 'Premium & Premium Deluxe ₹5,500+ · Sea View Suites ₹8,500 – ₹12,000+ / night',
+          tourLabel: 'Port Blair · ₹5,500+ / Night',
+          step: '01 / 02',
+          cta: 'View Port Blair Rooms'
+        },
+        havelock: {
+          kicker: 'HAVELOCK ISLAND · SWARAJ DWEEP',
+          heading: 'Bamboo Saa & La Bougainvillea',
+          description:
+            '40 palm-fringed rooms near Govind Nagar Beach: 25 Bamboo Saa rooms (410 sq. ft., up to 4 guests) & 15 La Bougainvillea bathtub rooms.',
+          roomType: '410 sq. ft. · Forest & Pool View',
+          priceMain: '₹5,200 – ₹12,000+',
+          priceNote: 'Bamboo Saa (410 sq. ft.) ₹5,200+ · La Bougainvillea Bathtub ₹8,500 – ₹12,000+ / night',
+          tourLabel: 'Havelock · ₹5,200+ / Night',
+          step: '02 / 02',
+          cta: 'View Havelock Rooms'
+        }
+      };
+
+      function setPropertyDetails(next: 'portblair' | 'havelock') {
+        if (activeProperty === next) return;
+        activeProperty = next;
+        const data = ROOM_DATA[next];
+
+        if (tourLabel) tourLabel.textContent = data.tourLabel;
+        if (stepCounter) stepCounter.textContent = data.step;
+        if (ctaText) ctaText.textContent = data.cta;
+
+        const isMobileView = window.innerWidth < 1024;
+        if (infoContent) {
+          gsap.fromTo(
+            infoContent,
+            { opacity: 0.35, y: isMobileView ? 0 : 8 },
+            { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
+          );
+        }
+
+        if (locKicker) locKicker.textContent = data.kicker;
+        if (heading) heading.textContent = data.heading;
+        if (description) description.textContent = data.description;
+        if (roomType) roomType.textContent = data.roomType;
+        if (priceMain) priceMain.textContent = data.priceMain;
+        if (priceNote) priceNote.textContent = data.priceNote;
+
+        // Sync bottom-left corner card as well (no vertical shift on mobile)
+        if (cornerCard && !isMobileView) {
+          gsap.fromTo(
+            cornerCard,
+            { y: 8 },
+            { y: 0, duration: 0.35, ease: 'power2.out' }
+          );
+        }
+        if (cornerKicker) cornerKicker.textContent = data.kicker;
+        if (cornerHeading) cornerHeading.textContent = data.heading;
+        if (cornerPrice) cornerPrice.textContent = data.priceMain;
+        if (cornerNote) cornerNote.textContent = data.priceNote;
+        if (cornerCta) cornerCta.textContent = data.cta;
+      }
+
+      function resizeCanvas() {
+        if (!canvas) return;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const w = canvas.clientWidth || 1280;
+        const h = canvas.clientHeight || 520;
+        const targetW = Math.round(w * dpr);
+        const targetH = Math.round(h * dpr);
+
+        if (canvas.width !== targetW || canvas.height !== targetH) {
+          canvas.width = targetW;
+          canvas.height = targetH;
+          if (lastDrawn >= 0) draw(lastDrawn);
+        }
+      }
+
+      function draw(idx: number) {
+        if (!ctx || !canvas) return;
+        let img = frames[idx];
+        if (!img || !img.complete || img.naturalWidth === 0) {
+          for (let offset = 1; offset < TOTAL_FRAMES; offset++) {
+            if (idx - offset >= 0 && frames[idx - offset]?.complete) {
+              img = frames[idx - offset];
+              break;
+            }
+            if (idx + offset < TOTAL_FRAMES && frames[idx + offset]?.complete) {
+              img = frames[idx + offset];
+              break;
+            }
+          }
+        }
+        if (!img || !img.complete || img.naturalWidth === 0) return;
+
+        const cw = canvas.width;
+        const ch = canvas.height;
+        const iw = img.naturalWidth;
+        const ih = img.naturalHeight;
+
+        const scale = Math.max(cw / iw, ch / ih);
+        const nw = iw * scale;
+        const nh = ih * scale;
+        const x = (cw - nw) / 2;
+        const y = (ch - nh) / 2;
+
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, x, y, nw, nh);
+        lastDrawn = idx;
+
+        if (!initialDrawComplete) {
+          initialDrawComplete = true;
+          if (fallbackImg) fallbackImg.style.opacity = '0';
+        }
+      }
+
+      function loadFrame(i: number): Promise<void> {
+        return new Promise((resolve) => {
+          if (frames[i]) return resolve();
+          const img = new Image();
+          img.decoding = 'async';
+          img.src = frameUrl(i);
+          img.onload = () => {
+            frames[i] = img;
+            const current = Math.round(frameTracker.frame);
+            if (Math.abs(i - current) <= 1) {
+              draw(current);
+            }
+            resolve();
+          };
+          img.onerror = () => resolve();
+        });
+      }
+
+      async function preloadFrames() {
+        await loadFrame(0);
+        resizeCanvas();
+        draw(0);
+
+        const milestones = [0, 15, 30, 49, 60, 75, 90, 105, 119];
+        milestones.forEach((idx) => loadFrame(idx));
+
+        for (let i = 1; i <= 20; i++) {
+          loadFrame(i);
+        }
+
+        const remaining: number[] = [];
+        for (let i = 21; i < TOTAL_FRAMES; i++) {
+          if (!frames[i] && !milestones.includes(i)) remaining.push(i);
+        }
+        for (let i = 0; i < remaining.length; i += 8) {
+          const batch = remaining.slice(i, i + 8);
+          await Promise.all(batch.map((idx) => loadFrame(idx)));
+        }
+        ScrollTrigger.refresh();
+      }
+
+      if (typeof ResizeObserver !== 'undefined') {
+        const ro = new ResizeObserver(() => resizeCanvas());
+        ro.observe(canvasPanel);
+      }
+      window.addEventListener('resize', resizeCanvas);
+
+      const frameTracker = { frame: 0 };
+
+      // Master 460vh ScrollTrigger: 1:1 scrub with Lenis (zero double-smoothing lag)
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: true,
+          onUpdate: (self) => {
+            const p = self.progress;
+
+            // Slow linear progression across 6% -> 94% scroll so every single frame is clearly visible
+            const frameProgress = Math.min(1, Math.max(0, (p - 0.06) / 0.88));
+            const targetFrame = Math.round(frameProgress * (TOTAL_FRAMES - 1));
+            frameTracker.frame = targetFrame;
+
+            if (targetFrame !== lastDrawn) {
+              draw(targetFrame);
+            }
+
+            if (progressBar) {
+              progressBar.style.width = `${Math.max(3, p * 100)}%`;
+            }
+
+            setPropertyDetails(targetFrame >= HAVELOCK_START_FRAME ? 'havelock' : 'portblair');
+          }
+        }
+      });
+
+      const mm = gsap.matchMedia();
+      mm.add('(min-width: 1024px)', () => {
+        // 0% -> 10%: Appear on RIGHT side (62%), text on LEFT (38%)
+        // 10% -> 22%: Expand smoothly to 100% full card, fade in corner detail card
+        // 22% -> 82%: Full-card slow 120-frame tour with corner details (Port Blair -> Havelock)
+        // 82% -> 94%: Fade out corner card & return smoothly to RIGHT side (62%)
+        tl.fromTo(
+          canvasPanel,
+          { x: 24, width: '62%' },
+          { x: 0, width: '62%', duration: 0.08, ease: 'power2.out' },
+          0
+        )
+        .to(
+          canvasPanel,
+          { width: '100%', duration: 0.14, ease: 'power2.inOut' },
+          0.1
+        )
+        .to(
+          textPanel,
+          { x: -32, opacity: 0, duration: 0.12, ease: 'power2.inOut' },
+          0.1
+        );
+
+        if (leftBlend) {
+          tl.to(leftBlend, { opacity: 0, duration: 0.1 }, 0.1);
+        }
+        if (cornerCard) {
+          tl.to(cornerCard, { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out' }, 0.18);
+          tl.to(cornerCard, { opacity: 0, y: 10, duration: 0.1, ease: 'power2.in' }, 0.8);
+        }
+
+        tl.to(
+          canvasPanel,
+          { width: '62%', duration: 0.14, ease: 'power2.inOut' },
+          0.84
+        )
+        .to(
+          textPanel,
+          { x: 0, opacity: 1, duration: 0.14, ease: 'power2.out' },
+          0.84
+        );
+
+        if (leftBlend) {
+          tl.to(leftBlend, { opacity: 1, duration: 0.12 }, 0.86);
+        }
+      });
+
+      loadFrame(0).then(() => {
+        resizeCanvas();
+        draw(0);
+      });
+      let roomsPreloaded = false;
+      const startRoomsPreload = () => {
+        if (roomsPreloaded) return;
+        roomsPreloaded = true;
+        preloadFrames();
+      };
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((e) => e.isIntersecting)) {
+              startRoomsPreload();
+              io.disconnect();
+            }
+          },
+          { rootMargin: '1400px 0px' }
+        );
+        io.observe(section);
+      } else {
+        startRoomsPreload();
+      }
+    }
+  }
+</script>
