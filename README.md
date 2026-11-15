@@ -6,7 +6,6 @@ A luxury tourism and hospitality web experience for **Sea Hills Hotels & Resorts
 
 ## 🌴 Project Architecture
 
-This project is built using:
 - **Astro 4.x** (Static site generation, zero unnecessary JavaScript)
 - **TypeScript** (Strict type checking)
 - **Tailwind CSS** (Utility-first styling with customized luxury brand palette)
