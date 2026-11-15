@@ -4,7 +4,6 @@ import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import TwoIslandsDestinations from '../components/TwoIslandsDestinations.astro';
 import RoomsAndSuites from '../components/RoomsAndSuites.astro';
-import DiscoverAndaman from '../components/DiscoverAndaman.astro';
 import DiningAndBar from '../components/DiningAndBar.astro';
 import PackagesShowcase from '../components/PackagesShowcase.astro';
 import GalleryShowcase from '../components/GalleryShowcase.astro';
@@ -30,10 +29,7 @@ import Footer from '../components/Footer.astro';
     <!-- SECTION 3: ROOMS & SUITES (Scroll-Scrubbed Room & Villa Tour) -->
     <RoomsAndSuites />
 
-    <!-- SECTION 4: DISCOVER ANDAMAN (Golden Wave Activities Showcase) -->
-    <DiscoverAndaman />
-
-    <!-- SECTION 5: DINING, BAR & SWIMMING POOL (Left-Start Scroll-Scrubbed Showcase) -->
+    <!-- SECTION 4: DINING, BAR & RECEPTION (Ken Burns Cinema Carousel) -->
     <DiningAndBar />
 
     <!-- SECTION 6: CURATED PACKAGES SHOWCASE -->
@@ -95,10 +91,8 @@ import Footer from '../components/Footer.astro';
       );
     };
 
-    animateSection('packages', 'h2, #view-all-packages-btn, article');
-    animateSection('gallery', 'h2, .journal-filter-btn, .journal-photo-card, #view-full-gallery-btn');
     animateSection('reviews', 'h2, .review-island-tab, #featured-review-card, .side-review-card');
-    animateSection('book-now', 'h2, #booking-quick-form, a[href="/packages"]');
+    animateSection('book-now', 'h2, p, #book-your-stay-scroll-btn');
   }
 
   if (document.readyState === 'loading') {

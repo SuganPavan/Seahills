@@ -46,54 +46,137 @@ import MotionButton from './motion/MotionButton';
         </div>
       </a>
 
-      <!-- Center Navigation Links -->
-      <nav class="hidden lg:flex items-center space-x-8 text-[12px] tracking-[0.16em] uppercase font-light text-[#F5F1E8]/90 drop-shadow-sm">
-        <a href="/" class="text-[#F5F1E8] font-medium hover:text-[#D6B66C] transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#D6B66C] after:scale-x-100 transition-all">
-          Home
-        </a>
-
-        <!-- Destinations Dropdown -->
+      <!-- Center Navigation Links (Matching seahillshotels.com exact structure) -->
+      <nav class="hidden lg:flex items-center space-x-7 text-[12px] tracking-[0.14em] uppercase font-light text-[#F5F1E8]/90 drop-shadow-sm">
+        <!-- 1. Hotels & Resorts (Two-Column Mega-Menu: Sri Vijaya Puram (Port Blair) & Swaraj Dweep (Havelock)) -->
         <div class="relative group">
-          <button class="flex items-center gap-1.5 hover:text-[#D6B66C] transition-colors py-2 focus:outline-none text-[#F5F1E8]/90 font-light tracking-[0.16em] uppercase">
-            <span>Destinations</span>
+          <button
+            type="button"
+            class="flex items-center gap-1.5 hover:text-[#D6B66C] transition-colors py-2 focus:outline-none text-[#F5F1E8] font-medium tracking-[0.14em] uppercase cursor-pointer"
+          >
+            <span>Hotels &amp; Resorts</span>
             <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180 text-[#D6B66C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          
-          <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-64 bg-[#101416]/95 backdrop-blur-xl border border-[#C8BFAE]/20 rounded-2xl p-2.5 shadow-2xl opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-50">
-            <a href="#destination-havelock" class="flex items-center justify-between px-3 py-2 rounded-xl text-[#F5F1E8]/90 hover:text-white hover:bg-white/10 transition-colors text-xs font-light">
-              <span>Havelock Island</span>
-              <span class="text-[10px] text-[#D6B66C] font-mono tracking-wider">Swaraj Dweep</span>
-            </a>
-            <a href="#destination-neil" class="flex items-center justify-between px-3 py-2 rounded-xl text-[#F5F1E8]/90 hover:text-white hover:bg-white/10 transition-colors text-xs font-light">
-              <span>Neil Island</span>
-              <span class="text-[10px] text-[#D6B66C] font-mono tracking-wider">Shaheed Dweep</span>
-            </a>
-            <a href="#destination-port-blair" class="flex items-center justify-between px-3 py-2 rounded-xl text-[#F5F1E8]/90 hover:text-white hover:bg-white/10 transition-colors text-xs font-light">
-              <span>Port Blair</span>
-              <span class="text-[10px] text-[#D6B66C] font-mono tracking-wider">Capital City</span>
-            </a>
-            <a href="#destination-baratang" class="flex items-center justify-between px-3 py-2 rounded-xl text-[#F5F1E8]/90 hover:text-white hover:bg-white/10 transition-colors text-xs font-light">
-              <span>Baratang Island</span>
-              <span class="text-[10px] text-[#D6B66C] font-mono tracking-wider">Limestone Caves</span>
-            </a>
-            <a href="#destination-ross" class="flex items-center justify-between px-3 py-2 rounded-xl text-[#F5F1E8]/90 hover:text-white hover:bg-white/10 transition-colors text-xs font-light">
-              <span>Ross Island</span>
-              <span class="text-[10px] text-[#D6B66C] font-mono tracking-wider">Heritage Ruins</span>
-            </a>
-            <a href="#destination-north-bay" class="flex items-center justify-between px-3 py-2 rounded-xl text-[#F5F1E8]/90 hover:text-white hover:bg-white/10 transition-colors text-xs font-light">
-              <span>North Bay Island</span>
-              <span class="text-[10px] text-[#D6B66C] font-mono tracking-wider">Coral Reefs</span>
-            </a>
+
+          <!-- Two-Column Mega-Menu Dropdown -->
+          <div class="absolute left-0 top-full mt-2 w-[580px] bg-[#0B141A]/98 backdrop-blur-xl border border-[#D6B66C]/45 rounded-2xl p-5 shadow-[0_28px_70px_rgba(0,0,0,0.9)] opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-50">
+            <div class="grid grid-cols-2 gap-5 divide-x divide-white/10 normal-case tracking-normal">
+              <!-- Column 1: Sri Vijaya Puram (Port Blair) -->
+              <div class="space-y-2.5 pr-1">
+                <div class="flex items-center gap-1.5 border-b border-[#D6B66C]/30 pb-2">
+                  <svg class="w-3.5 h-3.5 text-[#D6B66C] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                  </svg>
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-[#D6B66C] font-bold">
+                    Sri Vijaya Puram (Port Blair)
+                  </p>
+                </div>
+
+                <a
+                  href="/#card-port-blair"
+                  class="block rounded-xl bg-white/[0.04] hover:bg-[#D6B66C]/15 border border-white/10 hover:border-[#D6B66C]/60 p-3 transition-all no-underline"
+                >
+                  <p class="text-xs font-semibold text-[#FFF3D6] leading-snug">
+                    Sea Hills Hotels, Sri Vijaya Puram (Port Blair)
+                  </p>
+                  <p class="text-[11px] text-[#C8BFAE] mt-1">
+                    21 Rooms &amp; Suites · Cleopatra &amp; Anubis Bar
+                  </p>
+                </a>
+
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                  <a href="/#rooms-suites-banner" class="text-[10.5px] px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-[#D6B66C] text-[#E5DFD2] hover:text-[#101416] border border-white/10 transition-colors no-underline">Rooms</a>
+                  <a href="/#dining-bar-banner" class="text-[10.5px] px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-[#D6B66C] text-[#E5DFD2] hover:text-[#101416] border border-white/10 transition-colors no-underline">Dining</a>
+                  <a href="/packages#official-fact-sheets" class="text-[10.5px] px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-[#D6B66C] text-[#E5DFD2] hover:text-[#101416] border border-white/10 transition-colors no-underline">Facilities</a>
+                  <a href="/gallery" class="text-[10.5px] px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-[#D6B66C] text-[#E5DFD2] hover:text-[#101416] border border-white/10 transition-colors no-underline">Gallery</a>
+                  <a href="/#card-port-blair" class="text-[10.5px] px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-[#D6B66C] text-[#E5DFD2] hover:text-[#101416] border border-white/10 transition-colors no-underline">Location</a>
+                </div>
+              </div>
+
+              <!-- Column 2: Swaraj Dweep (Havelock) -->
+              <div class="space-y-2.5 pl-5">
+                <div class="flex items-center gap-1.5 border-b border-[#D6B66C]/30 pb-2">
+                  <svg class="w-3.5 h-3.5 text-[#D6B66C] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                  </svg>
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-[#D6B66C] font-bold">
+                    Swaraj Dweep (Havelock)
+                  </p>
+                </div>
+
+                <a
+                  href="/#card-havelock"
+                  class="block rounded-xl bg-white/[0.04] hover:bg-[#D6B66C]/15 border border-white/10 hover:border-[#D6B66C]/60 p-3 transition-all no-underline"
+                >
+                  <p class="text-xs font-semibold text-[#FFF3D6] leading-snug">
+                    Sea Hills Resort, Swaraj Dweep (Havelock)
+                  </p>
+                  <p class="text-[11px] text-[#C8BFAE] mt-1">
+                    40 Rooms · Kramuka Restaurant &amp; Zriya Hall
+                  </p>
+                </a>
+
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                  <a href="/#rooms-suites-banner" class="text-[10.5px] px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-[#D6B66C] text-[#E5DFD2] hover:text-[#101416] border border-white/10 transition-colors no-underline">Rooms</a>
+                  <a href="/#dining-bar-banner" class="text-[10.5px] px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-[#D6B66C] text-[#E5DFD2] hover:text-[#101416] border border-white/10 transition-colors no-underline">Dining</a>
+                  <a href="/packages#official-fact-sheets" class="text-[10.5px] px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-[#D6B66C] text-[#E5DFD2] hover:text-[#101416] border border-white/10 transition-colors no-underline">Meetings &amp; Events</a>
+                  <a href="/gallery" class="text-[10.5px] px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-[#D6B66C] text-[#E5DFD2] hover:text-[#101416] border border-white/10 transition-colors no-underline">Gallery</a>
+                  <a href="/#card-havelock" class="text-[10.5px] px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-[#D6B66C] text-[#E5DFD2] hover:text-[#101416] border border-white/10 transition-colors no-underline">Location</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <a href="#packages" class="hover:text-[#D6B66C] transition-colors py-1">Packages</a>
-        <a href="#experiences" class="hover:text-[#D6B66C] transition-colors py-1">Experiences</a>
-        <a href="#gallery" class="hover:text-[#D6B66C] transition-colors py-1">Gallery</a>
-        <a href="#reviews" class="hover:text-[#D6B66C] transition-colors py-1">Reviews</a>
-        <a href="#contact" class="hover:text-[#D6B66C] transition-colors py-1">Contact</a>
+        <!-- 2. About Us -->
+        <a href="/#destinations-section" class="hover:text-[#D6B66C] transition-colors py-1 no-underline text-[#F5F1E8]/90">
+          About Us
+        </a>
+
+        <!-- 3. Holiday Packages -->
+        <a href="/packages" class="hover:text-[#D6B66C] transition-colors py-1 no-underline text-[#F5F1E8]/90">
+          Holiday Packages
+        </a>
+
+        <!-- 4. Offers -->
+        <a href="/#rooms-suites-banner" class="hover:text-[#D6B66C] transition-colors py-1 no-underline text-[#F5F1E8]/90">
+          Offers
+        </a>
+
+        <!-- 5. In & Around -->
+        <a href="/#dining-bar-banner" class="hover:text-[#D6B66C] transition-colors py-1 no-underline text-[#F5F1E8]/90">
+          In &amp; Around
+        </a>
+
+        <!-- 6. Hamburger / More Options Dropdown (Activities, Gallery, Reviews, Contact Us) -->
+        <div class="relative group">
+          <button
+            type="button"
+            aria-label="More Options"
+            class="flex items-center gap-1.5 hover:text-[#D6B66C] transition-colors py-2 px-2 rounded-lg hover:bg-white/5 focus:outline-none text-[#F5F1E8]/90 cursor-pointer"
+          >
+            <svg class="w-5 h-5 text-[#D6B66C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+
+          <div class="absolute right-0 top-full mt-2 w-48 bg-[#0B141A]/98 backdrop-blur-xl border border-[#D6B66C]/40 rounded-2xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.85)] opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-50 normal-case tracking-normal">
+            <a href="/packages#official-fact-sheets" class="block px-3.5 py-2 rounded-xl text-xs font-medium text-[#F5F1E8]/90 hover:text-[#101416] hover:bg-[#D6B66C] transition-colors no-underline">
+              Activities
+            </a>
+            <a href="/gallery" class="block px-3.5 py-2 rounded-xl text-xs font-medium text-[#F5F1E8]/90 hover:text-[#101416] hover:bg-[#D6B66C] transition-colors no-underline">
+              Gallery
+            </a>
+            <a href="/#reviews" class="block px-3.5 py-2 rounded-xl text-xs font-medium text-[#F5F1E8]/90 hover:text-[#101416] hover:bg-[#D6B66C] transition-colors no-underline">
+              Guest Reviews
+            </a>
+            <a href="/#contact" class="block px-3.5 py-2 rounded-xl text-xs font-medium text-[#F5F1E8]/90 hover:text-[#101416] hover:bg-[#D6B66C] transition-colors no-underline">
+              Contact Us
+            </a>
+          </div>
+        </div>
       </nav>
 
       <!-- Right Action CTA (Book Now Button with champagne-gold styling) -->
@@ -128,27 +211,38 @@ import MotionButton from './motion/MotionButton';
     </div>
   </div>
 
-  <!-- Mobile Dropdown Menu -->
+  <!-- Mobile Dropdown Menu (Matching seahillshotels.com navigation) -->
   <div id="mobile-menu" class="hidden lg:hidden px-4 pb-4">
-    <div class="bg-[#101416]/95 backdrop-blur-xl border border-[#C8BFAE]/20 rounded-2xl p-5 shadow-2xl flex flex-col space-y-3 text-[#F5F1E8]">
-      <a href="/" class="text-[#D6B66C] font-medium py-1">Home</a>
-      <div class="space-y-1.5 pl-3 border-l border-[#D6B66C]/40 text-sm">
-        <a href="#destination-havelock" class="block text-[#C8BFAE] hover:text-white">Havelock Island</a>
-        <a href="#destination-neil" class="block text-[#C8BFAE] hover:text-white">Neil Island</a>
-        <a href="#destination-port-blair" class="block text-[#C8BFAE] hover:text-white">Port Blair</a>
-        <a href="#destination-baratang" class="block text-[#C8BFAE] hover:text-white">Baratang Island</a>
-        <a href="#destination-ross" class="block text-[#C8BFAE] hover:text-white">Ross Island</a>
-        <a href="#destination-north-bay" class="block text-[#C8BFAE] hover:text-white">North Bay Island</a>
+    <div class="bg-[#0B141A]/98 backdrop-blur-xl border border-[#D6B66C]/35 rounded-2xl p-5 shadow-2xl flex flex-col space-y-3 text-[#F5F1E8]">
+      <div class="space-y-2.5 pl-3 border-l-2 border-[#D6B66C] text-xs">
+        <p class="text-[10px] uppercase tracking-[0.22em] text-[#D6B66C] font-bold">Hotels &amp; Resorts</p>
+
+        <div>
+          <p class="text-[10px] uppercase tracking-[0.16em] text-[#E5C985] font-semibold">Sri Vijaya Puram (Port Blair)</p>
+          <a href="/#card-port-blair" class="block text-[#FFF3D6] hover:text-white font-medium mt-0.5 no-underline">
+            Sea Hills Hotels, Sri Vijaya Puram (Port Blair)
+          </a>
+        </div>
+
+        <div class="pt-1">
+          <p class="text-[10px] uppercase tracking-[0.16em] text-[#E5C985] font-semibold">Swaraj Dweep (Havelock)</p>
+          <a href="/#card-havelock" class="block text-[#FFF3D6] hover:text-white font-medium mt-0.5 no-underline">
+            Sea Hills Resort, Swaraj Dweep (Havelock)
+          </a>
+        </div>
       </div>
-      <a href="#packages" class="text-[#F5F1E8]/90 hover:text-[#D6B66C] py-1">Packages</a>
-      <a href="#experiences" class="text-[#F5F1E8]/90 hover:text-[#D6B66C] py-1">Experiences</a>
-      <a href="#gallery" class="text-[#F5F1E8]/90 hover:text-[#D6B66C] py-1">Gallery</a>
-      <a href="#reviews" class="text-[#F5F1E8]/90 hover:text-[#D6B66C] py-1">Reviews</a>
-      <a href="#contact" class="text-[#F5F1E8]/90 hover:text-[#D6B66C] py-1">Contact</a>
+
+      <a href="/#destinations-section" class="text-[#F5F1E8]/90 hover:text-[#D6B66C] py-1 text-sm no-underline">About Us</a>
+      <a href="/packages" class="text-[#F5F1E8]/90 hover:text-[#D6B66C] py-1 text-sm no-underline">Holiday Packages</a>
+      <a href="/#rooms-suites-banner" class="text-[#F5F1E8]/90 hover:text-[#D6B66C] py-1 text-sm no-underline">Offers</a>
+      <a href="/#dining-bar-banner" class="text-[#F5F1E8]/90 hover:text-[#D6B66C] py-1 text-sm no-underline">In &amp; Around</a>
+      <a href="/packages#official-fact-sheets" class="text-[#F5F1E8]/90 hover:text-[#D6B66C] py-1 text-sm no-underline">Activities</a>
+      <a href="/gallery" class="text-[#F5F1E8]/90 hover:text-[#D6B66C] py-1 text-sm no-underline">Gallery</a>
+      <a href="/#contact" class="text-[#F5F1E8]/90 hover:text-[#D6B66C] py-1 text-sm no-underline">Contact Us</a>
       <div class="pt-2">
         <a
-          href="#book-now"
-          class="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-[#D6B66C] text-[#101416] font-medium text-xs tracking-wider uppercase shadow-md no-underline"
+          href="/#book-now"
+          class="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-[#D6B66C] text-[#101416] font-semibold text-xs tracking-wider uppercase shadow-md no-underline"
         >
           <span>Book Now</span>
           <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

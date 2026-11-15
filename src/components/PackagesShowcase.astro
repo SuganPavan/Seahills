@@ -1,213 +1,411 @@
 ---
-import { RESORT_PACKAGES } from '../data/packagesData';
-
-const romantic = RESORT_PACKAGES[0];
-const explorer = RESORT_PACKAGES[1];
-const family = RESORT_PACKAGES[2];
 ---
 
 <section
   id="packages"
-  class="relative bg-gradient-to-b from-[#0A1419] via-[#0D1A20] to-[#081216] text-[#F5F1E8] py-14 sm:py-16 px-4 sm:px-8 lg:px-12 overflow-hidden"
+  class="relative bg-[#071116] text-[#F5F1E8] overflow-hidden select-none"
 >
-  <!-- Ambient Sunset & Ocean Horizon Glow -->
-  <div
-    class="pointer-events-none absolute top-0 right-0 w-[680px] h-[360px] opacity-35 blur-3xl"
-    style="background: radial-gradient(ellipse at top right, rgba(214, 182, 108, 0.36), rgba(20, 90, 100, 0.18), transparent 72%);"
-  ></div>
-
-  <!-- Dashed Flight Path Arc SVG -->
-  <svg
-    class="pointer-events-none hidden lg:block absolute top-8 left-[19%] w-[340px] h-[115px] opacity-60 z-10"
-    viewBox="0 0 340 115"
-    fill="none"
-  >
-    <path
-      d="M 10 100 Q 145 15 315 48"
-      stroke="#D6B66C"
-      stroke-width="1.5"
-      stroke-dasharray="5 6"
-    />
-    <g transform="translate(245, 27) rotate(12)">
-      <path
-        d="M2 10 L18 6 L14 0 L17 0 L23 6 L29 6 C31 6 32 7 32 8 C32 9 31 10 29 10 L23 10 L17 16 L14 16 L18 10 L8 10 L5 13 L3 13 L5 10 L2 10 Z"
-        fill="#F3E7C4"
+  <!-- =========================================================================
+       SCENIC SUNSET RESORT & INFINITY POOL HERO STAGE (Matches Reference Design)
+       ========================================================================= -->
+  <div class="relative min-h-[600px] lg:min-h-[650px] flex flex-col justify-between pt-10 sm:pt-12 pb-10 px-4 sm:px-8 lg:px-14">
+    <!-- Full-Bleed Scenic Resort & Ocean Sunset Backdrop -->
+    <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+      <img
+        src="/images/facilities/pool-bright.jpg"
+        alt="Sea Hills Luxury Resort Infinity Pool & Andaman Sunset"
+        loading="lazy"
+        class="w-full h-full object-cover object-center scale-105 opacity-55"
       />
-    </g>
-  </svg>
+      <!-- Sunset Golden Horizon Glow (Center-Left to Center) -->
+      <div
+        class="absolute inset-0"
+        style="background:
+          radial-gradient(ellipse 52% 40% at 48% 36%, rgba(245, 178, 92, 0.34) 0%, rgba(214, 150, 74, 0.14) 45%, transparent 75%),
+          linear-gradient(90deg, rgba(6, 17, 23, 0.92) 0%, rgba(8, 23, 30, 0.72) 42%, rgba(9, 24, 31, 0.45) 72%, rgba(6, 16, 21, 0.82) 100%),
+          linear-gradient(180deg, rgba(7, 17, 22, 0.85) 0%, rgba(7, 17, 22, 0.2) 38%, rgba(7, 18, 24, 0.78) 78%, rgba(7, 17, 22, 0.98) 100%);"
+      ></div>
+    </div>
 
-  <div class="relative z-20 max-w-[1320px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-    <!-- LEFT: Editorial Intro & Explore All Packages CTA (4 Cols) -->
-    <div class="lg:col-span-4 space-y-4">
-      <div class="flex items-center gap-3">
-        <span class="inline-block w-6 h-[1px] bg-[#D6B66C]"></span>
-        <span class="text-[10px] uppercase tracking-[0.28em] text-[#D6B66C] font-semibold">
-          Curated Island Escapes
-        </span>
-        <span class="inline-block w-6 h-[1px] bg-[#D6B66C]"></span>
+    <!-- Top Row: Compact Left-Aligned Single-Line Title + Right-Aligned Explore Packages CTA -->
+    <div class="relative z-20 max-w-[1340px] w-full mx-auto flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <!-- Left Editorial Copy (Single-Line Title + Subtitle) -->
+      <div class="max-w-3xl space-y-1.5 text-left">
+        <!-- Eyebrow with Flanking Gold Lines -->
+        <div class="flex items-center justify-start gap-2.5">
+          <span class="inline-block w-6 h-[1px] bg-gradient-to-r from-transparent to-[#D6B66C]"></span>
+          <span class="text-[9.5px] sm:text-[10px] uppercase tracking-[0.28em] text-[#E5C985] font-semibold">
+            LUXURY STAYS IN ANDAMAN
+          </span>
+          <span class="inline-block w-6 h-[1px] bg-gradient-to-l from-transparent to-[#D6B66C]"></span>
+        </div>
+
+        <!-- Single-Line Display Title -->
+        <h2 class="font-cormorant text-2xl sm:text-3xl lg:text-[2.35rem] leading-tight text-[#F5F1E8] font-normal tracking-tight sm:whitespace-nowrap drop-shadow-[0_4px_20px_rgba(0,0,0,0.65)]">
+          Not Just a Stay. <span class="text-[#E8C882] italic font-normal">An Island Journey.</span>
+        </h2>
+
+        <!-- Compact Subtitle -->
+        <p class="text-xs sm:text-[13.5px] text-[#DCD5C7] font-light leading-relaxed max-w-lg drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)]">
+          Discover handpicked holiday packages for your perfect Andaman experience.
+        </p>
       </div>
 
-      <h2 class="font-cormorant text-4xl sm:text-[2.85rem] xl:text-[3.1rem] leading-[1.06] text-[#F5F1E8] font-normal">
-        Not Just a Stay.
-        <span class="block text-[#F3E7C4] italic mt-0.5">An Island Journey.</span>
-      </h2>
-
-      <p class="text-xs sm:text-sm text-[#C8BFAE] font-light leading-relaxed max-w-xs">
-        Discover handpicked holiday packages for your perfect Andaman experience.
-      </p>
-
-      <div class="pt-1">
+      <!-- Right-Aligned Glowing Gold Pill CTA Button -->
+      <div class="flex items-center sm:justify-end flex-shrink-0">
         <a
           id="view-all-packages-btn"
           href="/packages"
-          class="inline-flex items-center gap-3 rounded-full border border-[#D6B66C] bg-[#101416]/60 hover:bg-[#D6B66C] text-[#F3E7C4] hover:text-[#101416] px-6 py-3 text-[11px] uppercase tracking-[0.18em] font-semibold shadow-[0_8px_24px_rgba(0,0,0,0.45)] transition-all duration-300"
+          class="group relative inline-flex items-center gap-2.5 rounded-full border border-[#E5C985]/85 bg-[#0B1920]/85 hover:bg-gradient-to-r hover:from-[#D6B66C] hover:to-[#E8CD8E] text-[#F5F1E8] hover:text-[#101416] px-6 py-2.5 text-xs tracking-[0.06em] font-medium shadow-[0_0_24px_rgba(214,182,108,0.32),inset_0_1px_0_rgba(255,243,214,0.35)] transition-all duration-300 no-underline [text-shadow:none]"
         >
-          <span>Explore All Packages</span>
-          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <span>Explore Packages</span>
+          <svg class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>
+          <!-- Subtle Bottom Gold Rim Flare -->
+          <span class="pointer-events-none absolute -bottom-1 left-1/2 -translate-x-1/2 w-16 h-1 rounded-full bg-[#F3E7C4]/70 blur-[2px]"></span>
         </a>
       </div>
     </div>
 
-    <!-- RIGHT: Direct Tilted Sandle-Parchment Pages Floating on Ocean Backdrop (No Outer Wrapper Box) -->
-    <div class="lg:col-span-8 relative">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-2 relative z-10 items-center">
-        <!-- LEFT TILTED SANDLE PAGE: Romantic Escape (6 Cols) -->
-        <article class="md:col-span-6 relative rounded-xl bg-gradient-to-br from-[#F2E3C6] via-[#E8D4AE] to-[#DBC091] text-[#23190E] p-4 sm:p-5 shadow-[0_28px_70px_rgba(0,0,0,0.8)] border border-[#F6E8CC]/70 md:-rotate-[3.5deg] hover:rotate-0 hover:z-30 transition-transform duration-500 flex flex-col justify-between">
-          <!-- Postage Stamp Seal -->
-          <div class="absolute -top-3.5 -right-2 z-30 w-16 h-16 rounded-full bg-[#EFE0C1] border-2 border-dashed border-[#5B482C]/75 shadow-md flex flex-col items-center justify-center text-center rotate-12 p-1">
-            <span class="text-[7px] font-bold uppercase tracking-[0.1em] text-[#3A2D1B] leading-tight">
-              Havelock
-              <br />
-              Island
-            </span>
-            <span class="text-[6px] text-[#7A5E35] mt-0.5">★ ★ ★</span>
-          </div>
+    <!-- =======================================================================
+         THREE HORIZONTAL DESTINATION PACKAGE CARDS (Matches Reference Image)
+         1. Havelock Island (Pristine Beaches)
+         2. Complete Island Journey (Most Popular · Elevated Center Card)
+         3. Port Blair (The Gateway)
+         ======================================================================= -->
+    <div class="relative z-20 max-w-[1340px] w-full mx-auto mt-6 lg:mt-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-end">
+        <!-- CARD 1 (LEFT): HAVELOCK ISLAND · PRISTINE BEACHES -->
+        <article class="pkg-snake-card pkg-snake-float-1 lg:col-span-4 group relative rounded-[22px] overflow-hidden border border-[#D6B66C]/60 hover:border-[#FFF3D6] bg-[#0B181F] h-[250px] sm:h-[265px] shadow-[0_22px_55px_rgba(0,0,0,0.75)] transition-colors duration-500">
+          <a href="/packages#havelock-pristine-beach-retreat" class="block w-full h-full relative no-underline">
+            <img
+              src="/frames/Destination/frame_0055.webp"
+              alt="Sea Hills Resort Havelock Island Pristine Beaches"
+              loading="lazy"
+              class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#061015]/95 via-[#061015]/35 to-transparent"></div>
 
-          <div>
-            <div class="relative h-48 sm:h-52 rounded-lg overflow-hidden border border-[#B89D72]/60 shadow-inner mb-3.5">
-              <img
-                src={romantic.image}
-                alt={romantic.title}
-                loading="lazy"
-                class="w-full h-full object-cover"
-              />
+            <!-- Top-Left Authentic PDF Quick Pills -->
+            <div class="absolute top-3.5 left-3.5 right-3.5 flex flex-wrap items-center justify-between gap-1.5">
+              <span class="rounded-full bg-[#081319]/80 backdrop-blur-md border border-[#D6B66C]/50 px-3 py-1 text-[9.5px] uppercase tracking-[0.16em] text-[#F3E7C4] font-semibold">
+                Swaraj Dweep · 40 Rooms (410 Sq Ft)
+              </span>
+              <span class="rounded-full bg-[#081319]/80 backdrop-blur-md border border-white/15 px-2.5 py-1 text-[9.5px] text-[#E5DFD2]">
+                Ferry: 1.5 – 2.5 Hrs
+              </span>
             </div>
 
-            <div class="text-center px-1">
-              <h3 class="font-cormorant text-2xl sm:text-[1.8rem] italic font-semibold text-[#1E1710] leading-tight">
-                Romantic Escape
-              </h3>
-              <p class="text-xs text-[#4F3F2D] mt-0.5">
-                Love in the Andamans
-              </p>
-
-              <div class="inline-flex items-center gap-1.5 text-[11px] text-[#3A2D1B] font-medium mt-2">
-                <svg class="w-3 h-3 text-[#7D5E2A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span>{romantic.duration}</span>
+            <!-- Bottom Content + Circular Arrow Button -->
+            <div class="absolute inset-x-4 sm:inset-x-5 bottom-4 sm:bottom-5 flex items-end justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <svg class="w-4 h-4 text-[#E5C985] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <h3 class="font-cormorant text-2xl sm:text-[1.75rem] font-semibold text-[#F5F1E8] leading-none">
+                    Havelock Island
+                  </h3>
+                </div>
+                <p class="text-xs sm:text-[13px] text-[#DCD5C7] mt-1 font-light">
+                  Pristine Beaches · Sea Hills Havelock Resort
+                </p>
+                <p class="text-[10.5px] text-[#E5C985] mt-1">
+                  Radhanagar (6 km) · Elephant Beach (2.4 km) · Kramuka &amp; Zriya
+                </p>
               </div>
-            </div>
-          </div>
 
-          <div class="mt-3.5 flex justify-center">
-            <a
-              href={`/packages#${romantic.slug}`}
-              class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#D6B66C] to-[#E6C987] hover:from-[#c4a254] hover:to-[#d9b86c] text-[#1C150D] px-6 py-2.5 text-[11px] font-semibold tracking-wide shadow-[0_6px_18px_rgba(120,88,35,0.3)] transition-all"
-            >
-              <span>Explore Journey</span>
-              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </a>
-          </div>
+              <span
+                aria-hidden="true"
+                class="w-10 h-10 rounded-full bg-[#091318]/85 group-hover:bg-[#D6B66C] border border-[#E5C985]/80 text-[#F3E7C4] group-hover:text-[#101416] flex items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.6)] transition-all duration-300 flex-shrink-0"
+              >
+                <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </span>
+            </div>
+          </a>
         </article>
 
-        <!-- RIGHT TILTED SANDLE PAGES: Two Stacked Postcards (6 Cols) -->
-        <div class="md:col-span-6 flex flex-col gap-3.5 justify-between md:-ml-2">
-          <!-- Top Right: Island Explorer -->
-          <article class="relative rounded-xl bg-gradient-to-br from-[#F2E3C6] via-[#E8D4AE] to-[#DBC091] text-[#23190E] p-3.5 shadow-[0_24px_60px_rgba(0,0,0,0.75)] border border-[#F6E8CC]/70 md:rotate-[2deg] hover:rotate-0 hover:z-30 transition-transform duration-500">
-            <div class="absolute -top-2.5 -right-2 z-30 w-14 h-14 rounded-full bg-[#EFE0C1] border-2 border-dashed border-[#5B482C]/75 shadow-md flex flex-col items-center justify-center text-center rotate-12 p-1">
-              <span class="text-[6.5px] font-bold uppercase tracking-[0.08em] text-[#3A2D1B] leading-tight">
-                Andaman
-                <br />
-                Adventure
+        <!-- CARD 2 (CENTER ELEVATED · MOST POPULAR): HAVELOCK + PORT BLAIR COMPLETE JOURNEY -->
+        <div class="pkg-snake-card pkg-snake-float-2 lg:col-span-4 relative flex flex-col items-center">
+          <!-- Top-Right Gold Badge: ☆ Most Popular -->
+          <div class="absolute -top-3.5 right-5 z-30 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#E2C178] via-[#F3DFA8] to-[#D6B66C] text-[#14100A] px-4 py-1 text-[11px] font-semibold tracking-wide shadow-[0_8px_22px_rgba(214,182,108,0.45)] border border-[#FFF3D6]">
+            <svg class="w-3.5 h-3.5 text-[#14100A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+            </svg>
+            <span>Most Popular</span>
+          </div>
+
+          <article class="w-full group relative rounded-[24px] overflow-hidden border-2 border-[#E8C882] bg-[#0B181F] h-[280px] sm:h-[300px] shadow-[0_28px_70px_rgba(0,0,0,0.85),0_0_38px_rgba(214,182,108,0.28)] transition-colors duration-500">
+            <a href="/packages#complete-andaman-island-journey" class="block w-full h-full relative no-underline">
+              <img
+                src="/frames/Destination/frame_0045.webp"
+                alt="Both Islands Andaman Coral Reefs & Luxury Resorts"
+                loading="lazy"
+                class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#061015]/95 via-[#061015]/30 to-transparent"></div>
+
+              <!-- Top-Left Dual Resort Pill -->
+              <div class="absolute top-4 left-4 flex items-center gap-2">
+                <span class="rounded-full bg-[#081319]/85 backdrop-blur-md border border-[#E5C985]/60 px-3 py-1 text-[9.5px] uppercase tracking-[0.16em] text-[#F3E7C4] font-semibold">
+                  Port Blair + Havelock Combo
+                </span>
+              </div>
+
+              <!-- Bottom Content + Circular Arrow Button -->
+              <div class="absolute inset-x-5 bottom-5 flex items-end justify-between gap-3">
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-[#E5C985] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <h3 class="font-cormorant text-2xl sm:text-[1.9rem] font-semibold text-[#FFF8EB] leading-none">
+                      Havelock &amp; Port Blair
+                    </h3>
+                  </div>
+                  <p class="text-xs sm:text-sm text-[#EDE6D6] mt-1 font-light">
+                    Island at Its Best · Both Sea Hills Properties
+                  </p>
+                  <p class="text-[10.5px] text-[#E5C985] mt-1">
+                    Scuba &amp; Reefs · Makruzz/Nautica Ferry · Candlelight Dining
+                  </p>
+                </div>
+
+                <span
+                  aria-hidden="true"
+                  class="w-11 h-11 rounded-full bg-[#091318]/90 group-hover:bg-[#E5C985] border border-[#FFF3D6] text-[#FFF3D6] group-hover:text-[#101416] flex items-center justify-center shadow-[0_0_20px_rgba(214,182,108,0.45)] transition-all duration-300 flex-shrink-0"
+                >
+                  <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </span>
+              </div>
+            </a>
+          </article>
+
+          <!-- Bottom Golden Light Flare & Carousel Dots (Matches Reference Image) -->
+          <div class="pointer-events-none w-44 h-1.5 -mt-0.5 rounded-full bg-gradient-to-r from-transparent via-[#F3E7C4] to-transparent blur-[2px]"></div>
+          <div class="flex items-center gap-2 mt-2.5" aria-hidden="true">
+            <span class="w-2 h-2 rounded-full border border-[#D6B66C]/70 bg-transparent"></span>
+            <span class="w-2.5 h-2.5 rounded-full border border-[#FFF3D6] bg-[#E5C985] shadow-[0_0_8px_#D6B66C]"></span>
+            <span class="w-2 h-2 rounded-full border border-[#D6B66C]/70 bg-transparent"></span>
+          </div>
+        </div>
+
+        <!-- CARD 3 (RIGHT): PORT BLAIR · THE GATEWAY -->
+        <article class="pkg-snake-card pkg-snake-float-3 lg:col-span-4 group relative rounded-[22px] overflow-hidden border border-[#D6B66C]/60 hover:border-[#FFF3D6] bg-[#0B181F] h-[250px] sm:h-[265px] shadow-[0_22px_55px_rgba(0,0,0,0.75)] transition-colors duration-500">
+          <a href="/packages#port-blair-gateway-escape" class="block w-full h-full relative no-underline">
+            <img
+              src="/frames/Destination/frame_0001.webp"
+              alt="Sea Hills Hotel Port Blair The Gateway"
+              loading="lazy"
+              class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#061015]/95 via-[#061015]/35 to-transparent"></div>
+
+            <!-- Top-Left Authentic PDF Quick Pills -->
+            <div class="absolute top-3.5 left-3.5 right-3.5 flex flex-wrap items-center justify-between gap-1.5">
+              <span class="rounded-full bg-[#081319]/80 backdrop-blur-md border border-[#D6B66C]/50 px-3 py-1 text-[9.5px] uppercase tracking-[0.16em] text-[#F3E7C4] font-semibold">
+                5 Room Categories · 269–452 Sq Ft
+              </span>
+              <span class="rounded-full bg-[#081319]/80 backdrop-blur-md border border-white/15 px-2.5 py-1 text-[9.5px] text-[#E5DFD2]">
+                Airport 3.9 Km · Jetty 3.2 Km
               </span>
             </div>
 
-            <div class="relative h-28 sm:h-32 rounded-lg overflow-hidden border border-[#B89D72]/60 mb-2.5">
-              <img
-                src={explorer.image}
-                alt={explorer.title}
-                loading="lazy"
-                class="w-full h-full object-cover"
-              />
-            </div>
-
-            <div class="flex items-end justify-between gap-2 px-0.5">
+            <!-- Bottom Content + Circular Arrow Button -->
+            <div class="absolute inset-x-4 sm:inset-x-5 bottom-4 sm:bottom-5 flex items-end justify-between gap-3">
               <div>
-                <h3 class="font-cormorant text-xl sm:text-2xl font-semibold text-[#1E1710] leading-none">
-                  Island Explorer
-                </h3>
-                <p class="text-[11px] text-[#4F3F2D] mt-0.5">Dive. Discover. Unwind.</p>
-                <p class="text-[10.5px] font-medium text-[#3A2D1B] mt-1">{explorer.duration}</p>
+                <div class="flex items-center gap-1.5">
+                  <svg class="w-4 h-4 text-[#E5C985] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <h3 class="font-cormorant text-2xl sm:text-[1.75rem] font-semibold text-[#F5F1E8] leading-none">
+                    Port Blair
+                  </h3>
+                </div>
+                <p class="text-xs sm:text-[13px] text-[#DCD5C7] mt-1 font-light">
+                  The Gateway · Sea Hills Port Blair Hotel
+                </p>
+                <p class="text-[10.5px] text-[#E5C985] mt-1">
+                  Cleopatra Dining · Anubis Rooftop Bar · Cellular Jail (2.7 km)
+                </p>
               </div>
 
-              <a
-                href={`/packages#${explorer.slug}`}
-                aria-label="Explore Island Explorer Package"
-                class="w-8 h-8 rounded-full bg-[#241E17] hover:bg-[#D6B66C] text-[#F5F1E8] hover:text-[#101416] flex items-center justify-center transition-colors flex-shrink-0"
+              <span
+                aria-hidden="true"
+                class="w-10 h-10 rounded-full bg-[#091318]/85 group-hover:bg-[#D6B66C] border border-[#E5C985]/80 text-[#F3E7C4] group-hover:text-[#101416] flex items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.6)] transition-all duration-300 flex-shrink-0"
               >
-                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
-              </a>
-            </div>
-          </article>
-
-          <!-- Bottom Right: Tropical Getaway -->
-          <article class="relative rounded-xl bg-gradient-to-br from-[#F2E3C6] via-[#E8D4AE] to-[#DBC091] text-[#23190E] p-3.5 shadow-[0_24px_60px_rgba(0,0,0,0.75)] border border-[#F6E8CC]/70 md:-rotate-[1.2deg] hover:rotate-0 hover:z-30 transition-transform duration-500">
-            <div class="absolute -top-2.5 -right-2 z-30 w-14 h-14 rounded-full bg-[#EFE0C1] border-2 border-dashed border-[#5B482C]/75 shadow-md flex flex-col items-center justify-center text-center -rotate-6 p-1">
-              <span class="text-[6.5px] font-bold uppercase tracking-[0.08em] text-[#3A2D1B] leading-tight">
-                Family
-                <br />
-                Holiday
               </span>
             </div>
+          </a>
+        </article>
+      </div>
 
-            <div class="relative h-28 sm:h-32 rounded-lg overflow-hidden border border-[#B89D72]/60 mb-2.5">
-              <img
-                src={family.image}
-                alt={family.title}
-                loading="lazy"
-                class="w-full h-full object-cover"
-              />
-            </div>
+      <!-- =====================================================================
+           FIVE-PILLAR TRUST BAR (Matches Bottom Pill Bar in Reference Image)
+           Luxury Resorts | Premium Experiences | Island Activities | Safe & Trusted | 24/7 Support
+           ===================================================================== -->
+      <div class="mt-7 sm:mt-8 max-w-5xl mx-auto rounded-full bg-[#071319]/90 backdrop-blur-xl border border-[#D6B66C]/45 px-4 sm:px-8 py-3.5 sm:py-4 shadow-[0_18px_48px_rgba(0,0,0,0.8)]">
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-y-4 sm:gap-y-0 items-center divide-y sm:divide-y-0 sm:divide-x divide-[#D6B66C]/25">
+          <!-- 1. Luxury Resorts -->
+          <div class="pkg-snake-pillar flex flex-col items-center justify-center text-center px-2">
+            <svg class="w-5 h-5 text-[#E5C985] mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 3h12l4 6-10 12L2 9l4-6z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2 9h20M12 21L8 9l4-6 4 6-4 12z" />
+            </svg>
+            <span class="text-[11px] sm:text-xs font-medium text-[#F5F1E8] tracking-wide">Luxury Resorts</span>
+          </div>
 
-            <div class="flex items-end justify-between gap-2 px-0.5">
-              <div>
-                <h3 class="font-cormorant text-xl sm:text-2xl font-semibold text-[#1E1710] leading-none">
-                  Tropical Getaway
-                </h3>
-                <p class="text-[11px] text-[#4F3F2D] mt-0.5">Fun. Relax &amp; Reconnect.</p>
-                <p class="text-[10.5px] font-medium text-[#3A2D1B] mt-1">{family.duration}</p>
-              </div>
+          <!-- 2. Premium Experiences -->
+          <div class="pkg-snake-pillar flex flex-col items-center justify-center text-center px-2 pt-3 sm:pt-0">
+            <svg class="w-5 h-5 text-[#E5C985] mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21V11m0 0c-2.5-4-7-4.5-8-2 2.5 0 5.5 1 8 2zm0 0c2.5-4 7-4.5 8-2-2.5 0-5.5 1-8 2zm0 0c-1.5-4.5-5-7-7-6 2 1.5 4.5 3.5 7 6zm0 0c1.5-4.5 5-7 7-6-2 1.5-4.5 3.5-7 6z" />
+            </svg>
+            <span class="text-[11px] sm:text-xs font-medium text-[#F5F1E8] tracking-wide">Premium Experiences</span>
+          </div>
 
-              <a
-                href={`/packages#${family.slug}`}
-                aria-label="Explore Tropical Getaway Package"
-                class="w-8 h-8 rounded-full bg-[#241E17] hover:bg-[#D6B66C] text-[#F5F1E8] hover:text-[#101416] flex items-center justify-center transition-colors flex-shrink-0"
-              >
-                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </a>
-            </div>
-          </article>
+          <!-- 3. Island Activities -->
+          <div class="pkg-snake-pillar flex flex-col items-center justify-center text-center px-2 pt-3 sm:pt-0">
+            <svg class="w-5 h-5 text-[#E5C985] mb-1" viewBox="0 0 24 24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 15c2.5 0 3.5-2 6-2s3.5 2 6 2 3.5-2 6-2M3 19c2.5 0 3.5-2 6-2s3.5 2 6 2 3.5-2 6-2M14 7a3 3 0 116 0" />
+            </svg>
+            <span class="text-[11px] sm:text-xs font-medium text-[#F5F1E8] tracking-wide">Island Activities</span>
+          </div>
+
+          <!-- 4. Safe & Trusted -->
+          <div class="pkg-snake-pillar flex flex-col items-center justify-center text-center px-2 pt-3 sm:pt-0">
+            <svg class="w-5 h-5 text-[#E5C985] mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 4v5c0 5-3.5 8.5-7 9-3.5-.5-7-4-7-9V7l7-4z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
+            </svg>
+            <span class="text-[11px] sm:text-xs font-medium text-[#F5F1E8] tracking-wide">Safe &amp; Trusted</span>
+          </div>
+
+          <!-- 5. 24/7 Support -->
+          <div class="pkg-snake-pillar col-span-2 sm:col-span-1 flex flex-col items-center justify-center text-center px-2 pt-3 sm:pt-0">
+            <svg class="w-5 h-5 text-[#E5C985] mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 13v-1a8 8 0 0116 0v1m-2 0a2 2 0 012 2v2a2 2 0 01-2 2h-1v-6h1zm-12 0a2 2 0 00-2 2v2a2 2 0 002 2h1v-6H6zm10 6a3 3 0 01-3 3h-2" />
+            </svg>
+            <span class="text-[11px] sm:text-xs font-medium text-[#F5F1E8] tracking-wide">24/7 Support</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+
+  function initPackagesSnakeScroll() {
+    const section = document.getElementById('packages');
+    if (!section || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const cards = Array.from(section.querySelectorAll('.pkg-snake-card')) as HTMLElement[];
+    const pillars = Array.from(section.querySelectorAll('.pkg-snake-pillar')) as HTMLElement[];
+    const headingEls = section.querySelectorAll('h2, #view-all-packages-btn');
+
+    if (headingEls.length) {
+      gsap.fromTo(
+        headingEls,
+        { opacity: 0, y: 26 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 82%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+
+    // Snake Wave One-by-One Entrance for the 3 Destination Package Image Cards
+    if (cards.length) {
+      const snakeOffsets = [
+        { x: -95, y: 70, rotation: -5, scale: 0.9 },
+        { x: 0, y: -80, rotation: 4, scale: 0.9 },
+        { x: 95, y: 70, rotation: -4, scale: 0.9 },
+      ];
+
+      cards.forEach((card, idx) => {
+        const from = snakeOffsets[idx % snakeOffsets.length];
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            x: from.x,
+            y: from.y,
+            rotation: from.rotation,
+            scale: from.scale,
+          },
+          {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            rotation: 0,
+            scale: 1,
+            duration: 0.85,
+            delay: idx * 0.28,
+            ease: 'back.out(1.35)',
+            clearProps: 'transform',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 72%',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        );
+      });
+    }
+
+    // Snake Wave One-by-One Ripple for the 5 Bottom Trust Pillars
+    if (pillars.length) {
+      pillars.forEach((pillar, idx) => {
+        const dir = idx % 2 === 0 ? 28 : -28;
+        gsap.fromTo(
+          pillar,
+          { opacity: 0, y: dir, scale: 0.92 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            delay: 0.45 + idx * 0.14,
+            ease: 'power3.out',
+            clearProps: 'transform',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 68%',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        );
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPackagesSnakeScroll);
+  } else {
+    initPackagesSnakeScroll();
+  }
+</script>

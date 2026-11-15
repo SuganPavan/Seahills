@@ -17,10 +17,10 @@ if (fs.existsSync(destFramesDir)) {
 }
 ---
 
-<section id="destinations-section" class="relative w-full bg-[#101416]" style="height: 220vh;" data-frames={JSON.stringify(destFrameUrls)}>
+<section id="destinations-section" class="relative w-full bg-[#101416] md:h-[220vh] py-12 md:py-0" data-frames={JSON.stringify(destFrameUrls)}>
 
-  <!-- Sticky Viewport Stage (svh prevents mobile URL-bar jitter) -->
-  <div class="sticky top-0 h-[100svh] w-full overflow-hidden flex flex-col justify-center items-center py-4 sm:py-6 px-4 sm:px-6 lg:px-8">
+  <!-- Sticky Viewport Stage on Desktop; Natural Card Flow on Mobile -->
+  <div class="relative md:sticky md:top-0 md:h-[100svh] w-full overflow-hidden flex flex-col justify-center items-center md:py-6 px-4 sm:px-6 lg:px-8">
 
     <!-- Subtle Champagne Radial Glow -->
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[860px] h-[520px] bg-gradient-radial from-[#D6B66C]/10 via-[#D6B66C]/3 to-transparent rounded-full blur-3xl pointer-events-none"></div>
@@ -35,8 +35,8 @@ if (fs.existsSync(destFramesDir)) {
         <span class="w-10 sm:w-20 lg:w-28 h-[1px] bg-gradient-to-l from-transparent via-[#D6B66C]/60 to-[#D6B66C]"></span>
       </div>
 
-      <!-- Center Ferry Cruise Status Badge -->
-      <div class="mt-2 inline-flex items-center gap-2 px-4 py-1 rounded-full bg-[#101416]/90 border border-[#D6B66C]/50 shadow-[0_0_20px_rgba(214,182,108,0.18)]">
+      <!-- Center Ferry Cruise Status Badge (Desktop Only) -->
+      <div class="mt-2 hidden md:inline-flex items-center gap-2 px-4 py-1 rounded-full bg-[#101416]/90 border border-[#D6B66C]/50 shadow-[0_0_20px_rgba(214,182,108,0.18)]">
         <span class="w-2 h-2 rounded-full bg-[#D6B66C] animate-pulse shadow-[0_0_8px_#D6B66C]"></span>
         <span id="ferry-status-text" class="text-[9.5px] sm:text-[10.5px] tracking-[0.2em] uppercase font-sans font-medium text-[#F3E7C4]">
           Departing Port Blair Harbor · Boarding Sea Hills Ferry
@@ -44,10 +44,10 @@ if (fs.existsSync(destFramesDir)) {
       </div>
     </header>
 
-    <!-- UNOBSTRUCTED CRYSTAL-CLEAR 16:9 PANORAMIC STAGE (ZERO BLUR / ZERO OVERLAY CLUTTER) -->
+    <!-- UNOBSTRUCTED CRYSTAL-CLEAR 16:9 PANORAMIC STAGE (Desktop Only; hidden on mobile so cards show cleanly) -->
     <div
       id="dest-stage-frame"
-      class="relative z-20 w-full max-w-[1160px] aspect-[16/9] max-h-[48vh] rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D6B66C]/55 shadow-[0_24px_65px_rgba(0,0,0,0.85),0_0_36px_rgba(214,182,108,0.16)] bg-[#101416]"
+      class="hidden md:block relative z-20 w-full max-w-[1160px] aspect-[16/9] max-h-[48vh] rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D6B66C]/55 shadow-[0_24px_65px_rgba(0,0,0,0.85),0_0_36px_rgba(214,182,108,0.16)] bg-[#101416]"
     >
       <!-- High-DPI Canvas for Crisp 60fps Frame Scrubbing -->
       <canvas
@@ -70,9 +70,9 @@ if (fs.existsSync(destFramesDir)) {
       <!-- Minimal Bottom Vignette for Progress Track Legibility Only -->
       <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#101416]/80 to-transparent pointer-events-none z-10"></div>
 
-      <!-- LEFT ISLAND LOCATION PIN: PORT BLAIR -->
+      <!-- LEFT ISLAND LOCATION PIN: SEA HILLS PORT BLAIR HOTEL -->
       <a
-        href="#destination-port-blair"
+        href="#card-port-blair"
         id="pin-port-blair"
         class="absolute top-[18%] sm:top-[22%] left-[8%] sm:left-[13%] z-20 flex flex-col items-center group/pin-pb select-none"
       >
@@ -83,17 +83,17 @@ if (fs.existsSync(destFramesDir)) {
               <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
             </svg>
           </span>
-          <span class="text-[10px] sm:text-[11px] font-sans font-semibold tracking-[0.16em] uppercase text-[#F3E7C4]">
-            Port Blair
+          <span class="text-[10px] sm:text-[11px] font-sans font-semibold tracking-[0.12em] uppercase text-[#F3E7C4]">
+            Sea Hills Hotels, Sri Vijaya Puram (Port Blair)
           </span>
         </div>
         <div class="w-[1.5px] h-4 sm:h-5 bg-gradient-to-b from-[#D6B66C] to-transparent"></div>
         <span class="w-2 h-2 rounded-full bg-[#D6B66C] ring-4 ring-[#D6B66C]/30 shadow-[0_0_10px_#D6B66C]"></span>
       </a>
 
-      <!-- RIGHT ISLAND LOCATION PIN: HAVELOCK -->
+      <!-- RIGHT ISLAND LOCATION PIN: SEA HILLS HAVELOCK RESORT -->
       <a
-        href="#destination-havelock"
+        href="#card-havelock"
         id="pin-havelock"
         class="absolute top-[16%] sm:top-[20%] right-[8%] sm:right-[13%] z-20 flex flex-col items-center group/pin-hl select-none"
       >
@@ -104,8 +104,8 @@ if (fs.existsSync(destFramesDir)) {
               <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
             </svg>
           </span>
-          <span class="text-[10px] sm:text-[11px] font-sans font-semibold tracking-[0.16em] uppercase text-[#F3E7C4]">
-            Havelock
+          <span class="text-[10px] sm:text-[11px] font-sans font-semibold tracking-[0.12em] uppercase text-[#F3E7C4]">
+            Sea Hills Resort, Swaraj Dweep (Havelock)
           </span>
         </div>
         <div class="w-[1.5px] h-4 sm:h-5 bg-gradient-to-b from-[#D6B66C] to-transparent"></div>
@@ -133,7 +133,7 @@ if (fs.existsSync(destFramesDir)) {
     <!-- TWO PROMINENTLY HIGHLIGHTED LUXURY DESTINATION CARDS BELOW THE PANORAMA -->
     <div class="relative z-30 w-full max-w-[1160px] grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-5 mt-3.5 sm:mt-4">
 
-      <!-- CARD 1: PORT BLAIR -->
+      <!-- CARD 1: SEA HILLS PORT BLAIR HOTEL -->
       <article
         id="card-port-blair"
         class="group/port relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1A2025] via-[#14191D] to-[#101417] border border-[#D6B66C]/65 hover:border-[#FFF3D6] px-5 py-4 sm:px-6 sm:py-5 shadow-[0_16px_42px_rgba(0,0,0,0.7),0_0_24px_rgba(214,182,108,0.16)] hover:shadow-[0_20px_48px_rgba(214,182,108,0.28)] transition-all duration-300 flex flex-col justify-between gap-3"
@@ -145,7 +145,7 @@ if (fs.existsSync(destFramesDir)) {
             <div class="flex flex-wrap items-center gap-2 mb-1.5">
               <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#D6B66C]/15 border border-[#D6B66C]/50 text-[9.5px] font-sans font-semibold tracking-[0.18em] uppercase text-[#F3E7C4]">
                 <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
-                Our Resort · Capital Hub
+                Port Blair · Capital Hub
               </span>
               <span class="hidden md:inline-block font-cormorant italic text-[15px] text-[#F3E7C4]">
                 Sri Vijaya Puram
@@ -157,8 +157,8 @@ if (fs.existsSync(destFramesDir)) {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <h3 class="font-sans font-bold text-sm sm:text-base tracking-[0.18em] uppercase text-[#FFF3D6]">
-                PORT BLAIR
+              <h3 class="font-sans font-bold text-sm sm:text-base tracking-[0.1em] uppercase text-[#FFF3D6]">
+                Sea Hills Hotels, Sri Vijaya Puram (Port Blair)
               </h3>
             </div>
           </div>
@@ -175,23 +175,26 @@ if (fs.existsSync(destFramesDir)) {
         </div>
 
         <p class="text-xs sm:text-[13px] text-[#E5DFD2] font-light leading-relaxed">
-          Boutique coastal stay in the heart of the capital — minutes from Cellular Jail, Corbyn's Cove Beach &amp; island ferries.
+          21 Rooms across 5 Bathtub categories (269–452 Sq. Ft.) in the heart of Port Blair — Airport 3.9 Km · Phoenix Bay Jetty 3.2 Km · Aberdeen Bazaar &amp; Water Sports 2 Km · Cellular Jail 2.7 Km · Corbyn’s Cove 4 Km.
         </p>
 
         <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
           <span class="text-[10px] tracking-[0.08em] uppercase text-[#F3E7C4] bg-white/[0.06] border border-[#D6B66C]/30 rounded-full px-2.5 py-0.5">
-            Anubis Bar &amp; Dining
+            Cleopatra (30–50 Pax)
           </span>
           <span class="text-[10px] tracking-[0.08em] uppercase text-[#F3E7C4] bg-white/[0.06] border border-[#D6B66C]/30 rounded-full px-2.5 py-0.5">
-            Outdoor Pool
+            Anubis Rooftop Bar
           </span>
           <span class="text-[10px] tracking-[0.08em] uppercase text-[#F3E7C4] bg-white/[0.06] border border-[#D6B66C]/30 rounded-full px-2.5 py-0.5">
-            Ferry &amp; Tour Desk
+            Pool &amp; Baby Pool
+          </span>
+          <span class="text-[10px] tracking-[0.08em] uppercase text-[#F3E7C4] bg-white/[0.06] border border-[#D6B66C]/30 rounded-full px-2.5 py-0.5">
+            Airport 3.9 Km · Jetty 3.2 Km
           </span>
         </div>
       </article>
 
-      <!-- CARD 2: HAVELOCK ISLAND -->
+      <!-- CARD 2: SEA HILLS HAVELOCK RESORT -->
       <article
         id="card-havelock"
         class="group/havelock relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1A2025] via-[#14191D] to-[#101417] border border-[#D6B66C]/65 hover:border-[#FFF3D6] px-5 py-4 sm:px-6 sm:py-5 shadow-[0_16px_42px_rgba(0,0,0,0.7),0_0_24px_rgba(214,182,108,0.16)] hover:shadow-[0_20px_48px_rgba(214,182,108,0.28)] transition-all duration-300 flex flex-col justify-between gap-3"
@@ -203,7 +206,7 @@ if (fs.existsSync(destFramesDir)) {
             <div class="flex flex-wrap items-center gap-2 mb-1.5">
               <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#D6B66C]/15 border border-[#D6B66C]/50 text-[9.5px] font-sans font-semibold tracking-[0.18em] uppercase text-[#F3E7C4]">
                 <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
-                Our Resort · Island Escape
+                Havelock Island · Island Escape
               </span>
               <span class="hidden md:inline-block font-cormorant italic text-[15px] text-[#F3E7C4]">
                 Swaraj Dweep
@@ -215,8 +218,8 @@ if (fs.existsSync(destFramesDir)) {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <h3 class="font-sans font-bold text-sm sm:text-base tracking-[0.18em] uppercase text-[#FFF3D6]">
-                HAVELOCK ISLAND
+              <h3 class="font-sans font-bold text-sm sm:text-base tracking-[0.1em] uppercase text-[#FFF3D6]">
+                Sea Hills Resort, Swaraj Dweep (Havelock)
               </h3>
             </div>
           </div>
@@ -233,18 +236,21 @@ if (fs.existsSync(destFramesDir)) {
         </div>
 
         <p class="text-xs sm:text-[13px] text-[#E5DFD2] font-light leading-relaxed">
-          Palm-fringed island sanctuary near Govind Nagar &amp; Radhanagar Beach — crafted for scuba, reefs &amp; beachside relaxation.
+          40 Rooms (25 Bamboo Saa &amp; 15 La Bougainvillea Bathtub · 410 Sq. Ft.) via Private Ferry (1.5 hrs) or Govt Ferry (2.5 hrs) — Jetty 4.5 Km · Elephant Beach 2.4 Km · Govind Nagar 3.6 Km · Radhanagar 6 Km · Kalapathar 7 Km.
         </p>
 
         <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
           <span class="text-[10px] tracking-[0.08em] uppercase text-[#F3E7C4] bg-white/[0.06] border border-[#D6B66C]/30 rounded-full px-2.5 py-0.5">
-            Candlelight Dining
+            Kramuka (50–80 Pax)
           </span>
           <span class="text-[10px] tracking-[0.08em] uppercase text-[#F3E7C4] bg-white/[0.06] border border-[#D6B66C]/30 rounded-full px-2.5 py-0.5">
-            Pool &amp; Kids' Pool
+            Zriya Hall (1150 Sq. Ft.)
           </span>
           <span class="text-[10px] tracking-[0.08em] uppercase text-[#F3E7C4] bg-white/[0.06] border border-[#D6B66C]/30 rounded-full px-2.5 py-0.5">
-            Scuba &amp; Beaches
+            Pool, Bonfire &amp; Scuba
+          </span>
+          <span class="text-[10px] tracking-[0.08em] uppercase text-[#F3E7C4] bg-white/[0.06] border border-[#D6B66C]/30 rounded-full px-2.5 py-0.5">
+            Jetty 4.5 Km · Radhanagar 6 Km
           </span>
         </div>
       </article>
@@ -260,6 +266,7 @@ if (fs.existsSync(destFramesDir)) {
 
   function initDestinationScrolly() {
     gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
     const section = document.getElementById('destinations-section');
     const canvas = document.getElementById('dest-canvas') as HTMLCanvasElement | null;
@@ -269,7 +276,32 @@ if (fs.existsSync(destFramesDir)) {
     const portCard = document.getElementById('card-port-blair');
     const havelockCard = document.getElementById('card-havelock');
 
-    if (!section || !canvas) return;
+    if (!section) return;
+
+    // Mobile (< 768px): skip ferry animation & frame downloads; animate cards cleanly on scroll
+    if (window.innerWidth < 768) {
+      const mobileTargets = [section.querySelector('header'), portCard, havelockCard].filter(Boolean);
+      if (mobileTargets.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        gsap.fromTo(
+          mobileTargets,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.65,
+            stagger: 0.14,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 82%',
+              once: true,
+            },
+          }
+        );
+      }
+      return;
+    }
+
+    if (!canvas) return;
 
     const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) return;

@@ -86,27 +86,68 @@ if (fs.existsSync(heroFramesDir)) {
       decoding="sync"
     />
 
+    <!-- SECOND VIDEO (Reveals immediately when the entrance gate opens on scroll) -->
+    <video
+      id="hero-second-video"
+      src="/video/secondfile.mp4"
+      muted
+      playsinline
+      loop
+      preload="auto"
+      aria-hidden="true"
+      class="absolute inset-0 w-full h-full object-cover z-[1] opacity-0 pointer-events-none transition-opacity duration-500"
+    ></video>
+
     <!-- REFINED MINIMAL LUXURY SCENE LIGHTING (Soft, subtle contrast preserving full architectural visibility) -->
     <!-- Subtle top bar gradient for navigation legibility -->
-    <div class="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#101416]/60 via-[#101416]/15 to-transparent pointer-events-none z-10"></div>
-    <!-- Subtle bottom bar gradient for chapter progress bar -->
-    <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#101416]/60 to-transparent pointer-events-none z-10"></div>
+    <div class="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#051218]/75 via-[#051218]/30 to-transparent pointer-events-none z-10"></div>
+    <!-- Rich left-side ocean-navy vignette (matches reference image: crisp text on left, bright gates/video on right) -->
+    <div class="absolute inset-y-0 left-0 w-full md:w-[58%] bg-gradient-to-r from-[#051218]/90 via-[#051218]/58 to-transparent pointer-events-none z-10"></div>
+    <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#061822] via-[#061822]/45 to-transparent pointer-events-none z-10"></div>
+
+    <!-- ════════════════════════════════════════════════════════════════════════════
+         RIGHT CORNER VIDEO CTA: EXPLORE HOTEL WITH VIDEO (https://youtu.be/BNjJoiCPeHQ)
+    ════════════════════════════════════════════════════════════════════════════ -->
+    <div class="absolute right-4 sm:right-6 lg:right-10 top-20 sm:top-24 z-30">
+      <a
+        href="https://youtu.be/BNjJoiCPeHQ"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Explore Hotel with Video on YouTube"
+        class="group inline-flex items-center gap-2.5 sm:gap-3 rounded-full bg-[#06141D]/88 hover:bg-[#081B27] backdrop-blur-xl border border-[#D6B66C]/80 hover:border-[#FFF3D6] pl-2 pr-4 sm:pr-5 py-1.5 sm:py-2 shadow-[0_12px_32px_rgba(0,0,0,0.65),0_0_22px_rgba(214,182,108,0.28)] hover:shadow-[0_14px_36px_rgba(214,182,108,0.45)] transition-all duration-300 no-underline"
+      >
+        <span class="relative flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-[#F3DFA2] via-[#D6B66C] to-[#B8923E] text-[#101416] shadow-[0_0_14px_rgba(214,182,108,0.55)] group-hover:scale-105 transition-transform duration-300 flex-shrink-0">
+          <span class="pointer-events-none absolute -inset-1 rounded-full border border-[#D6B66C]/60 animate-ping opacity-45"></span>
+          <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5.14v14l11-7-11-7z" />
+          </svg>
+        </span>
+        <span class="flex flex-col text-left leading-tight">
+          <span class="text-[8.5px] sm:text-[9.5px] uppercase tracking-[0.22em] text-[#E5C985] font-semibold">
+            Watch Official Tour
+          </span>
+          <span class="font-cormorant text-sm sm:text-base font-semibold text-[#FFF8EB] group-hover:text-[#F3E7C4] whitespace-nowrap">
+            Explore Hotel with Video ↗
+          </span>
+        </span>
+      </a>
+    </div>
 
     <!-- ════════════════════════════════════════════════════════════════════════════
          VERTICAL CHAPTER NAVIGATION (Desktop right side)
     ════════════════════════════════════════════════════════════════════════════ -->
     <aside class="hidden md:flex flex-col gap-4 absolute right-6 lg:right-10 top-1/2 -translate-y-1/2 z-30 select-none">
       <button type="button" class="chapter-dot group flex items-center justify-end gap-3 text-right focus:outline-none cursor-pointer" data-target="0" aria-label="Go to Chapter 1: Grand Entrance">
-        <span class="chapter-label text-[10px] tracking-[0.24em] text-[#C8BFAE] group-hover:text-[#D6B66C] uppercase font-light transition-all opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0">01 Grand Entrance</span>
+        <span class="chapter-label text-[10px] tracking-[0.24em] text-[#F5F1E8] group-hover:text-[#D6B66C] uppercase font-medium transition-all opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 drop-shadow">01 Grand Entrance</span>
         <span class="dot-indicator w-2 h-2 rounded-full bg-[#D6B66C] ring-4 ring-[#D6B66C]/25 scale-125 transition-all duration-300 shadow-sm"></span>
       </button>
-      <button type="button" class="chapter-dot group flex items-center justify-end gap-3 text-right focus:outline-none cursor-pointer" data-target="1" aria-label="Go to Chapter 2: Pool Oasis">
-        <span class="chapter-label text-[10px] tracking-[0.24em] text-[#C8BFAE] group-hover:text-[#D6B66C] uppercase font-light transition-all opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0">02 Pool Oasis</span>
-        <span class="dot-indicator w-2 h-2 rounded-full bg-[#C8BFAE]/35 group-hover:bg-[#D6B66C] transition-all duration-300 shadow-sm"></span>
+      <button type="button" class="chapter-dot group flex items-center justify-end gap-3 text-right focus:outline-none cursor-pointer" data-target="1" aria-label="Go to Chapter 2: Suites & Balconies">
+        <span class="chapter-label text-[10px] tracking-[0.24em] text-[#F5F1E8] group-hover:text-[#D6B66C] uppercase font-medium transition-all opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 drop-shadow">02 Suites &amp; Balconies</span>
+        <span class="dot-indicator w-2 h-2 rounded-full bg-[#C8BFAE]/45 group-hover:bg-[#D6B66C] transition-all duration-300 shadow-sm"></span>
       </button>
-      <button type="button" class="chapter-dot group flex items-center justify-end gap-3 text-right focus:outline-none cursor-pointer" data-target="2" aria-label="Go to Chapter 3: Island Suites">
-        <span class="chapter-label text-[10px] tracking-[0.24em] text-[#C8BFAE] group-hover:text-[#D6B66C] uppercase font-light transition-all opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0">03 Island Suites</span>
-        <span class="dot-indicator w-2 h-2 rounded-full bg-[#C8BFAE]/35 group-hover:bg-[#D6B66C] transition-all duration-300 shadow-sm"></span>
+      <button type="button" class="chapter-dot group flex items-center justify-end gap-3 text-right focus:outline-none cursor-pointer" data-target="2" aria-label="Go to Chapter 3: Kramuka & Twilight">
+        <span class="chapter-label text-[10px] tracking-[0.24em] text-[#F5F1E8] group-hover:text-[#D6B66C] uppercase font-medium transition-all opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 drop-shadow">03 Kramuka &amp; Twilight</span>
+        <span class="dot-indicator w-2 h-2 rounded-full bg-[#C8BFAE]/45 group-hover:bg-[#D6B66C] transition-all duration-300 shadow-sm"></span>
       </button>
     </aside>
 
@@ -114,111 +155,112 @@ if (fs.existsSync(heroFramesDir)) {
          EDITORIAL STORYTELLING OVERLAYS: 5 SCENES WITH SOPHISTICATED HIERARCHY
          Synchronized with Keyframes from frame_0020.webp to frame_0120.webp
     ════════════════════════════════════════════════════════════════════════════ -->
-    <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 w-full pt-24 sm:pt-32 pb-12 sm:pb-16 flex-1 flex flex-col justify-end">
+    <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 w-full pt-20 sm:pt-28 pb-4 flex-1 flex flex-col justify-center">
       
-      <!-- STAGE CONTAINER (Bottom-left anchor preserves unobstructed video across desktop & mobile) -->
-      <div class="relative w-full max-w-md sm:max-w-xl min-h-[155px] sm:min-h-[270px] flex items-end">
+      <!-- STAGE CONTAINER (Positioned in upper-middle left over feathered vignette) -->
+      <div class="relative w-full max-w-md sm:max-w-xl min-h-[160px] sm:min-h-[250px] flex items-center">
 
         <!-- SCENE 1: STARTING LANDING PAGE (Frame 20-36, Grand Entrance & Sanctuary) -->
-        <div id="scene-0" class="scene-stage absolute inset-x-0 bottom-0 flex flex-col justify-end pointer-events-auto transition-opacity duration-300 rounded-2xl bg-[#101416]/68 backdrop-blur-md border border-[#D6B66C]/25 p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] sm:rounded-none sm:bg-transparent sm:backdrop-blur-none sm:border-0 sm:p-0 sm:shadow-none sm:[text-shadow:0_2px_22px_rgba(0,0,0,0.85)]">
+        <div id="scene-0" class="scene-stage absolute inset-x-0 bottom-0 sm:inset-y-0 sm:my-auto flex flex-col justify-center pointer-events-auto transition-opacity duration-300 [text-shadow:0_2px_18px_rgba(0,0,0,0.95),0_1px_4px_rgba(0,0,0,0.9)]">
 
           <!-- Kicker Tag -->
-          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#101416]/65 border border-[#D6B66C]/35 text-[#D6B66C] mb-2 sm:mb-3 shadow-sm w-fit">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
-            <span class="text-[9.5px] sm:text-[11px] tracking-[0.22em] uppercase font-sans font-medium">
-              01 · The Grand Entrance
-            </span>
-          </div>
+          <p class="scene-kicker text-[10.5px] sm:text-xs tracking-[0.28em] uppercase font-sans font-semibold text-[#E8C97A] mb-2 sm:mb-3">
+            WELCOME TO SEA HILLS
+          </p>
 
           <!-- Heading -->
-          <h1 class="font-cormorant text-[28px] sm:text-5xl lg:text-[56px] font-normal text-[#F5F1E8] leading-[1.06] tracking-[0.015em] mb-1.5 scene-title drop-shadow-sm">
-            Sea Hills Resort
-            <span class="font-cormorant italic font-light text-[#D6B66C] text-xl sm:text-3xl lg:text-[38px] tracking-normal sm:mt-0.5 block">
-              Andaman Archipelago
+          <h1 class="font-cormorant text-[32px] sm:text-5xl lg:text-[58px] font-normal text-[#F5F1E8] leading-[1.04] tracking-[0.01em] mb-2 scene-title">
+            Experience
+            <span class="font-cormorant italic font-normal text-[#EED28A] text-[30px] sm:text-5xl lg:text-[54px] tracking-normal sm:mt-0.5 block">
+              Andaman in Style
             </span>
           </h1>
 
-          <!-- Sans-serif Description (Hidden on mobile so video shows clearly) -->
-          <p class="hidden sm:block text-sm sm:text-[14.5px] text-[#E5DFD2] font-light leading-relaxed tracking-[0.015em] mb-5 max-w-lg scene-desc">
-            Artisan wrought-iron gates and glowing evening lanterns welcome you to an exclusive island sanctuary where timeless luxury meets coastal serenity.
+          <!-- Sans-serif Description -->
+          <p class="hidden sm:block text-sm sm:text-[15px] text-[#E5DFD2] font-light leading-relaxed tracking-[0.015em] mb-5 max-w-md scene-desc">
+            Luxury stays, breathtaking views and unforgettable moments.
           </p>
 
-          <div class="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 sm:mt-0 scene-cta">
-            <MotionButton client:load href="#explore-andaman" variant="gold" className="!px-4 !py-2 sm:!px-6 sm:!py-3 !text-[10.5px] sm:!text-xs">
-              <span>Begin The Journey</span>
-              <svg class="w-3.5 h-3.5 text-[#101416]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </MotionButton>
-            <div class="hidden sm:block">
-              <MotionButton client:load href="#book-now" variant="glass">
-                <span>Reserve A Suite</span>
-              </MotionButton>
-            </div>
+          <div class="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 sm:mt-0 scene-cta [text-shadow:none]">
+            <a
+              href="#rooms-suites-banner"
+              class="hero-action-btn inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#F0D58B] via-[#D6B66C] to-[#C8A24E] hover:brightness-110 text-[#101416] font-semibold px-5 py-2.5 sm:px-6 sm:py-3 text-[11px] sm:text-xs tracking-[0.14em] uppercase shadow-[0_8px_24px_rgba(214,182,108,0.35)] transition-all no-underline [text-shadow:none]"
+            >
+              <span>Explore Our Resorts</span>
+              <span>→</span>
+            </a>
+            <a
+              href="#destinations-section"
+              class="hero-action-btn hidden sm:inline-flex items-center justify-center gap-2 rounded-full bg-[#07131B]/75 hover:bg-[#07131B] text-[#F5F1E8] border border-[#D6B66C]/55 hover:border-[#F3E7C4] font-medium px-5 py-2.5 sm:px-6 sm:py-3 text-[11px] sm:text-xs tracking-[0.14em] uppercase transition-all no-underline [text-shadow:none]"
+            >
+              <span>Discover Andaman</span>
+            </a>
           </div>
         </div>
 
-        <!-- SCENE 2: AZURE POOL OASIS (Frames 60-92, Milestone frame_0060) -->
-        <div id="scene-1" class="scene-stage absolute inset-x-0 bottom-0 flex flex-col justify-end opacity-0 pointer-events-none transition-opacity duration-300 rounded-2xl bg-[#101416]/68 backdrop-blur-md border border-[#D6B66C]/25 p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] sm:rounded-none sm:bg-transparent sm:backdrop-blur-none sm:border-0 sm:p-0 sm:shadow-none sm:[text-shadow:0_2px_22px_rgba(0,0,0,0.85)]">
+        <!-- SCENE 2: LOBBY, POOL, BALCONIES & BATHTUB SUITES (secondfile.mp4 Part 1) -->
+        <div id="scene-1" class="scene-stage absolute inset-x-0 bottom-0 sm:inset-y-0 sm:my-auto flex flex-col justify-center opacity-0 pointer-events-none transition-opacity duration-300 [text-shadow:0_2px_18px_rgba(0,0,0,0.95),0_1px_4px_rgba(0,0,0,0.9)]">
 
-          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#101416]/65 border border-[#D6B66C]/35 text-[#D6B66C] mb-2 sm:mb-3 shadow-sm w-fit">
+          <div class="scene-kicker inline-flex items-center gap-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#050D12]/65 border border-[#D6B66C]/45 text-[#E8D5A7] mb-2 sm:mb-2.5 shadow-sm w-fit">
             <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
             <span class="text-[9.5px] sm:text-[11px] tracking-[0.22em] uppercase font-sans font-medium">
-              02 · The Pool Oasis
+              02 · Pool, Balconies &amp; Suites
             </span>
           </div>
 
-          <h2 class="font-cormorant text-[28px] sm:text-5xl lg:text-[54px] font-normal text-[#F5F1E8] leading-[1.06] tracking-[0.015em] mb-1.5 scene-title drop-shadow-sm">
-            The Shimmering
-            <span class="font-cormorant italic font-light text-[#D6B66C] text-xl sm:text-3xl lg:text-[38px] tracking-normal sm:mt-0.5 block">
-              Azure Waters
+          <h2 class="font-cormorant text-[28px] sm:text-4xl lg:text-[50px] font-normal text-[#F5F1E8] leading-[1.05] tracking-[0.015em] mb-1.5 scene-title">
+            Private Balconies
+            <span class="font-cormorant italic font-normal text-[#EED28A] text-2xl sm:text-3xl lg:text-[38px] tracking-normal sm:mt-0.5 block">
+              &amp; Bathtub Suites
             </span>
           </h2>
 
-          <p class="hidden sm:block text-sm sm:text-[14.5px] text-[#E5DFD2] font-light leading-relaxed tracking-[0.015em] mb-5 max-w-lg scene-desc">
-            Serene waters glowing beneath tropical palms, where handcrafted teak loungers invite quiet repose under balmy island skies.
+          <p class="hidden sm:block text-sm text-[#F5F1E8]/95 font-light leading-relaxed tracking-[0.015em] mb-4 max-w-md scene-desc">
+            From the coastal-art lobby and palm-framed pool to Bamboo Saa &amp; La Bougainvillea rooms with wooden-shuttered bathtubs and pool-view balconies.
           </p>
 
-          <div class="hidden sm:flex flex-wrap gap-2.5 text-xs scene-badges">
-            <MotionBadge client:load icon="✦">Glowing Azure Pool</MotionBadge>
-            <MotionBadge client:load icon="✦" delay={0.08}>Teak Sunbeds</MotionBadge>
-            <MotionBadge client:load icon="✦" delay={0.16}>Tropical Palms</MotionBadge>
+          <div class="hidden sm:flex flex-wrap gap-2 text-xs scene-badges">
+            <MotionBadge client:load icon="✦">Palm-Framed Pool</MotionBadge>
+            <MotionBadge client:load icon="✦" delay={0.08}>Bathtub Suites</MotionBadge>
+            <MotionBadge client:load icon="✦" delay={0.16}>Pool-View Balconies</MotionBadge>
           </div>
         </div>
 
-        <!-- SCENE 3: LUXURY ISLAND SUITES (Frames 93-120, Milestone frame_0093) -->
-        <div id="scene-2" class="scene-stage absolute inset-x-0 bottom-0 flex flex-col justify-end opacity-0 pointer-events-none transition-opacity duration-300 rounded-2xl bg-[#101416]/68 backdrop-blur-md border border-[#D6B66C]/25 p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] sm:rounded-none sm:bg-transparent sm:backdrop-blur-none sm:border-0 sm:p-0 sm:shadow-none sm:[text-shadow:0_2px_22px_rgba(0,0,0,0.85)]">
+        <!-- SCENE 3: KRAMUKA RESTAURANT & TWILIGHT SANCTUARY (secondfile.mp4 Part 2) -->
+        <div id="scene-2" class="scene-stage absolute inset-x-0 bottom-0 sm:inset-y-0 sm:my-auto flex flex-col justify-center opacity-0 pointer-events-none transition-opacity duration-300 [text-shadow:0_2px_18px_rgba(0,0,0,0.95),0_1px_4px_rgba(0,0,0,0.9)]">
 
-          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#101416]/65 border border-[#D6B66C]/35 text-[#D6B66C] mb-2 sm:mb-3 shadow-sm w-fit">
+          <div class="scene-kicker inline-flex items-center gap-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#050D12]/65 border border-[#D6B66C]/45 text-[#E8D5A7] mb-2 sm:mb-2.5 shadow-sm w-fit">
             <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
             <span class="text-[9.5px] sm:text-[11px] tracking-[0.22em] uppercase font-sans font-medium">
-              03 · Island Suites
+              03 · Kramuka Restaurant &amp; Twilight
             </span>
           </div>
 
-          <h2 class="font-cormorant text-[28px] sm:text-5xl lg:text-[54px] font-normal text-[#F5F1E8] leading-[1.06] tracking-[0.015em] mb-1.5 scene-title drop-shadow-sm">
-            Luxury Suites
-            <span class="font-cormorant italic font-light text-[#D6B66C] text-xl sm:text-3xl lg:text-[38px] tracking-normal sm:mt-0.5 block">
-              &amp; Oceanfront Living
+          <h2 class="font-cormorant text-[28px] sm:text-4xl lg:text-[50px] font-normal text-[#F5F1E8] leading-[1.05] tracking-[0.015em] mb-1.5 scene-title">
+            Kramuka Dining
+            <span class="font-cormorant italic font-normal text-[#EED28A] text-2xl sm:text-3xl lg:text-[38px] tracking-normal sm:mt-0.5 block">
+              &amp; Illuminated Nights
             </span>
           </h2>
 
-          <p class="hidden sm:block text-sm sm:text-[14.5px] text-[#E5DFD2] font-light leading-relaxed tracking-[0.015em] mb-5 max-w-lg scene-desc">
-            Elegantly appointed multi-tier accommodations featuring private balconies overlooking the glowing pool and starlit Andaman night.
+          <p class="hidden sm:block text-sm text-[#F5F1E8]/95 font-light leading-relaxed tracking-[0.015em] mb-4 max-w-md scene-desc">
+            Dine beneath sculpted chandeliers at Kramuka Restaurant with live culinary flames, then unwind in our glowing forest retreat.
           </p>
 
-          <div class="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 sm:mt-0 scene-cta">
-            <MotionButton client:load href="#book-now" variant="gold" className="!px-4 !py-2 sm:!px-6 sm:!py-3 !text-[10.5px] sm:!text-xs">
-              <span>Reserve Your Stay</span>
-              <svg class="w-3.5 h-3.5 text-[#101416]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </MotionButton>
-            <div class="hidden sm:block">
-              <MotionButton client:load href="#explore-andaman" variant="glass">
-                <span>Explore Destinations ↓</span>
-              </MotionButton>
-            </div>
+          <div class="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 sm:mt-0 scene-cta [text-shadow:none]">
+            <a
+              href="#rooms-suites-banner"
+              class="hero-action-btn inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#F0D58B] via-[#D6B66C] to-[#C8A24E] hover:brightness-110 text-[#101416] font-semibold px-5 py-2.5 sm:px-6 sm:py-3 text-[11px] sm:text-xs tracking-[0.14em] uppercase shadow-[0_8px_24px_rgba(214,182,108,0.35)] transition-all no-underline [text-shadow:none]"
+            >
+              <span>Explore Our Resorts</span>
+              <span>→</span>
+            </a>
+            <a
+              href="#destinations-section"
+              class="hero-action-btn hidden sm:inline-flex items-center justify-center gap-2 rounded-full bg-[#07131B]/75 hover:bg-[#07131B] text-[#F5F1E8] border border-[#D6B66C]/55 hover:border-[#F3E7C4] font-medium px-5 py-2.5 sm:px-6 sm:py-3 text-[11px] sm:text-xs tracking-[0.14em] uppercase transition-all no-underline [text-shadow:none]"
+            >
+              <span>Discover Andaman</span>
+            </a>
           </div>
         </div>
 
@@ -227,37 +269,150 @@ if (fs.existsSync(heroFramesDir)) {
     </div>
 
     <!-- ════════════════════════════════════════════════════════════════════════════
-         BOTTOM CONTROL BAR: SCROLL PROGRESS & COUNTER
+         BOTTOM FLOATING AREA: CHAPTER BAR + FLOATING PLAN YOUR STAY CARD + WAVE
     ════════════════════════════════════════════════════════════════════════════ -->
-    <div class="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pb-6 flex items-center justify-between text-[#F5F1E8]/90 text-xs select-none">
+    <div class="relative z-30 w-full flex flex-col items-center">
       
-      <!-- Current Chapter Label -->
-      <div class="flex items-center gap-2.5">
-        <span id="chapter-counter" class="font-mono text-[#D6B66C] font-medium tracking-widest text-xs drop-shadow-sm">01 / 03</span>
-        <span class="text-[#C8BFAE]/30">•</span>
-        <span id="chapter-name" class="font-sans tracking-[0.22em] text-[#F5F1E8]/90 uppercase text-[11px] font-light drop-shadow-sm">The Grand Entrance</span>
+      <!-- Current Chapter Label & Progress Line -->
+      <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pb-2.5 flex items-center justify-between text-[#F5F1E8]/90 text-xs select-none">
+        <div class="flex items-center gap-2.5">
+          <span id="chapter-counter" class="font-mono text-[#D6B66C] font-medium tracking-widest text-xs drop-shadow-sm">01 / 03</span>
+          <span class="text-[#C8BFAE]/30">•</span>
+          <span id="chapter-name" class="font-sans tracking-[0.22em] text-[#F5F1E8]/90 uppercase text-[11px] font-light drop-shadow-sm">The Grand Entrance</span>
+        </div>
+
+        <div class="hidden sm:block flex-1 max-w-xs mx-6 h-[2px] bg-white/15 rounded-full overflow-hidden shadow-sm">
+          <div id="scrolly-progress-bar" class="h-full bg-[#D6B66C] w-[20%] transition-all duration-150"></div>
+        </div>
+
+        <div id="scroll-hint" class="flex items-center gap-2 text-[#C8BFAE]/90 hover:text-white transition-opacity duration-300 drop-shadow-sm">
+          <span class="tracking-[0.25em] uppercase text-[10px] font-light">Scroll to explore</span>
+          <svg class="w-3.5 h-3.5 animate-bounce text-[#D6B66C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
       </div>
 
-      <!-- Scrolly Progress Line -->
-      <div class="hidden sm:block flex-1 max-w-xs mx-6 h-[2px] bg-white/10 rounded-full overflow-hidden shadow-sm">
-        <div id="scrolly-progress-bar" class="h-full bg-[#D6B66C] w-[20%] transition-all duration-150"></div>
+      <!-- Plan Your Stay: ANIMATED FLOATING GLASS BAR -->
+      <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pb-3 sm:pb-5">
+        <form
+          id="hero-plan-stay-form"
+          class="plan-stay-floating-card relative overflow-hidden rounded-2xl bg-[#06141D]/90 backdrop-blur-xl border border-[#D6B66C]/80 px-3.5 py-2.5 sm:px-6 sm:py-3.5 grid grid-cols-2 sm:grid-cols-4 lg:flex lg:items-center lg:justify-between gap-2.5 sm:gap-3 lg:gap-4 transition-all duration-300"
+        >
+          <!-- Animated Top & Bottom Golden Traveling Light Beams -->
+          <span aria-hidden="true" class="plan-stay-beam-top pointer-events-none absolute top-0 left-0 h-[2px] w-40 bg-gradient-to-r from-transparent via-[#FFF3D6] to-transparent"></span>
+          <span aria-hidden="true" class="plan-stay-beam-bottom pointer-events-none absolute bottom-0 right-0 h-[2px] w-40 bg-gradient-to-r from-transparent via-[#D6B66C] to-transparent"></span>
+
+          <!-- Title -->
+          <div class="relative z-10 col-span-2 sm:col-span-4 lg:w-auto flex items-center gap-2.5 lg:border-r lg:border-[#D6B66C]/25 lg:pr-4 flex-shrink-0">
+            <div class="relative w-9 h-9 rounded-xl bg-[#D6B66C]/15 border border-[#D6B66C]/50 flex items-center justify-center flex-shrink-0 text-[#F3E7C4] shadow-[0_0_16px_rgba(214,182,108,0.28)]">
+              <span class="pointer-events-none absolute -inset-0.5 rounded-xl border border-[#D6B66C]/45 animate-ping opacity-40"></span>
+              <svg class="w-4 h-4 plan-stay-icon-float" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <path stroke-linecap="round" d="M16 2v4M8 2v4M3 10h18" />
+              </svg>
+            </div>
+            <div>
+              <p class="font-cormorant text-lg sm:text-xl font-semibold hero-gold-shimmer leading-tight whitespace-nowrap">
+                Plan Your Stay
+              </p>
+              <p class="flex items-center gap-1.5 text-[10px] text-[#DCD5C7] leading-tight whitespace-nowrap">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#E5C985] animate-pulse shadow-[0_0_6px_#E5C985]"></span>
+                <span>Check availability instantly</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Destination (Havelock / Port Blair) -->
+          <label class="relative z-10 col-span-1 lg:flex-1 lg:min-w-[140px] flex items-center gap-2 lg:border-r lg:border-[#D6B66C]/25 lg:pr-3 cursor-pointer">
+            <svg class="w-4 h-4 text-[#D6B66C] flex-shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-6-5.686-6-11a6 6 0 1112 0c0 5.314-6 11-6 11z" />
+              <circle cx="12" cy="10" r="2.2" />
+            </svg>
+            <div class="min-w-0 flex-1">
+              <span class="block text-[9.5px] uppercase tracking-[0.14em] text-[#C8BFAE]">Destination</span>
+              <select
+                id="hero-destination"
+                class="w-full bg-transparent text-xs sm:text-[13px] font-medium text-[#F5F1E8] focus:outline-none cursor-pointer [&>option]:bg-[#07131B] [&>option]:text-[#F5F1E8]"
+              >
+                <option value="Havelock Island">Swaraj Dweep (Havelock)</option>
+                <option value="Port Blair">Sri Vijaya Puram (Port Blair)</option>
+              </select>
+            </div>
+          </label>
+
+          <!-- Check-in Date -->
+          <label class="relative z-10 col-span-1 lg:flex-1 lg:min-w-[130px] flex items-center gap-2 lg:border-r lg:border-[#D6B66C]/25 lg:pr-3 cursor-pointer">
+            <svg class="w-4 h-4 text-[#D6B66C] flex-shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path stroke-linecap="round" d="M16 2v4M8 2v4M3 10h18" />
+            </svg>
+            <div class="min-w-0 flex-1">
+              <span class="block text-[9.5px] uppercase tracking-[0.14em] text-[#C8BFAE]">Check-in</span>
+              <input
+                id="hero-checkin"
+                type="date"
+                class="w-full bg-transparent text-xs sm:text-[13px] font-medium text-[#F5F1E8] focus:outline-none [color-scheme:dark]"
+              />
+            </div>
+          </label>
+
+          <!-- Check-out Date -->
+          <label class="relative z-10 col-span-1 lg:flex-1 lg:min-w-[130px] flex items-center gap-2 lg:border-r lg:border-[#D6B66C]/25 lg:pr-3 cursor-pointer">
+            <svg class="w-4 h-4 text-[#D6B66C] flex-shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path stroke-linecap="round" d="M16 2v4M8 2v4M3 10h18" />
+            </svg>
+            <div class="min-w-0 flex-1">
+              <span class="block text-[9.5px] uppercase tracking-[0.14em] text-[#C8BFAE]">Check-out</span>
+              <input
+                id="hero-checkout"
+                type="date"
+                class="w-full bg-transparent text-xs sm:text-[13px] font-medium text-[#F5F1E8] focus:outline-none [color-scheme:dark]"
+              />
+            </div>
+          </label>
+
+          <!-- Guests -->
+          <label class="relative z-10 col-span-1 lg:w-[115px] flex items-center gap-2 cursor-pointer flex-shrink-0">
+            <svg class="w-4 h-4 text-[#D6B66C] flex-shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
+              <circle cx="9" cy="7" r="3.5" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a3.5 3.5 0 010 6.74" />
+            </svg>
+            <div class="min-w-0 flex-1">
+              <span class="block text-[9.5px] uppercase tracking-[0.14em] text-[#C8BFAE]">Guests</span>
+              <select
+                id="hero-guests"
+                class="w-full bg-transparent text-xs sm:text-[13px] font-medium text-[#F5F1E8] focus:outline-none cursor-pointer [&>option]:bg-[#07131B] [&>option]:text-[#F5F1E8]"
+              >
+                <option value="1">1 Adult</option>
+                <option value="2" selected>2 Adults</option>
+                <option value="3">3 Adults</option>
+                <option value="4">4 Adults</option>
+              </select>
+            </div>
+          </label>
+
+          <!-- Check Availability CTA -->
+          <div class="relative z-10 col-span-2 sm:col-span-4 lg:w-auto flex justify-end flex-shrink-0">
+            <button
+              type="submit"
+              class="plan-stay-cta-btn relative overflow-hidden w-full lg:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#F0D58B] via-[#D6B66C] to-[#C8A24E] hover:brightness-110 text-[#101416] font-semibold text-xs sm:text-[13px] px-5 py-2.5 shadow-[0_8px_24px_rgba(214,182,108,0.38)] transition-all cursor-pointer whitespace-nowrap [text-shadow:none]"
+            >
+              <span>Check Availability</span>
+              <span class="plan-stay-arrow inline-block">→</span>
+            </button>
+          </div>
+        </form>
       </div>
 
-      <!-- Scroll Guidance Indicator -->
-      <div id="scroll-hint" class="flex items-center gap-2 text-[#C8BFAE]/80 hover:text-white transition-opacity duration-300 drop-shadow-sm">
-        <span class="tracking-[0.25em] uppercase text-[10px] font-light">Scroll to explore</span>
-        <svg class="w-3.5 h-3.5 animate-bounce text-[#D6B66C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      <!-- Smooth Wave Divider blending naturally into Section 2: Explore Andaman -->
+      <div class="w-full overflow-hidden leading-none pointer-events-none -mb-1">
+        <svg class="block w-full text-[#0A2635]" viewBox="0 0 1440 60" preserveAspectRatio="none" style="width: 100%; height: 32px;">
+          <path d="M0,0 C240,40 480,55 720,30 C960,5 1200,45 1440,25 L1440,60 L0,60 Z" fill="currentColor"></path>
         </svg>
       </div>
-
-    </div>
-
-    <!-- Smooth Wave Divider blending naturally into Section 2: Explore Andaman -->
-    <div class="relative w-full overflow-hidden leading-none z-20 pointer-events-none -mb-1">
-      <svg class="block w-full text-[#0A2635]" viewBox="0 0 1440 60" preserveAspectRatio="none" style="width: 100%; height: 35px;">
-        <path d="M0,0 C240,40 480,55 720,30 C960,5 1200,45 1440,25 L1440,60 L0,60 Z" fill="currentColor"></path>
-      </svg>
     </div>
 
   </div>
@@ -290,9 +445,9 @@ if (fs.existsSync(heroFramesDir)) {
   };
 
   const SCENES = [
-    { name: 'The Grand Entrance', id: 'scene-0', targetProgress: 0.00 },
-    { name: 'The Pool Oasis',     id: 'scene-1', targetProgress: 0.38 },
-    { name: 'Island Suites',      id: 'scene-2', targetProgress: 0.72 }
+    { name: 'The Grand Entrance',  id: 'scene-0', targetProgress: 0.00 },
+    { name: 'Suites & Balconies',  id: 'scene-1', targetProgress: 0.36 },
+    { name: 'Kramuka & Twilight',  id: 'scene-2', targetProgress: 0.70 }
   ];
 
   function initCinematicExperience() {
@@ -327,12 +482,19 @@ if (fs.existsSync(heroFramesDir)) {
     const section = document.getElementById('hero-scrolly');
     const canvas = document.getElementById('scrolly-canvas') as HTMLCanvasElement | null;
     const fallback = document.getElementById('scrolly-fallback');
+    const secondVideo = document.getElementById('hero-second-video') as HTMLVideoElement | null;
     const progressBar = document.getElementById('scrolly-progress-bar');
     const counterEl = document.getElementById('chapter-counter');
     const nameEl = document.getElementById('chapter-name');
     const scrollHint = document.getElementById('scroll-hint');
 
     if (!section || !canvas) return;
+
+    let secondVideoErrored = false;
+    let secondVideoVisible = false;
+    secondVideo?.addEventListener('error', () => {
+      secondVideoErrored = true;
+    });
 
     const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) return;
@@ -362,10 +524,14 @@ if (fs.existsSync(heroFramesDir)) {
           preloader.style.display = 'none';
         }, 550);
       }
+      const initialScene = document.getElementById('scene-0');
+      if (initialScene) {
+        animateSceneTypography(initialScene);
+      }
     }
 
     // Safety fallback so slow networks never trap the user
-    const safetyTimer = setTimeout(closePreloader, 12000);
+    const safetyTimer = setTimeout(closePreloader, 3500);
 
     // In-memory decoded image buffer + in-flight deduplication
     const frames: (HTMLImageElement | null)[] = new Array(TOTAL_FRAMES).fill(null);
@@ -373,13 +539,14 @@ if (fs.existsSync(heroFramesDir)) {
     let loadedCount = 0;
     let lastDrawn = -1;
     let activeScene = 0;
+    const READY_THRESHOLD = Math.min(18, TOTAL_FRAMES);
 
     function markFrameReady() {
       loadedCount++;
-      const pct = Math.min(100, Math.round((loadedCount / TOTAL_FRAMES) * 100));
+      const pct = Math.min(100, Math.round((loadedCount / READY_THRESHOLD) * 100));
       if (preloaderBar) preloaderBar.style.width = `${pct}%`;
       if (preloaderPct) preloaderPct.textContent = `${pct}%`;
-      if (loadedCount >= TOTAL_FRAMES) {
+      if (loadedCount >= READY_THRESHOLD) {
         clearTimeout(safetyTimer);
         closePreloader();
       }
@@ -387,8 +554,11 @@ if (fs.existsSync(heroFramesDir)) {
 
     function resizeCanvas() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas!.width = Math.round(window.innerWidth * dpr);
-      canvas!.height = Math.round(window.innerHeight * dpr);
+      const rect = canvas!.parentElement?.getBoundingClientRect();
+      const w = rect?.width || window.innerWidth;
+      const h = rect?.height || window.innerHeight;
+      canvas!.width = Math.round(w * dpr);
+      canvas!.height = Math.round(h * dpr);
       ctx!.imageSmoothingEnabled = true;
       ctx!.imageSmoothingQuality = 'high';
       lastDrawn = -1;
@@ -417,6 +587,8 @@ if (fs.existsSync(heroFramesDir)) {
       const x = (cw - w) / 2;
       const y = (ch - h) / 2;
       
+      ctx!.imageSmoothingEnabled = true;
+      ctx!.imageSmoothingQuality = 'high';
       ctx!.drawImage(img, x, y, w, h);
       lastDrawn = i;
       if (fallback && fallback.style.opacity !== '0') {
@@ -522,6 +694,20 @@ if (fs.existsSync(heroFramesDir)) {
 
           const progress = self.progress;
 
+          // Reveal & play secondfile.mp4 immediately once the entrance gate opens
+          if (secondVideo && !secondVideoErrored) {
+            const shouldShowVideo = progress >= 0.34;
+            if (shouldShowVideo && !secondVideoVisible) {
+              secondVideoVisible = true;
+              secondVideo.style.opacity = '1';
+              secondVideo.play().catch(() => {});
+            } else if (!shouldShowVideo && secondVideoVisible) {
+              secondVideoVisible = false;
+              secondVideo.style.opacity = '0';
+              secondVideo.pause();
+            }
+          }
+
           // Update Progress Bar & scroll hint
           if (progressBar) progressBar.style.width = `${Math.max(8, progress * 100)}%`;
           if (scrollHint) scrollHint.style.opacity = progress > 0.03 ? '0' : '1';
@@ -531,9 +717,9 @@ if (fs.existsSync(heroFramesDir)) {
           // 02: Pool Oasis (38% -> 72%)
           // 03: Hotel / Island Suites (72% -> 100%)
           let sceneIdx = 0;
-          if (progress >= 0.72) {
+          if (progress >= 0.70) {
             sceneIdx = 2;
-          } else if (progress >= 0.38) {
+          } else if (progress >= 0.34) {
             sceneIdx = 1;
           } else {
             sceneIdx = 0;
@@ -543,6 +729,43 @@ if (fs.existsSync(heroFramesDir)) {
         }
       }
     });
+
+    function animateSceneTypography(el: HTMLElement) {
+      if (prefersReducedMotion) return;
+      const kicker = el.querySelector('.scene-kicker');
+      const title = el.querySelector('.scene-title');
+      const sub = el.querySelector('.scene-title span');
+      const rest = el.querySelectorAll('.scene-desc, .scene-badges, .scene-cta');
+
+      if (kicker) {
+        gsap.fromTo(
+          kicker,
+          { opacity: 0, x: -16 },
+          { opacity: 1, x: 0, duration: 0.48, ease: 'power3.out', overwrite: true }
+        );
+      }
+      if (title) {
+        gsap.fromTo(
+          title,
+          { opacity: 0, y: 22, clipPath: 'inset(0 0 100% 0)' },
+          { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 0.72, delay: 0.06, ease: 'power3.out', overwrite: true }
+        );
+      }
+      if (sub) {
+        gsap.fromTo(
+          sub,
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.65, delay: 0.16, ease: 'power3.out', overwrite: true }
+        );
+      }
+      if (rest.length > 0) {
+        gsap.fromTo(
+          rest,
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.55, delay: 0.22, stagger: 0.09, ease: 'power2.out', overwrite: true }
+        );
+      }
+    }
 
     // 4. Seamless Scene Cross-Fading (No Race Conditions, Never Stuck)
     function setActiveScene(idx: number) {
@@ -558,10 +781,11 @@ if (fs.existsSync(heroFramesDir)) {
           gsap.to(el, {
             opacity: 1,
             y: 0,
-            duration: 0.3,
+            duration: 0.35,
             ease: "power2.out",
             overwrite: true
           });
+          animateSceneTypography(el);
         } else if (i === activeScene) {
           el.style.pointerEvents = 'none';
           gsap.to(el, {
@@ -617,6 +841,63 @@ if (fs.existsSync(heroFramesDir)) {
     window.addEventListener('resize', resizeCanvas, { passive: true });
     resizeCanvas();
     preloadAllFrames();
+
+    // Plan Your Stay bar: set default dates & sync into #book-now on submit
+    const heroDestination = document.getElementById('hero-destination') as HTMLSelectElement | null;
+    const heroCheckin = document.getElementById('hero-checkin') as HTMLInputElement | null;
+    const heroCheckout = document.getElementById('hero-checkout') as HTMLInputElement | null;
+    const heroGuests = document.getElementById('hero-guests') as HTMLSelectElement | null;
+    const heroPlanForm = document.getElementById('hero-plan-stay-form');
+
+    if (heroCheckin && heroCheckout) {
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+      const dayAfter = new Date(today);
+      dayAfter.setDate(today.getDate() + 2);
+      const fmt = (d: Date) => d.toISOString().split('T')[0];
+      heroCheckin.min = fmt(today);
+      heroCheckout.min = fmt(tomorrow);
+      if (!heroCheckin.value) heroCheckin.value = fmt(tomorrow);
+      if (!heroCheckout.value) heroCheckout.value = fmt(dayAfter);
+    }
+
+    heroPlanForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const dest = heroDestination?.value || 'Havelock Island';
+      const checkin = heroCheckin?.value || '2026-11-15';
+      const checkout = heroCheckout?.value || '2026-11-16';
+      const adults = heroGuests?.value || '2';
+      const params = new URLSearchParams({
+        checkin,
+        checkout,
+        adults,
+        children: '0',
+      }).toString();
+
+      const url =
+        dest === 'Port Blair'
+          ? `https://letsbook.me/booking/seahillshotelportblair?${params}`
+          : `https://www.seahillshotels.com/resort-swaraj-dweep/rooms?${params}`;
+      window.open(url, '_blank', 'noopener,noreferrer');
+    });
+
+    // Smoothly scroll Hero CTA buttons (#rooms-suites-banner, #destinations-section) via Lenis
+    document.querySelectorAll<HTMLAnchorElement>('.hero-action-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const href = btn.getAttribute('href');
+        if (!href || !href.startsWith('#')) return;
+        const targetEl = document.querySelector<HTMLElement>(href);
+        if (targetEl) {
+          e.preventDefault();
+          if (lenis) {
+            lenis.scrollTo(targetEl, { duration: 1.15 });
+          } else {
+            targetEl.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    });
   }
 
   if (document.readyState === 'loading') {
@@ -625,3 +906,155 @@ if (fs.existsSync(heroFramesDir)) {
     initCinematicExperience();
   }
 </script>
+
+<style>
+  @keyframes heroGoldShimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .hero-gold-shimmer {
+    background: linear-gradient(110deg, #D6B66C 15%, #FFF4D4 48%, #E5C16C 75%, #D6B66C 100%);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: heroGoldShimmer 6s ease-in-out infinite;
+    filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.85));
+  }
+
+  @keyframes planStayGlow {
+    0%, 100% {
+      box-shadow: 0 24px 60px -10px rgba(0, 0, 0, 0.88), 0 0 25px rgba(214, 182, 108, 0.2);
+      border-color: rgba(214, 182, 108, 0.72);
+    }
+    50% {
+      box-shadow: 0 28px 70px -10px rgba(0, 0, 0, 0.95), 0 0 44px rgba(214, 182, 108, 0.38);
+      border-color: rgba(243, 231, 196, 0.95);
+    }
+  }
+
+  @keyframes planStayBeamTop {
+    0% {
+      transform: translateX(-110%);
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(850%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes planStayBeamBottom {
+    0% {
+      transform: translateX(110%);
+      opacity: 0;
+    }
+    25% {
+      opacity: 0.9;
+    }
+    75% {
+      opacity: 0.9;
+    }
+    100% {
+      transform: translateX(-850%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes planStayIconFloat {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      transform: scale(1.1) rotate(-4deg);
+    }
+  }
+
+  @keyframes planStayArrowNudge {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(4px);
+    }
+  }
+
+  @keyframes planStayBtnSheen {
+    0% {
+      transform: translateX(-140%) skewX(-22deg);
+    }
+    40%, 100% {
+      transform: translateX(260%) skewX(-22deg);
+    }
+  }
+
+  .plan-stay-floating-card {
+    transform: none !important;
+    animation: planStayGlow 3.6s ease-in-out infinite;
+    will-change: box-shadow, border-color;
+  }
+
+  .plan-stay-beam-top {
+    animation: planStayBeamTop 4.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .plan-stay-beam-bottom {
+    animation: planStayBeamBottom 4.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 2.1s;
+  }
+
+  .plan-stay-icon-float {
+    animation: planStayIconFloat 2.8s ease-in-out infinite;
+  }
+
+  .plan-stay-arrow {
+    animation: planStayArrowNudge 1.8s ease-in-out infinite;
+  }
+
+  .plan-stay-cta-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 42%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    animation: planStayBtnSheen 3.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .plan-stay-floating-card:hover,
+  .plan-stay-floating-card:focus-within {
+    box-shadow: 0 28px 70px -10px rgba(0, 0, 0, 0.95), 0 0 48px rgba(214, 182, 108, 0.42);
+    border-color: rgba(243, 231, 196, 0.98);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-gold-shimmer {
+      animation: none;
+      color: #F3D999;
+      background: none;
+    }
+    .plan-stay-floating-card,
+    .plan-stay-beam-top,
+    .plan-stay-beam-bottom,
+    .plan-stay-icon-float,
+    .plan-stay-arrow,
+    .plan-stay-cta-btn::after {
+      animation: none;
+    }
+  }
+</style>

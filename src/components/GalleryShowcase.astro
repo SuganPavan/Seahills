@@ -1,34 +1,156 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
+
+const publicDir = path.join(process.cwd(), 'public');
+const roomsColDir = path.join(publicDir, 'images', 'rooms-collection');
+const diningScrollDir = path.join(publicDir, 'images', 'dining-scroll');
+const gallerySyncDir = path.join(publicDir, 'images', 'hotel-gallery');
+const uploadedDir =
+  'C:\\Users\\sugan\\.gemini\\antigravity\\brain\\93857b95-74ba-4984-b01e-a2ff534fa52e\\.user_uploaded';
+const imageExtRe = /\.(webp|jpe?g|png|avif)$/i;
+
+function resolveOriginalHotelPhoto(
+  key: string,
+  uploadedFile: string | null,
+  localFolder: string | null,
+  syncedDir: string,
+  syncedPrefix: string,
+  fallbackUrl: string
+): string {
+  // 1. Check already-synced rooms-collection or dining-scroll in public/
+  if (fs.existsSync(syncedDir)) {
+    const match = fs
+      .readdirSync(syncedDir)
+      .find((f) => f.startsWith(syncedPrefix) && imageExtRe.test(f));
+    if (match) {
+      const rel = path.relative(publicDir, path.join(syncedDir, match)).replace(/\\/g, '/');
+      return `/${rel}`;
+    }
+  }
+
+  // 2. Check uploaded original hotel photo
+  if (uploadedFile) {
+    const upPath = path.join(uploadedDir, uploadedFile);
+    if (fs.existsSync(upPath)) {
+      fs.mkdirSync(gallerySyncDir, { recursive: true });
+      const ext = path.extname(upPath).toLowerCase() || '.jpg';
+      const outName = `${key}${ext}`;
+      fs.writeFileSync(path.join(gallerySyncDir, outName), fs.readFileSync(upPath));
+      return `/images/hotel-gallery/${outName}`;
+    }
+  }
+
+  // 3. Check D:\Sea_shell original hotel folder
+  if (localFolder && fs.existsSync(localFolder)) {
+    const files = fs
+      .readdirSync(localFolder)
+      .filter((f) => imageExtRe.test(f))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+    if (files.length > 0) {
+      fs.mkdirSync(gallerySyncDir, { recursive: true });
+      const ext = path.extname(files[0]).toLowerCase() || '.jpg';
+      const outName = `${key}${ext}`;
+      fs.writeFileSync(path.join(gallerySyncDir, outName), fs.readFileSync(path.join(localFolder, files[0])));
+      return `/images/hotel-gallery/${outName}`;
+    }
+  }
+
+  // 4. Check previously synced hotel-gallery
+  if (fs.existsSync(gallerySyncDir)) {
+    const existing = fs
+      .readdirSync(gallerySyncDir)
+      .find((f) => f.startsWith(`${key}.`) && imageExtRe.test(f));
+    if (existing) return `/images/hotel-gallery/${existing}`;
+  }
+
+  return fallbackUrl;
+}
+
 const visualMoments = [
   {
-    title: 'Sea Hills Andaman ♡',
+    title: 'Bamboo Saa Luxury Room (410 Sq. Ft.)',
+    hotel: 'Sea Hills Havelock Resort',
+    location: 'Havelock Island · Swaraj Dweep',
     category: 'Resorts & Stays',
-    image: '/frames/Home_Section/frame_0025.webp',
+    image: resolveOriginalHotelPhoto(
+      'gal-hl-bamboo',
+      'media_1794653654581_5f4f15c8.jpg',
+      'D:\\Sea_shell\\Havelock_Bamboo Saa Rooms',
+      roomsColDir,
+      'hl-bamboo-saa-1',
+      '/images/rooms-collection/hl-bamboo-saa-1.jpg'
+    ),
   },
   {
-    title: 'Two Islands Horizon',
+    title: 'VIP Lounge Sea View Suite (452 Sq. Ft.)',
+    hotel: 'Sea Hills Port Blair Hotel',
+    location: 'Port Blair · Sri Vijaya Puram',
+    category: 'Resorts & Stays',
+    image: resolveOriginalHotelPhoto(
+      'gal-pb-vip',
+      'media_1794654473317_dace69e9.jpg',
+      'D:\\Sea_shell\\VIP_Lounge',
+      roomsColDir,
+      'pb-vip-lounge-1',
+      '/images/rooms-collection/pb-vip-lounge-1.jpg'
+    ),
+  },
+  {
+    title: 'La Bougainvillea Room with Bathtub (410 Sq. Ft.)',
+    hotel: 'Sea Hills Havelock Resort',
+    location: 'Havelock Island · Swaraj Dweep',
     category: 'Island Escapes',
-    image: '/frames/Destination/frame_0001.webp',
+    image: resolveOriginalHotelPhoto(
+      'gal-hl-bougainvillea',
+      'media_1794653750953_8ecb1a38.jpg',
+      'D:\\Sea_shell\\Havelock_La Bougainvillea Rooms with Bathtub',
+      roomsColDir,
+      'hl-bougainvillea-1',
+      '/images/rooms-collection/hl-bougainvillea-1.jpg'
+    ),
   },
   {
-    title: 'Emerald Bay & Reefs',
-    category: 'Underwater World',
-    image: '/frames/Destination/frame_0045.webp',
-  },
-  {
-    title: 'Anubis Bar & Lounge',
+    title: 'Kramuka & Cleopatra Multi-Cuisine Dining',
+    hotel: 'Sea Hills Havelock & Port Blair',
+    location: 'Havelock Island & Port Blair',
     category: 'Dining & Lifestyle',
-    image: '/images/facilities/bar.jpg',
+    image: resolveOriginalHotelPhoto(
+      'gal-dining-orig',
+      null,
+      'D:\\Sea_shell\\Havelock_restarent',
+      diningScrollDir,
+      '02-hl-rest-01',
+      '/images/rooms-collection/pb-pool-view-1.jpg'
+    ),
   },
   {
-    title: 'Luxury Island Suites',
+    title: 'Premium Sea View Suite with Bathtub',
+    hotel: 'Sea Hills Port Blair Hotel',
+    location: 'Port Blair · Sri Vijaya Puram',
     category: 'Resorts & Stays',
-    image: '/frames/rooms/frame_0060.webp',
+    image: resolveOriginalHotelPhoto(
+      'gal-pb-seaview',
+      'media_1794654058837_91d9267d.jpg',
+      'D:\\Sea_shell\\sea_view',
+      roomsColDir,
+      'pb-sea-view-1',
+      '/images/rooms-collection/pb-sea-view-1.jpg'
+    ),
   },
   {
-    title: 'Tropical Pool Oasis',
+    title: 'Celebrate Your Moments · Honeymoon Flower Decor',
+    hotel: 'Sea Hills Havelock & Port Blair',
+    location: 'Havelock Island & Port Blair',
     category: 'Experiences',
-    image: '/images/facilities/pool-bright.jpg',
+    image: resolveOriginalHotelPhoto(
+      'gal-special-decor',
+      'media_1794654615610_92d007fa.jpg',
+      'D:\\Sea_shell\\flower_decoration',
+      roomsColDir,
+      'special-flower-decor',
+      '/images/rooms-collection/special-flower-decor.jpg'
+    ),
   },
 ];
 
@@ -37,14 +159,13 @@ const filters = [
   'Resorts & Stays',
   'Island Escapes',
   'Dining & Lifestyle',
-  'Underwater World',
   'Experiences',
 ];
 ---
 
 <section
   id="gallery"
-  class="relative bg-gradient-to-b from-[#071115] via-[#0B171D] to-[#081014] text-[#F5F1E8] pt-14 pb-20 px-4 sm:px-8 lg:px-12 overflow-hidden"
+  class="relative bg-gradient-to-b from-[#071115] via-[#0B171D] to-[#081014] text-[#F5F1E8] pt-14 pb-20 px-4 sm:px-8 lg:px-12 overflow-visible"
 >
   <!-- Top Champagne Gold Wave Divider -->
   <div class="pointer-events-none absolute top-0 inset-x-0 w-full overflow-hidden leading-none">
@@ -66,31 +187,33 @@ const filters = [
   </div>
 
   <div class="relative z-10 max-w-[1320px] mx-auto pt-6">
-    <!-- Top Header + 2x3 Filter Pills -->
-    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-7 mb-10 sm:mb-12">
-      <div>
-        <div class="flex items-center gap-3 mb-2.5">
-          <span class="inline-block w-7 h-[1px] bg-[#D6B66C]"></span>
-          <span class="text-[10px] uppercase tracking-[0.28em] text-[#D6B66C] font-semibold">
+    <!-- Top Header + Single-Line Filter Pills -->
+    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-4 mb-8 sm:mb-10">
+      <div class="flex-shrink-0">
+        <div class="flex items-center gap-2.5 mb-1.5">
+          <span class="inline-block w-6 h-[1px] bg-[#D6B66C]"></span>
+          <span class="text-[9.5px] sm:text-[10px] uppercase tracking-[0.28em] text-[#D6B66C] font-semibold">
             The Sea Hills Visual Journal
           </span>
         </div>
 
-        <h2 class="font-cormorant text-4xl sm:text-5xl lg:text-[3.2rem] leading-[1.06] text-[#F5F1E8] font-normal">
-          The Art of <span class="text-[#F3E7C4] italic">Island Living</span>
-        </h2>
-        <p class="font-cormorant italic text-lg text-[#C8BFAE] mt-1">
-          Every Frame Tells an Island Story.
-        </p>
+        <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <h2 class="font-cormorant text-2xl sm:text-3xl lg:text-[2.35rem] leading-tight text-[#F5F1E8] font-normal whitespace-nowrap">
+            The Art of <span class="text-[#F3E7C4] italic">Island Living</span>
+          </h2>
+          <p class="font-cormorant italic text-sm sm:text-base text-[#C8BFAE]">
+            Hover over any photo to view full size &amp; location.
+          </p>
+        </div>
       </div>
 
-      <!-- 2-Row x 3-Column Filter Pills -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-w-xl">
+      <!-- Single-Line Filter Pills -->
+      <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar pb-1 xl:pb-0 flex-nowrap">
         {filters.map((cat, idx) => (
           <button
             type="button"
             data-journal-filter={cat}
-            class={`journal-filter-btn rounded-full px-3.5 py-2 text-[11px] font-medium tracking-wide border transition-all duration-300 text-center whitespace-nowrap ${
+            class={`journal-filter-btn flex-shrink-0 rounded-full px-3 sm:px-3.5 py-1.5 text-[10.5px] sm:text-[11px] font-medium tracking-wide border transition-all duration-300 text-center whitespace-nowrap ${
               idx === 0
                 ? 'bg-gradient-to-r from-[#D6B66C] to-[#E6C987] text-[#101416] border-[#D6B66C] font-semibold shadow-[0_6px_18px_rgba(214,182,108,0.3)]'
                 : 'bg-[#101A1F]/75 text-[#E5DFD2] border-[#D6B66C]/30 hover:border-[#D6B66C]'
@@ -102,76 +225,128 @@ const filters = [
       </div>
     </div>
 
-    <!-- Fanned & Overlapping Tilted Polaroid Collage with Edge Arrows -->
-    <div class="relative px-2 sm:px-6">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 lg:gap-0 items-center">
+    <!-- Fanned & Overlapping Tilted Polaroid Collage (Hovering any photo expands THAT SAME photo to big size with clear location) -->
+    <div id="gallery-collage-stage" class="relative px-2 sm:px-6 py-6">
+      <div class="gallery-collage-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 lg:gap-0 items-center">
         <!-- Left Card (-4deg) -->
         <a
           href="/gallery"
           data-journal-card
           data-journal-category={visualMoments[0].category}
-          class="journal-photo-card lg:col-span-3 relative z-10 rounded-2xl overflow-hidden border-[3px] border-[#F5F1E8]/90 bg-[#14191C] h-[270px] sm:h-[290px] shadow-[0_24px_55px_rgba(0,0,0,0.8)] lg:-rotate-[4deg] hover:rotate-0 hover:z-30 transition-all duration-500 lg:-mr-3"
+          class="journal-photo-card journal-card-tall group lg:col-span-3 relative z-10 hover:z-50 focus-visible:z-50 rounded-2xl overflow-hidden border-[3px] border-[#F5F1E8]/90 hover:border-[#FFF3D6] bg-[#14191C] h-[300px] sm:h-[325px] shadow-[0_24px_55px_rgba(0,0,0,0.8)] lg:-rotate-[4deg] lg:-mr-3"
         >
-          <img src={visualMoments[0].image} alt={visualMoments[0].title} loading="lazy" class="w-full h-full object-cover" />
-          <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#091014]/90 to-transparent"></div>
-          <p class="absolute bottom-3.5 left-4 font-cormorant italic text-2xl text-[#F5F1E8]">
-            {visualMoments[0].title}
-          </p>
+          <img src={visualMoments[0].image} alt={visualMoments[0].title} loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-500" />
+          <div class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#050E14]/85 via-[#050E14]/35 to-transparent"></div>
+          <div class="pointer-events-none absolute bottom-2.5 left-3 right-3 flex flex-col">
+            <span class="inline-flex items-center gap-1 text-[9.5px] font-bold uppercase tracking-[0.14em] text-[#FFE59E] drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
+              <svg class="w-3 h-3 text-[#FFE59E] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+              </svg>
+              <span>{visualMoments[0].location} · {visualMoments[0].hotel}</span>
+            </span>
+            <p class="font-cormorant italic text-base sm:text-lg text-white font-semibold leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">{visualMoments[0].title}</p>
+          </div>
         </a>
 
         <!-- Center-Left Stack (+2deg & -1.5deg) -->
-        <div class="lg:col-span-3 flex flex-col gap-3 relative z-10 lg:-mr-3">
+        <div class="lg:col-span-3 flex flex-col gap-3 relative z-10 hover:z-50 focus-within:z-50 lg:-mr-3">
           <a
             href="/gallery"
             data-journal-card
             data-journal-category={visualMoments[1].category}
-            class="journal-photo-card relative rounded-2xl overflow-hidden border-[3px] border-[#F5F1E8]/85 bg-[#14191C] h-[175px] shadow-[0_20px_45px_rgba(0,0,0,0.75)] lg:rotate-[2deg] hover:rotate-0 hover:z-30 transition-all duration-500"
+            class="journal-photo-card journal-card-compact group relative z-10 hover:z-50 focus-visible:z-50 rounded-2xl overflow-hidden border-[3px] border-[#F5F1E8]/85 hover:border-[#FFF3D6] bg-[#14191C] h-[195px] shadow-[0_20px_45px_rgba(0,0,0,0.75)] lg:rotate-[2deg]"
           >
-            <img src={visualMoments[1].image} alt={visualMoments[1].title} loading="lazy" class="w-full h-full object-cover" />
+            <img src={visualMoments[1].image} alt={visualMoments[1].title} loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-500" />
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#050E14]/85 via-[#050E14]/30 to-transparent"></div>
+            <div class="pointer-events-none absolute bottom-2 left-2.5 right-2.5 flex flex-col">
+              <span class="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#FFE59E] drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
+                <svg class="w-2.5 h-2.5 text-[#FFE59E] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                </svg>
+                <span>{visualMoments[1].location}</span>
+              </span>
+              <p class="font-cormorant text-sm sm:text-base text-white font-semibold leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">{visualMoments[1].title}</p>
+            </div>
           </a>
 
           <a
             href="/gallery"
             data-journal-card
             data-journal-category={visualMoments[5].category}
-            class="journal-photo-card relative rounded-2xl overflow-hidden border-[3px] border-[#F5F1E8]/85 bg-[#14191C] h-[130px] shadow-[0_18px_40px_rgba(0,0,0,0.75)] lg:-rotate-[1.5deg] hover:rotate-0 hover:z-30 transition-all duration-500"
+            class="journal-photo-card journal-card-compact group relative z-10 hover:z-50 focus-visible:z-50 rounded-2xl overflow-hidden border-[3px] border-[#F5F1E8]/85 hover:border-[#FFF3D6] bg-[#14191C] h-[168px] shadow-[0_18px_40px_rgba(0,0,0,0.75)] lg:-rotate-[1.5deg]"
           >
-            <img src={visualMoments[5].image} alt={visualMoments[5].title} loading="lazy" class="w-full h-full object-cover" />
+            <img src={visualMoments[5].image} alt={visualMoments[5].title} loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-500" />
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-[#050E14]/85 via-[#050E14]/30 to-transparent"></div>
+            <div class="pointer-events-none absolute bottom-2 left-2.5 right-2.5 flex flex-col">
+              <span class="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#FFE59E] drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
+                <svg class="w-2.5 h-2.5 text-[#FFE59E] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                </svg>
+                <span>{visualMoments[5].location}</span>
+              </span>
+              <p class="font-cormorant text-sm text-white font-semibold leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">{visualMoments[5].title}</p>
+            </div>
           </a>
         </div>
 
-        <!-- Center Hero Spotlight Card (Largest, z-20) -->
+        <!-- Center Hero Spotlight Card (Largest, z-20, expands to z-50 on hover) -->
         <a
           href="/gallery"
           data-journal-card
           data-journal-category={visualMoments[2].category}
-          class="journal-photo-card lg:col-span-3 relative z-20 rounded-2xl overflow-hidden border-[3px] border-[#F3E7C4] bg-[#14191C] h-[310px] sm:h-[330px] shadow-[0_28px_70px_rgba(0,0,0,0.85),0_0_32px_rgba(214,182,108,0.22)] lg:-rotate-[1.2deg] hover:rotate-0 hover:z-30 transition-all duration-500"
+          class="journal-photo-card journal-card-tall group lg:col-span-3 relative z-20 hover:z-50 focus-visible:z-50 rounded-2xl overflow-hidden border-[3px] border-[#F3E7C4] hover:border-[#FFF8E6] bg-[#14191C] h-[345px] sm:h-[375px] shadow-[0_28px_70px_rgba(0,0,0,0.85),0_0_32px_rgba(214,182,108,0.22)] lg:-rotate-[1.2deg]"
         >
-          <img src={visualMoments[2].image} alt={visualMoments[2].title} loading="lazy" class="w-full h-full object-cover" />
-          <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#091014]/85 to-transparent"></div>
-          <p class="absolute bottom-3.5 left-4 font-cormorant text-xl text-[#F3E7C4]">
-            {visualMoments[2].title}
-          </p>
+          <img src={visualMoments[2].image} alt={visualMoments[2].title} loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-500" />
+          <div class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#050E14]/85 via-[#050E14]/35 to-transparent"></div>
+          <div class="pointer-events-none absolute bottom-3 left-3.5 right-3.5 flex flex-col">
+            <span class="inline-flex items-center gap-1 text-[9.5px] font-bold uppercase tracking-[0.14em] text-[#FFE59E] drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
+              <svg class="w-3 h-3 text-[#FFE59E] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+              </svg>
+              <span>{visualMoments[2].location} · {visualMoments[2].hotel}</span>
+            </span>
+            <p class="font-cormorant text-lg sm:text-xl text-white font-semibold leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">{visualMoments[2].title}</p>
+          </div>
         </a>
 
         <!-- Right Stack (+2.5deg & -2deg) -->
-        <div class="lg:col-span-3 flex flex-col gap-3 relative z-10 lg:-ml-3">
+        <div class="lg:col-span-3 flex flex-col gap-3 relative z-10 hover:z-50 focus-within:z-50 lg:-ml-3">
           <a
             href="/gallery"
             data-journal-card
             data-journal-category={visualMoments[3].category}
-            class="journal-photo-card relative rounded-2xl overflow-hidden border-[3px] border-[#F5F1E8]/85 bg-[#14191C] h-[145px] shadow-[0_20px_45px_rgba(0,0,0,0.75)] lg:rotate-[2.5deg] hover:rotate-0 hover:z-30 transition-all duration-500"
+            class="journal-photo-card journal-card-compact group relative z-10 hover:z-50 focus-visible:z-50 rounded-2xl overflow-hidden border-[3px] border-[#F5F1E8]/85 hover:border-[#FFF3D6] bg-[#14191C] h-[178px] shadow-[0_20px_45px_rgba(0,0,0,0.75)] lg:rotate-[2.5deg]"
           >
-            <img src={visualMoments[3].image} alt={visualMoments[3].title} loading="lazy" class="w-full h-full object-cover" />
+            <img src={visualMoments[3].image} alt={visualMoments[3].title} loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-500" />
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-[#050E14]/85 via-[#050E14]/30 to-transparent"></div>
+            <div class="pointer-events-none absolute bottom-2 left-2.5 right-2.5 flex flex-col">
+              <span class="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#FFE59E] drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
+                <svg class="w-2.5 h-2.5 text-[#FFE59E] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                </svg>
+                <span>{visualMoments[3].location}</span>
+              </span>
+              <p class="font-cormorant text-sm text-white font-semibold leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">{visualMoments[3].title}</p>
+            </div>
           </a>
 
           <a
             href="/gallery"
             data-journal-card
             data-journal-category={visualMoments[4].category}
-            class="journal-photo-card relative rounded-2xl overflow-hidden border-[3px] border-[#F5F1E8]/85 bg-[#14191C] h-[165px] shadow-[0_20px_45px_rgba(0,0,0,0.75)] lg:-rotate-[2deg] hover:rotate-0 hover:z-30 transition-all duration-500"
+            class="journal-photo-card journal-card-compact group relative z-10 hover:z-50 focus-visible:z-50 rounded-2xl overflow-hidden border-[3px] border-[#F5F1E8]/85 hover:border-[#FFF3D6] bg-[#14191C] h-[192px] shadow-[0_20px_45px_rgba(0,0,0,0.75)] lg:-rotate-[2deg]"
           >
-            <img src={visualMoments[4].image} alt={visualMoments[4].title} loading="lazy" class="w-full h-full object-cover" />
+            <img src={visualMoments[4].image} alt={visualMoments[4].title} loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-500" />
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#050E14]/85 via-[#050E14]/30 to-transparent"></div>
+            <div class="pointer-events-none absolute bottom-2 left-2.5 right-2.5 flex flex-col">
+              <span class="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#FFE59E] drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
+                <svg class="w-2.5 h-2.5 text-[#FFE59E] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                </svg>
+                <span>{visualMoments[4].location}</span>
+              </span>
+              <p class="font-cormorant text-sm sm:text-base text-white font-semibold leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">{visualMoments[4].title}</p>
+            </div>
           </a>
         </div>
       </div>
@@ -203,9 +378,110 @@ const filters = [
   </div>
 </section>
 
+<style>
+  .journal-photo-card {
+    transition:
+      transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease;
+    transform-origin: center center;
+  }
+
+  /* Slightly increase the hovered photo size in place while keeping the full image 100% visible */
+  .journal-card-tall:hover,
+  .journal-card-tall:focus-visible {
+    transform: translateY(-5px) scale(1.16) rotate(0deg) !important;
+    box-shadow:
+      0 26px 60px rgba(0, 0, 0, 0.88),
+      0 0 30px rgba(214, 182, 108, 0.42) !important;
+    z-index: 60 !important;
+  }
+
+  .journal-card-compact:hover,
+  .journal-card-compact:focus-visible {
+    transform: translateY(-5px) scale(1.22) rotate(0deg) !important;
+    box-shadow:
+      0 26px 60px rgba(0, 0, 0, 0.88),
+      0 0 30px rgba(214, 182, 108, 0.42) !important;
+    z-index: 60 !important;
+  }
+
+  @media (max-width: 1023px) {
+    .journal-card-tall:hover,
+    .journal-card-compact:hover {
+      transform: scale(1.08) rotate(0deg) !important;
+    }
+  }
+</style>
+
 <script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+
   const filterBtns = Array.from(document.querySelectorAll('.journal-filter-btn')) as HTMLElement[];
   const photoCards = Array.from(document.querySelectorAll('.journal-photo-card')) as HTMLElement[];
+
+  function initGalleryOneByOneScroll() {
+    const section = document.getElementById('gallery');
+    if (!section || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const headerEls = section.querySelectorAll('h2, .journal-filter-btn');
+    if (headerEls.length) {
+      gsap.fromTo(
+        headerEls,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.55,
+          stagger: 0.06,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 82%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+
+    // One-by-One Sequential Entrance for Each Gallery Image Card
+    if (photoCards.length) {
+      photoCards.forEach((card, idx) => {
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            y: 65,
+            scale: 0.84,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.72,
+            delay: idx * 0.22,
+            ease: 'back.out(1.35)',
+            clearProps: 'transform,opacity',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 88%',
+              once: true,
+            },
+          }
+        );
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGalleryOneByOneScroll);
+  } else {
+    initGalleryOneByOneScroll();
+  }
 
   filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -226,8 +502,8 @@ const filters = [
       photoCards.forEach((card) => {
         const cat = card.dataset.journalCategory;
         const match = target === 'All Moments' || cat === target;
-        card.style.opacity = match ? '1' : '0.28';
-        card.style.filter = match ? 'none' : 'grayscale(65%)';
+        card.style.opacity = match ? '' : '0.28';
+        card.style.filter = match ? '' : 'grayscale(65%)';
       });
     });
   });

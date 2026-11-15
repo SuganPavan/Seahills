@@ -1,18 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
-import { RESORT_PACKAGES } from '../data/packagesData';
+import Footer from '../components/Footer.astro';
+import { RESORT_PACKAGES, OFFICIAL_RESORT_DOSSIER } from '../data/packagesData';
 
-const categories = ['All', 'Honeymoon', 'Adventure', 'Family', 'Luxury'];
+const categories = ['All', 'Both Islands', 'Havelock', 'Port Blair', 'Honeymoon', 'Adventure', 'Family'];
 ---
 
 <Layout
-  title="All Resort Packages | Sea Hills Hotels & Resorts Andaman"
-  description="Explore curated honeymoon, family, dive adventure, and luxury Andaman holiday packages across Sea Hills Port Blair and Havelock Island."
+  title="All Resort Packages & Island Dossier | Sea Hills Hotels & Resorts Andaman"
+  description="Explore curated holiday packages and official resort fact sheets across Sea Hills Hotel Port Blair and Sea Hills Resort Havelock Island."
 >
   <Header />
 
-  <main class="bg-[#101416] text-[#F5F1E8] min-h-screen pt-32 pb-24 px-4 sm:px-8 lg:px-12">
+  <main class="bg-[#081217] text-[#F5F1E8] min-h-screen pt-32 pb-24 px-4 sm:px-8 lg:px-12">
     <div class="max-w-[1320px] mx-auto">
       <!-- Top Breadcrumb & Hero -->
       <div class="mb-12 border-b border-[#D6B66C]/20 pb-10">
@@ -29,16 +30,15 @@ const categories = ['All', 'Honeymoon', 'Adventure', 'Family', 'Luxury'];
         <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div>
             <p class="text-[11px] uppercase tracking-[0.28em] text-[#D6B66C] font-semibold mb-3">
-              Sea Hills Hotels &amp; Resorts · Port Blair &amp; Havelock
+              Sea Hills Hotels &amp; Resorts · Port Blair &amp; Havelock (Swaraj Dweep)
             </p>
-            <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#F5F1E8] leading-[1.08]">
-              All Andaman
-              <span class="text-[#F3E7C4] italic font-normal"> Packages</span>
+            <h1 class="font-cormorant text-2xl sm:text-3xl lg:text-4xl text-[#F5F1E8] leading-tight sm:whitespace-nowrap">
+              Not Just a Stay. <span class="text-[#F3E7C4] italic font-normal">An Island Journey.</span>
             </h1>
           </div>
 
           <p class="text-sm sm:text-[15px] text-[#C8BFAE] font-light leading-relaxed max-w-xl">
-            Every itinerary combines our luxury Port Blair &amp; Havelock stays with multi-cuisine dining, Anubis Bar evenings, swimming pools, high-speed ferries, and curated water activities.
+            Every itinerary unites our boutique Port Blair rooms &amp; suites (269–452 Sq. Ft.) and Havelock luxury rooms (410 Sq. Ft.) with Cleopatra, Kramuka &amp; Anubis dining, high-speed ferries, and curated water sports.
           </p>
         </div>
 
@@ -66,7 +66,7 @@ const categories = ['All', 'Honeymoon', 'Adventure', 'Family', 'Luxury'];
           <article
             id={pkg.slug}
             data-pkg-category={pkg.category}
-            class="pkg-detail-card rounded-[24px] overflow-hidden bg-gradient-to-br from-[#171C20] via-[#13181B] to-[#101416] border border-[#D6B66C]/30 shadow-[0_24px_65px_rgba(0,0,0,0.6)] grid grid-cols-1 lg:grid-cols-12"
+            class="pkg-detail-card rounded-[24px] overflow-hidden bg-gradient-to-br from-[#0F1E26] via-[#0B171D] to-[#081217] border border-[#D6B66C]/35 shadow-[0_24px_65px_rgba(0,0,0,0.65)] grid grid-cols-1 lg:grid-cols-12"
           >
             <!-- Left Image -->
             <div class="relative lg:col-span-5 min-h-[280px] lg:min-h-full overflow-hidden">
@@ -75,12 +75,12 @@ const categories = ['All', 'Honeymoon', 'Adventure', 'Family', 'Luxury'];
                 alt={pkg.title}
                 class="w-full h-full object-cover"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#101416]/85 via-transparent to-[#101416]/25"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#081217]/90 via-transparent to-[#081217]/25"></div>
               <div class="absolute top-5 left-5 flex flex-wrap gap-2">
-                <span class="rounded-full bg-[#101416]/85 backdrop-blur-md border border-[#D6B66C]/50 px-3.5 py-1 text-[10px] uppercase tracking-[0.2em] text-[#F3E7C4] font-semibold">
+                <span class="rounded-full bg-[#081217]/85 backdrop-blur-md border border-[#D6B66C]/55 px-3.5 py-1 text-[10px] uppercase tracking-[0.2em] text-[#F3E7C4] font-semibold">
                   {pkg.badge}
                 </span>
-                <span class="rounded-full bg-[#101416]/85 backdrop-blur-md border border-white/15 px-3.5 py-1 text-[10px] font-mono text-[#F5F1E8]">
+                <span class="rounded-full bg-[#081217]/85 backdrop-blur-md border border-white/15 px-3.5 py-1 text-[10px] font-mono text-[#F5F1E8]">
                   {pkg.duration}
                 </span>
               </div>
@@ -91,7 +91,7 @@ const categories = ['All', 'Honeymoon', 'Adventure', 'Family', 'Luxury'];
                 </p>
                 <div class="mt-2 flex flex-wrap gap-1.5">
                   {pkg.stays.map((stay) => (
-                    <span class="text-[10px] text-[#F5F1E8] bg-[#101416]/80 border border-white/15 rounded-full px-2.5 py-1">
+                    <span class="text-[10px] text-[#F5F1E8] bg-[#081217]/85 border border-white/15 rounded-full px-2.5 py-1">
                       {stay}
                     </span>
                   ))}
@@ -105,15 +105,15 @@ const categories = ['All', 'Honeymoon', 'Adventure', 'Family', 'Luxury'];
                 <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
                   <div>
                     <span class="text-[10px] uppercase tracking-[0.24em] text-[#D6B66C] font-semibold">
-                      {pkg.category} Package
+                      {pkg.category} · {pkg.subtitle}
                     </span>
-                    <h2 class="font-serif text-2xl sm:text-3xl text-[#F5F1E8] mt-1">
+                    <h2 class="font-cormorant text-2xl sm:text-3xl text-[#F5F1E8] mt-1">
                       {pkg.title}
                     </h2>
                   </div>
 
                   <div class="sm:text-right flex-shrink-0">
-                    <p class="font-serif text-2xl sm:text-3xl text-[#F3E7C4]">{pkg.price}</p>
+                    <p class="font-cormorant text-2xl sm:text-3xl text-[#F3E7C4] font-semibold">{pkg.price}</p>
                     <p class="text-[11px] text-[#C8BFAE]/80">{pkg.priceNote}</p>
                   </div>
                 </div>
@@ -134,7 +134,7 @@ const categories = ['All', 'Honeymoon', 'Adventure', 'Family', 'Luxury'];
                 <!-- Day-by-Day Itinerary -->
                 <div class="border-t border-white/10 pt-5">
                   <p class="text-[11px] uppercase tracking-[0.22em] text-[#D6B66C] font-semibold mb-3">
-                    Curated Itinerary
+                    Curated Itinerary &amp; Official Distances
                   </p>
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {pkg.itinerary.map((step) => (
@@ -150,14 +150,21 @@ const categories = ['All', 'Honeymoon', 'Adventure', 'Family', 'Luxury'];
               </div>
 
               <div class="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-                <span class="text-xs text-[#C8BFAE]">
-                  Customizable for flights, private ferries &amp; extra nights
-                </span>
+                <div class="text-xs text-[#C8BFAE] flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <span>Reservation Desk:</span>
+                  <a href="tel:+919933280806" class="text-[#F3E7C4] hover:underline font-medium">+91 99332 80806</a>
+                  <span>·</span>
+                  <a href="tel:+918072934782" class="text-[#F3E7C4] hover:underline font-medium">+91 80729 34782</a>
+                  <span>·</span>
+                  <a href="tel:+919840183047" class="text-[#F3E7C4] hover:underline font-medium">+91 98401 83047</a>
+                  <span>·</span>
+                  <a href="mailto:reservation@seahillshotels.com" class="text-[#F3E7C4] hover:underline">reservation@seahillshotels.com</a>
+                </div>
                 <a
                   href="/#book-now"
                   class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#D6B66C] to-[#E8CD8E] hover:from-[#e6c880] hover:to-[#f6dea4] text-[#101416] px-6 py-2.5 text-[11px] uppercase tracking-[0.18em] font-bold transition-all"
                 >
-                  <span>Enquire Package</span>
+                  <span>Book / Enquire</span>
                   <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
@@ -167,8 +174,133 @@ const categories = ['All', 'Honeymoon', 'Adventure', 'Family', 'Luxury'];
           </article>
         ))}
       </div>
+
+      <!-- OFFICIAL PROPERTY FACT SHEETS (Havelock Resort & Port Blair Hotel) -->
+      <section id="official-fact-sheets" class="mt-20 pt-14 border-t border-[#D6B66C]/25 space-y-10">
+        <div class="text-center max-w-3xl mx-auto">
+          <p class="text-[11px] uppercase tracking-[0.28em] text-[#D6B66C] font-semibold mb-2">
+            Official Property Fact Sheets · Verified Specifications
+          </p>
+          <h2 class="font-cormorant text-3xl sm:text-4xl text-[#F5F1E8]">
+            Sea Hills <span class="italic text-[#F3E7C4]">Havelock Resort &amp; Port Blair Hotel</span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {[OFFICIAL_RESORT_DOSSIER['havelock'], OFFICIAL_RESORT_DOSSIER['port-blair']].map((prop) => (
+            <div class="rounded-[24px] bg-[#0C1920] border border-[#D6B66C]/35 p-6 sm:p-8 space-y-5 shadow-[0_20px_55px_rgba(0,0,0,0.6)]">
+              <div class="border-b border-white/10 pb-4 flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <span class="text-[10px] uppercase tracking-[0.22em] text-[#D6B66C] font-semibold">{prop.tagline}</span>
+                  <h3 class="font-cormorant text-2xl sm:text-3xl text-[#FFF3D6] mt-0.5">{prop.name}</h3>
+                  <p class="text-xs text-[#C8BFAE] mt-1">{prop.badge}</p>
+                </div>
+                <span class="rounded-full bg-[#D6B66C]/15 border border-[#D6B66C]/50 px-3.5 py-1 text-xs font-mono text-[#F3E7C4]">
+                  {prop.totalRooms}
+                </span>
+              </div>
+
+              <!-- Room Categories Table -->
+              <div>
+                <p class="text-[10.5px] uppercase tracking-[0.2em] text-[#D6B66C] font-semibold mb-2.5">
+                  Room Inventory, Sizes &amp; Direct Booking Rates
+                </p>
+                <div class="space-y-2.5">
+                  {prop.roomCategories.map((rm) => (
+                    <div class="rounded-xl bg-white/[0.03] border border-white/10 px-3.5 py-2.5 space-y-1">
+                      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div>
+                          <span class="text-xs font-bold text-[#F3E7C4] font-mono mr-2">{rm.count}</span>
+                          <span class="text-sm text-[#F5F1E8] font-medium">{rm.name}</span>
+                        </div>
+                        <span class="text-xs font-mono text-[#D6B66C] font-semibold">{rm.size}</span>
+                      </div>
+                      <p class="text-[11px] text-[#E5C985] font-medium">{rm.viewOrFeature}</p>
+                      <ul class="text-[11px] text-[#C8BFAE] space-y-0.5">
+                        {rm.highlights.map((hl) => (
+                          <li>• {hl}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Dining, Bar & Banquet -->
+              <div>
+                <p class="text-[10.5px] uppercase tracking-[0.2em] text-[#D6B66C] font-semibold mb-2">
+                  Dining, Bar &amp; Banquet / Conference
+                </p>
+                <div class="space-y-2 text-xs text-[#E5DFD2]">
+                  {prop.diningAndEvents.map((d) => (
+                    <div class="rounded-xl bg-white/[0.03] border border-white/10 p-3">
+                      <div class="flex flex-wrap items-center justify-between gap-2">
+                        <strong class="text-[#F3E7C4]">{d.name} · {d.type}</strong>
+                        <span class="text-[10.5px] font-mono text-[#D6B66C]">{d.capacity}</span>
+                      </div>
+                      <p class="text-[#C8BFAE] mt-1 leading-relaxed">{d.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Distances & How to Reach -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <p class="text-[10.5px] uppercase tracking-[0.2em] text-[#D6B66C] font-semibold mb-2">
+                    How to Reach
+                  </p>
+                  <ul class="space-y-1.5 text-xs text-[#C8BFAE]">
+                    {prop.howToReach.map((h) => (
+                      <li>
+                        <strong class="text-[#F3E7C4]">{h.mode} ({h.title}):</strong> {h.details.join(' · ')}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p class="text-[10.5px] uppercase tracking-[0.2em] text-[#D6B66C] font-semibold mb-2">
+                    Official Distances
+                  </p>
+                  <div class="flex flex-wrap gap-1.5">
+                    {prop.nearbyPlaces.map((dist) => (
+                      <span class="text-[10.5px] bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1 text-[#E5DFD2]">
+                        {dist.place}: <strong class="text-[#F3E7C4]">{dist.distance}</strong>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Video & Gallery Links -->
+              <div class="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex flex-wrap gap-2">
+                  <a
+                    href={prop.videoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 rounded-full bg-white/[0.05] border border-[#D6B66C]/45 px-3.5 py-1.5 text-[10.5px] uppercase tracking-[0.14em] text-[#F3E7C4] hover:bg-[#D6B66C] hover:text-[#101416] transition-colors"
+                  >
+                    <span>▶ Official Video</span>
+                  </a>
+                  <a
+                    href={prop.galleryUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 rounded-full bg-white/[0.05] border border-[#D6B66C]/45 px-3.5 py-1.5 text-[10.5px] uppercase tracking-[0.14em] text-[#F3E7C4] hover:bg-[#D6B66C] hover:text-[#101416] transition-colors"
+                  >
+                    <span>↗ Google Drive Gallery</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   </main>
+
+  <Footer />
 </Layout>
 
 <script>

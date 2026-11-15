@@ -1,79 +1,97 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 
+const publicDir = path.join(process.cwd(), 'public');
+const roomsColDir = path.join(publicDir, 'images', 'rooms-collection');
+const diningScrollDir = path.join(publicDir, 'images', 'dining-scroll');
+const imageExtRe = /\.(webp|jpe?g|png|avif)$/i;
+
+function pickSyncedPhoto(dir: string, prefix: string, fallback: string): string {
+  if (fs.existsSync(dir)) {
+    const found = fs.readdirSync(dir).find((f) => f.startsWith(prefix) && imageExtRe.test(f));
+    if (found) {
+      const rel = path.relative(publicDir, path.join(dir, found)).replace(/\\/g, '/');
+      return `/${rel}`;
+    }
+  }
+  return fallback;
+}
+
 const galleryItems = [
   {
-    title: 'Sea Hills Grand Entrance · Middle Point',
+    title: 'Bamboo Saa Luxury Room · View 1',
     category: 'Resorts & Suites',
-    location: 'Port Blair (Sri Vijaya Puram)',
-    image: '/frames/Home_Section/frame_0025.webp',
+    location: 'Sea Hills Havelock Resort (410 sq. ft.)',
+    image: pickSyncedPhoto(roomsColDir, 'hl-bamboo-saa-1', '/images/rooms-collection/hl-bamboo-saa-1.jpg'),
   },
   {
-    title: 'Twilight Courtyard & Lanterns',
+    title: 'Bamboo Saa Luxury Room · View 2',
     category: 'Resorts & Suites',
-    location: 'Sea Hills Estate',
-    image: '/frames/Home_Section/frame_0075.webp',
+    location: 'Sea Hills Havelock Resort (410 sq. ft.)',
+    image: pickSyncedPhoto(roomsColDir, 'hl-bamboo-saa-2', '/images/rooms-collection/hl-bamboo-saa-2.jpg'),
+  },
+  {
+    title: 'La Bougainvillea Room with Bathtub · View 1',
+    category: 'Resorts & Suites',
+    location: 'Sea Hills Havelock Resort (410 sq. ft.)',
+    image: pickSyncedPhoto(roomsColDir, 'hl-bougainvillea-1', '/images/rooms-collection/hl-bougainvillea-1.jpg'),
+  },
+  {
+    title: 'La Bougainvillea Room with Bathtub · View 2',
+    category: 'Resorts & Suites',
+    location: 'Sea Hills Havelock Resort (410 sq. ft.)',
+    image: pickSyncedPhoto(roomsColDir, 'hl-bougainvillea-2', '/images/rooms-collection/hl-bougainvillea-2.jpg'),
+  },
+  {
+    title: 'VIP Lounge Sea View Suite · View 1',
+    category: 'Resorts & Suites',
+    location: 'Sea Hills Port Blair Hotel (452 sq. ft.)',
+    image: pickSyncedPhoto(roomsColDir, 'pb-vip-lounge-1', '/images/rooms-collection/pb-vip-lounge-1.jpg'),
+  },
+  {
+    title: 'VIP Lounge Sea View Suite · View 2',
+    category: 'Resorts & Suites',
+    location: 'Sea Hills Port Blair Hotel (452 sq. ft.)',
+    image: pickSyncedPhoto(roomsColDir, 'pb-vip-lounge-2', '/images/rooms-collection/pb-vip-lounge-2.jpg'),
   },
   {
     title: 'Premium Sea View Suite',
     category: 'Resorts & Suites',
-    location: 'Sea Hills Port Blair',
-    image: '/frames/rooms/frame_0035.webp',
+    location: 'Sea Hills Port Blair Hotel',
+    image: pickSyncedPhoto(roomsColDir, 'pb-sea-view-1', '/images/rooms-collection/pb-sea-view-1.jpg'),
   },
   {
-    title: 'La Bougainvillea & Bamboo Saa Rooms',
+    title: 'Premium Pool View Suite',
+    category: 'Swimming Pools',
+    location: 'Sea Hills Port Blair Hotel',
+    image: pickSyncedPhoto(roomsColDir, 'pb-pool-view-1', '/images/rooms-collection/pb-pool-view-1.jpg'),
+  },
+  {
+    title: 'Standard Room · Port Blair',
     category: 'Resorts & Suites',
-    location: 'Sea Hills Havelock (410 sq. ft.)',
-    image: '/frames/rooms/frame_0105.webp',
+    location: 'Sea Hills Port Blair Hotel (269 sq. ft.)',
+    image: pickSyncedPhoto(roomsColDir, 'pb-standard-1', '/images/rooms-collection/pb-standard-1.jpg'),
   },
   {
-    title: 'Cleopatra Egyptian-Themed Restaurant',
+    title: 'Kramuka & Cleopatra Fine Dining',
     category: 'Dining & Bar',
-    location: 'Sea Hills Port Blair',
-    image: '/images/facilities/restaurant.jpg',
+    location: 'Sea Hills Havelock & Port Blair',
+    image: pickSyncedPhoto(diningScrollDir, '02-hl-rest-01', '/images/rooms-collection/pb-pool-view-2.jpg'),
   },
   {
-    title: 'Anubis Bar & Cocktail Lounge',
+    title: 'Anubis Rooftop Lounge Bar',
     category: 'Dining & Bar',
-    location: 'Sea Hills Port Blair',
-    image: '/images/facilities/bar.jpg',
+    location: 'Sea Hills Port Blair Hotel',
+    image: pickSyncedPhoto(diningScrollDir, '04-pb-bar-01', '/images/rooms-collection/pb-sea-view-2.jpg'),
   },
   {
-    title: 'Candlelight Dinner Under the Stars',
-    category: 'Dining & Bar',
-    location: 'Havelock Island',
-    image: '/images/facilities/dining.jpg',
-  },
-  {
-    title: 'Evening Wine & Spirits',
-    category: 'Dining & Bar',
-    location: 'Anubis Bar',
-    image: '/frames/Dinning/frame_0085.webp',
-  },
-  {
-    title: 'Palm-Fringed Outdoor Swimming Pool',
-    category: 'Swimming Pools',
-    location: 'Port Blair & Havelock',
-    image: '/images/facilities/pool-bright.jpg',
-  },
-  {
-    title: 'Resort Pool Oasis',
-    category: 'Swimming Pools',
-    location: 'Sea Hills Resort',
-    image: '/frames/Home_Section/frame_0060.webp',
-  },
-  {
-    title: 'Two Islands Aerial Panorama',
+    title: 'Celebrate Your Moments · Flower Decor',
     category: 'Islands & Coast',
-    location: 'Port Blair to Havelock',
-    image: '/frames/Destination/frame_0001.webp',
-  },
-  {
-    title: 'Emerald Bay & Coral Lagoons',
-    category: 'Islands & Coast',
-    location: 'Swaraj Dweep (Havelock)',
-    image: '/frames/Destination/frame_0045.webp',
+    location: 'Sea Hills Special Stay Experience',
+    image: pickSyncedPhoto(roomsColDir, 'special-flower-decor', '/images/rooms-collection/special-flower-decor.jpg'),
   },
 ];
 
@@ -135,7 +153,7 @@ const categories = ['All', 'Resorts & Suites', 'Dining & Bar', 'Swimming Pools',
       </div>
 
       <!-- Gallery Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+      <div class="gallery-page-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
         {galleryItems.map((item) => (
           <button
             type="button"
@@ -144,27 +162,35 @@ const categories = ['All', 'Resorts & Suites', 'Dining & Bar', 'Swimming Pools',
             data-src={item.image}
             data-title={item.title}
             data-location={item.location}
-            class="gallery-item-card group relative text-left rounded-[20px] overflow-hidden border border-[#D6B66C]/25 hover:border-[#D6B66C]/75 bg-[#151A1D] aspect-[4/3] shadow-[0_18px_45px_rgba(0,0,0,0.55)] transition-all duration-500"
+            class="gallery-item-card group relative z-10 hover:z-40 text-left rounded-[20px] overflow-hidden border-2 border-[#D6B66C]/35 hover:border-[#FFF3D6] bg-[#151A1D] aspect-[4/3] shadow-[0_18px_45px_rgba(0,0,0,0.55)] hover:shadow-[0_28px_70px_rgba(0,0,0,0.9),0_0_32px_rgba(214,182,108,0.4)] hover:scale-[1.12] transition-all duration-400"
           >
             <img
               src={item.image}
               alt={item.title}
               loading="lazy"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              class="w-full h-full object-cover transition-transform duration-500"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#101416]/90 via-[#101416]/15 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#061015]/95 via-transparent to-[#061015]/55"></div>
 
-            <div class="absolute top-4 left-4">
-              <span class="rounded-full bg-[#101416]/80 backdrop-blur-md border border-[#D6B66C]/40 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[#F3E7C4]">
+            <!-- Top-Left Prominent Location Pin Badge on Same Photo -->
+            <div class="pointer-events-none absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2">
+              <span class="inline-flex items-center gap-1.5 rounded-full bg-[#06131A]/90 border border-[#E5C985] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#FFF3D6] group-hover:bg-[#D6B66C] group-hover:text-[#081014] transition-colors duration-300 shadow-lg">
+                <svg class="w-3.5 h-3.5 text-[#E5C985] group-hover:text-[#081014] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                </svg>
+                <span>{item.location}</span>
+              </span>
+
+              <span class="rounded-full bg-[#101416]/85 border border-[#D6B66C]/45 px-2.5 py-0.5 text-[9.5px] uppercase tracking-[0.15em] text-[#F3E7C4]">
                 {item.category}
               </span>
             </div>
 
-            <div class="absolute bottom-4 left-4 right-4">
-              <p class="text-[10px] uppercase tracking-[0.2em] text-[#D6B66C] mb-1">
+            <div class="pointer-events-none absolute bottom-3 left-3.5 right-3.5">
+              <p class="text-[10px] uppercase tracking-[0.18em] text-[#FFE59E] font-bold mb-0.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
                 {item.location}
               </p>
-              <h2 class="font-serif text-xl text-[#F5F1E8] group-hover:text-[#F3E7C4] transition-colors">
+              <h2 class="font-serif text-lg sm:text-xl text-white font-semibold leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
                 {item.title}
               </h2>
             </div>

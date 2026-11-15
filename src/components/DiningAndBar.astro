@@ -1,233 +1,409 @@
 ---
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 
-const diningDir = path.join(process.cwd(), 'public', 'frames', 'Dinning');
-const fallbackDir = path.join(process.cwd(), 'public', 'frames', 'dining');
-const activeDir = fs.existsSync(diningDir) ? diningDir : fallbackDir;
-const urlPrefix = fs.existsSync(diningDir) ? '/frames/Dinning' : '/frames/dining';
-let frameFiles: string[] = [];
-
-if (fs.existsSync(activeDir)) {
-  frameFiles = fs
-    .readdirSync(activeDir)
-    .filter((f) => /\.(webp|jpe?g|png)$/i.test(f))
-    .sort()
-    .map((f) => `${urlPrefix}/${f}`);
-}
-
-const experiences = [
+const sourceFolders = [
   {
-    index: '01 / 03',
-    eyebrow: 'CLEOPATRA RESTAURANT',
-    title: 'Egyptian-Themed & Candlelight Dining',
-    subtitle: 'Sea Hills Port Blair & Havelock',
-    timing: 'Buffet Breakfast · À La Carte · Dinner',
-    highlights: ['Cleopatra Restaurant', 'Local & Continental Cuisine', 'Candlelight Under the Stars'],
+    key: '01-hl-candle',
+    island: 'havelock',
+    filter: 'dining',
+    place: 'Havelock Island · Beachside & Poolside Candlelight',
+    title: 'Romantic Candlelight Dining & Evening Bonfire',
     description:
-      'Savour Andaman coastal specialities and continental favourites at our Egyptian-themed Cleopatra Restaurant in Port Blair—or reserve a romantic candlelit dinner under the stars at Havelock.',
-    image: '/images/facilities/restaurant.jpg',
+      'Private candlelit tables on Shyam Nagar’s tranquil shores and poolside setups with freshly caught Andaman seafood and coastal delicacies.',
+    dir: 'D:\\Sea_shell\\Havelock_CandlelightDinner',
   },
   {
-    index: '02 / 03',
-    eyebrow: 'ANUBIS BAR & LOUNGE',
-    title: 'Signature Spirits & Island Evenings',
-    subtitle: 'Anubis Bar · Middle Point Port Blair',
-    timing: 'Cocktails · Fine Wines · Spirits',
-    highlights: ['Anubis Bar', 'Handcrafted Cocktails', 'Relaxed Evening Lounge'],
+    key: '02-hl-rest',
+    island: 'havelock',
+    filter: 'dining',
+    place: 'Havelock Island · Kramuka Restaurant (50–80 Pax)',
+    title: 'Kramuka — Multi-Cuisine Fine Dining & Zriya Banquet',
     description:
-      'Unwind after island-hopping at Anubis Bar and our open-air resort lounges with curated cocktails, fine wines, and chilled spirits in a tranquil evening setting.',
-    image: '/images/facilities/bar.jpg',
+      'Kramuka Multi-Cuisine Fine Dining (50–80 Pax) serving Indian, Continental, Chinese & local Andaman flavours, alongside Zriya Banquet Hall (1150 Sq. Ft., up to 80 Pax).',
+    dir: 'D:\\Sea_shell\\Havelock_restarent',
   },
   {
-    index: '03 / 03',
-    eyebrow: 'OUTDOOR POOLS & ALFALFA SPA',
-    title: 'Tropical Pools Amidst Greenery',
-    subtitle: 'Port Blair & Havelock Resorts',
-    timing: 'Main Pool · Kids’ Pool · Alfalfa Spa',
-    highlights: ['Lush Palm Surroundings', 'Dedicated Children’s Pool', 'Alfalfa Spa & Poolside Patios'],
+    key: '03-pb-candle',
+    island: 'portblair',
+    filter: 'dining',
+    place: 'Port Blair · Cleopatra Restaurant (30–50 Pax)',
+    title: 'Cleopatra — Egyptian-Heritage Multi-Cuisine Dining',
     description:
-      'Refresh in our outdoor swimming pools surrounded by lush tropical greenery at both Port Blair and Havelock, complete with a dedicated kids’ pool, poolside patios, and Alfalfa Spa.',
-    image: '/images/facilities/pool-bright.jpg',
+      'Inspired by Egyptian heritage with friezes & sculpture emboss at Sea Hills Hotel Port Blair (30–50 Pax), convertible into a Conference Hall on request.',
+    dir: 'D:\\Sea_shell\\Candle_light',
+  },
+  {
+    key: '04-pb-bar',
+    island: 'portblair',
+    filter: 'bar',
+    place: 'Port Blair · Anubis Rooftop Lounge Bar',
+    title: 'Anubis Rooftop Lounge Bar — Scenic Port Blair Overview',
+    description:
+      'Rooftop Lounge Bar offering a stunning overview of Port Blair city with premium cocktails, fine spirits, and a relaxing evening ambience.',
+    dir: 'D:\\Sea_shell\\Bar',
+  },
+  {
+    key: '05-pb-rec',
+    island: 'portblair',
+    filter: 'reception',
+    place: 'Sea Hills · Grand Reception, Zriya & Conference',
+    title: '24/7 Concierge, Zriya Banquet & Conference Facilities',
+    description:
+      'Gracious 24/7 Andaman hospitality, Zriya Banquet Hall at Havelock (1150 Sq. Ft. · Theatre 70–80 Pax / Cluster 50–60 Pax), and Port Blair Conference Hall.',
+    dir: 'D:\\Sea_shell\\reception',
   },
 ];
+
+const targetDir = path.join(process.cwd(), 'public', 'images', 'dining-scroll');
+const imageExtRe = /\.(webp|jpe?g|png|avif)$/i;
+
+interface DiningSlide {
+  src: string;
+  island: 'havelock' | 'portblair';
+  filter: 'dining' | 'bar' | 'reception';
+  place: string;
+  title: string;
+  description: string;
+}
+
+let slides: DiningSlide[] = [];
+const hasLocalSources = sourceFolders.some((s) => fs.existsSync(s.dir));
+
+if (hasLocalSources) {
+  fs.mkdirSync(targetDir, { recursive: true });
+  for (const oldFile of fs.readdirSync(targetDir)) {
+    fs.unlinkSync(path.join(targetDir, oldFile));
+  }
+
+  const seenHashes = new Set<string>();
+  const seenNames = new Set<string>();
+  const seenStems = new Set<string>();
+
+  const normalizeStem = (filename: string) =>
+    path
+      .parse(filename)
+      .name.toLowerCase()
+      .replace(/\s*\(\d+\)\s*$/i, '')
+      .replace(/[\s_-]*(copy|duplicate|edited)(\s*\d*)?$/i, '')
+      .trim();
+
+  for (const folder of sourceFolders) {
+    if (!fs.existsSync(folder.dir)) continue;
+    const files = fs
+      .readdirSync(folder.dir)
+      .filter((f) => imageExtRe.test(f))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+
+    let idx = 1;
+    for (const file of files) {
+      const srcPath = path.join(folder.dir, file);
+      if (!fs.statSync(srcPath).isFile()) continue;
+
+      const buf = fs.readFileSync(srcPath);
+      const hash = crypto.createHash('md5').update(buf).digest('hex');
+      const normName = file.toLowerCase();
+      const stem = normalizeStem(file);
+
+      if (seenHashes.has(hash) || seenNames.has(normName) || (stem && seenStems.has(stem))) continue;
+      seenHashes.add(hash);
+      seenNames.add(normName);
+      if (stem) seenStems.add(stem);
+
+      const ext = path.extname(file).toLowerCase();
+      const outName = `${folder.key}-${String(idx).padStart(2, '0')}${ext}`;
+      fs.writeFileSync(path.join(targetDir, outName), buf);
+      slides.push({
+        src: `/images/dining-scroll/${outName}`,
+        island: folder.island as 'havelock' | 'portblair',
+        filter: folder.filter as 'dining' | 'bar' | 'reception',
+        place: folder.place,
+        title: folder.title,
+        description: folder.description,
+      });
+      idx++;
+    }
+  }
+} else if (fs.existsSync(targetDir)) {
+  const files = fs
+    .readdirSync(targetDir)
+    .filter((f) => imageExtRe.test(f))
+    .sort();
+
+  slides = files.map((f) => {
+    const matched = sourceFolders.find((sf) => f.startsWith(sf.key)) || sourceFolders[0];
+    return {
+      src: `/images/dining-scroll/${f}`,
+      island: matched.island as 'havelock' | 'portblair',
+      filter: matched.filter as 'dining' | 'bar' | 'reception',
+      place: matched.place,
+      title: matched.title,
+      description: matched.description,
+    };
+  });
+}
+
+if (slides.length === 0) {
+  slides = [
+    {
+      src: '/images/facilities/restaurant.jpg',
+      island: 'havelock',
+      filter: 'dining',
+      place: sourceFolders[0].place,
+      title: sourceFolders[0].title,
+      description: sourceFolders[0].description,
+    },
+    {
+      src: '/images/facilities/bar.jpg',
+      island: 'portblair',
+      filter: 'bar',
+      place: sourceFolders[3].place,
+      title: sourceFolders[3].title,
+      description: sourceFolders[3].description,
+    },
+    {
+      src: '/images/facilities/pool-bright.jpg',
+      island: 'portblair',
+      filter: 'reception',
+      place: sourceFolders[4].place,
+      title: sourceFolders[4].title,
+      description: sourceFolders[4].description,
+    },
+  ];
+}
 ---
 
 <section
   id="dining-bar-banner"
-  class="relative bg-[#101416] text-[#F5F1E8] border-t border-white/5"
-  style="height: 400vh;"
-  data-frame-files={JSON.stringify(frameFiles)}
-  data-experiences={JSON.stringify(experiences)}
+  class="relative bg-[#101416] text-[#F5F1E8] border-t border-white/5 py-10 sm:py-14 overflow-hidden"
+  data-slides={JSON.stringify(slides)}
 >
-  <div class="sticky top-0 h-[100svh] w-full flex items-center justify-center px-4 sm:px-8 lg:px-12 overflow-hidden">
-    <!-- Ambient Gold Glow -->
+  <div class="relative w-full flex flex-col justify-center px-3 sm:px-6 lg:px-8">
+    <!-- Subtle Ambient Gold Glow -->
     <div
-      class="pointer-events-none absolute inset-0 opacity-30"
-      style="background: radial-gradient(circle at 30% 50%, rgba(214, 182, 108, 0.14), transparent 55%);"
+      class="pointer-events-none absolute inset-0 opacity-25"
+      style="background: radial-gradient(circle at 30% 50%, rgba(214, 182, 108, 0.16), transparent 55%);"
     ></div>
 
-    <div class="relative w-full max-w-[1320px] mx-auto">
-      <!-- Stage Banner (Responsive height, never oversized on mobile) -->
+    <div class="relative z-10 w-full max-w-[1440px] mx-auto">
+
+      <!-- SECTION HEADING -->
+      <header class="text-center max-w-3xl mx-auto mb-6">
+        <div class="flex items-center justify-center gap-3 sm:gap-5 mb-2">
+          <span class="w-10 sm:w-20 h-[1px] bg-gradient-to-r from-transparent via-[#D6B66C]/60 to-[#D6B66C]"></span>
+          <span class="text-[10.5px] sm:text-xs tracking-[0.28em] uppercase font-sans font-semibold text-[#D6B66C]">
+            Dining · Bar · Reception
+          </span>
+          <span class="w-10 sm:w-20 h-[1px] bg-gradient-to-l from-transparent via-[#D6B66C]/60 to-[#D6B66C]"></span>
+        </div>
+        <h2 class="font-cormorant text-3xl sm:text-4xl lg:text-[2.85rem] font-normal text-[#F5F1E8] leading-[1.08]">
+          Candlelight, Spirits
+          <span class="italic text-[#F3E7C4] font-light"> &amp; Island Hospitality</span>
+        </h2>
+      </header>
+
+      <!-- TOP FILTER BAR: Dining / Bar / Reception + Island Split -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-3.5">
+        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <button
+            type="button"
+            data-dining-filter="all"
+            class="dining-filter-btn px-3.5 py-1.5 rounded-full text-[10.5px] uppercase tracking-[0.16em] font-semibold border border-[#D6B66C] bg-[#D6B66C] text-[#101416] transition-all"
+          >
+            All
+          </button>
+          <button
+            type="button"
+            data-dining-filter="dining"
+            class="dining-filter-btn px-3.5 py-1.5 rounded-full text-[10.5px] uppercase tracking-[0.16em] font-medium border border-[#D6B66C]/35 bg-[#161C20] text-[#F3E7C4] hover:border-[#D6B66C] transition-all"
+          >
+            Dining
+          </button>
+          <button
+            type="button"
+            data-dining-filter="bar"
+            class="dining-filter-btn px-3.5 py-1.5 rounded-full text-[10.5px] uppercase tracking-[0.16em] font-medium border border-[#D6B66C]/35 bg-[#161C20] text-[#F3E7C4] hover:border-[#D6B66C] transition-all"
+          >
+            Bar
+          </button>
+          <button
+            type="button"
+            data-dining-filter="reception"
+            class="dining-filter-btn px-3.5 py-1.5 rounded-full text-[10.5px] uppercase tracking-[0.16em] font-medium border border-[#D6B66C]/35 bg-[#161C20] text-[#F3E7C4] hover:border-[#D6B66C] transition-all"
+          >
+            Reception
+          </button>
+        </div>
+
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <button
+            type="button"
+            data-dining-island="all"
+            class="dining-island-pill px-3 py-1 rounded-full text-[10px] uppercase tracking-[0.16em] font-semibold border border-[#D6B66C]/60 bg-[#D6B66C]/15 text-[#F3E7C4] transition-all"
+          >
+            Both Islands
+          </button>
+          <button
+            type="button"
+            data-dining-island="havelock"
+            class="dining-island-pill px-3 py-1 rounded-full text-[10px] uppercase tracking-[0.16em] font-medium border border-white/15 bg-[#161C20] text-[#C8BFAE] hover:border-[#D6B66C]/60 transition-all"
+          >
+            Havelock
+          </button>
+          <button
+            type="button"
+            data-dining-island="portblair"
+            class="dining-island-pill px-3 py-1 rounded-full text-[10px] uppercase tracking-[0.16em] font-medium border border-white/15 bg-[#161C20] text-[#C8BFAE] hover:border-[#D6B66C]/60 transition-all"
+          >
+            Port Blair
+          </button>
+        </div>
+      </div>
+
+      <!-- STAGE BANNER: Image starts LEFT (62%) -> expands to 100% Full View on first scroll -->
       <div
         id="dining-stage-banner"
-        class="relative w-full h-[380px] sm:h-[440px] lg:h-[460px] xl:h-[500px] rounded-[24px] overflow-hidden border border-[#D6B66C]/25 bg-[#151A1D] shadow-[0_30px_90px_rgba(0,0,0,0.65)]"
+        class="relative w-full h-[360px] sm:h-[480px] lg:h-[550px] rounded-[24px] overflow-hidden border border-[#D6B66C]/30 bg-[#151A1D] shadow-[0_30px_90px_rgba(0,0,0,0.65)]"
       >
-        <!-- RIGHT Editorial Text Panel (38%, revealed when canvas is on the LEFT at 62%) -->
+        <!-- RIGHT Editorial Text Panel (32%, visible before first scroll expands image to full view) -->
         <div
           id="dining-right-text"
-          class="hidden lg:flex absolute top-0 right-0 bottom-0 w-[38%] z-10 flex-col justify-between p-8 xl:p-11 bg-gradient-to-l from-[#14191C] via-[#14191C]/95 to-[#14191C]/85 border-l border-[#D6B66C]/15"
+          class="hidden lg:flex absolute top-0 right-0 bottom-0 w-[32%] z-10 flex-col justify-between p-6 xl:p-8 bg-gradient-to-l from-[#14191C] via-[#14191C]/95 to-[#14191C]/85 border-l border-[#D6B66C]/15 transition-opacity duration-500"
         >
           <div>
-            <div class="flex items-center gap-3 mb-4">
+            <div class="flex items-center gap-3 mb-3">
               <span class="inline-block w-7 h-[1px] bg-[#D6B66C]"></span>
-              <span class="text-[11px] uppercase tracking-[0.28em] text-[#D6B66C] font-semibold">
-                Dining · Bar · Pool
+              <span class="text-[10.5px] uppercase tracking-[0.26em] text-[#D6B66C] font-semibold">
+                Dining · Bar · Reception
               </span>
             </div>
 
-            <h2 class="font-serif text-3xl xl:text-[2.35rem] leading-[1.12] text-[#F5F1E8] tracking-tight mb-4">
-              Flavours, Spirits
-              <span class="block text-[#F3E7C4] italic font-normal">&amp; Poolside Leisure</span>
+            <h2 class="font-cormorant text-3xl xl:text-[2.4rem] leading-[1.1] text-[#F5F1E8] mb-3">
+              Candlelight, Spirits
+              <span class="block text-[#F3E7C4] italic font-normal">&amp; Island Hospitality</span>
             </h2>
 
-            <p class="text-[14px] leading-relaxed text-[#C8BFAE] max-w-sm">
-              From candlelit island gastronomy and sunset mixology to palm-fringed infinity pools, every hour flows effortlessly from table to water.
+            <p class="text-[13px] leading-relaxed text-[#C8BFAE] max-w-sm">
+              Experience <strong class="text-[#F3E7C4] font-medium">Kramuka Restaurant</strong> (50–80 Pax) &amp; <strong class="text-[#F3E7C4] font-medium">Zriya Banquet Hall</strong> (1150 Sq. Ft.) in Havelock, and Egyptian-themed <strong class="text-[#F3E7C4] font-medium">Cleopatra Restaurant</strong> (30–50 Pax) &amp; <strong class="text-[#F3E7C4] font-medium">Anubis Rooftop Lounge Bar</strong> in Port Blair.
             </p>
           </div>
 
-          <div class="space-y-4 pt-5 border-t border-white/10">
-            <div class="grid grid-cols-3 gap-2.5 text-left">
-              <div class="rounded-xl bg-white/[0.03] border border-white/10 px-3 py-2.5">
-                <p class="text-[10px] uppercase tracking-[0.18em] text-[#D6B66C]">01</p>
-                <p class="text-xs font-medium text-[#F5F1E8] mt-0.5">Dining</p>
+          <div class="space-y-3 pt-4 border-t border-white/10">
+            <div class="grid grid-cols-2 gap-2.5 text-left">
+              <div class="rounded-xl bg-white/[0.03] border border-white/10 px-3 py-2">
+                <p class="text-[9.5px] uppercase tracking-[0.18em] text-[#D6B66C]">Havelock Resort</p>
+                <p class="text-xs font-medium text-[#F5F1E8] mt-0.5">Kramuka (50–80 Pax) &amp; Zriya Hall</p>
               </div>
-              <div class="rounded-xl bg-white/[0.03] border border-white/10 px-3 py-2.5">
-                <p class="text-[10px] uppercase tracking-[0.18em] text-[#D6B66C]">02</p>
-                <p class="text-xs font-medium text-[#F5F1E8] mt-0.5">Bar &amp; Lounge</p>
-              </div>
-              <div class="rounded-xl bg-white/[0.03] border border-white/10 px-3 py-2.5">
-                <p class="text-[10px] uppercase tracking-[0.18em] text-[#D6B66C]">03</p>
-                <p class="text-xs font-medium text-[#F5F1E8] mt-0.5">Pool Oasis</p>
+              <div class="rounded-xl bg-white/[0.03] border border-white/10 px-3 py-2">
+                <p class="text-[9.5px] uppercase tracking-[0.18em] text-[#D6B66C]">Port Blair Hotel</p>
+                <p class="text-xs font-medium text-[#F5F1E8] mt-0.5">Cleopatra (30–50 Pax) &amp; Anubis Bar</p>
               </div>
             </div>
-
-            <div class="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-[#C8BFAE]/80">
-              <span>Scroll to Explore</span>
-              <span class="text-[#D6B66C]">Port Blair &amp; Havelock</span>
-            </div>
+            <p class="text-[10.5px] uppercase tracking-[0.2em] text-[#C8BFAE]/75">
+              Scroll or use carousel arrows →
+            </p>
           </div>
         </div>
 
-        <!-- LEFT Canvas Panel (Starts at 62% on LEFT, expands to 100% full-card, returns to 62% on LEFT) -->
+        <!-- LEFT Image Carousel Panel (Starts 68% Left on Desktop, expands to 100% Full Card on first scroll) -->
         <div
-          id="dining-canvas-panel"
-          class="absolute top-0 left-0 bottom-0 z-20 w-full lg:w-[62%] overflow-hidden bg-[#0E1214]"
+          id="dining-image-panel"
+          class="relative lg:absolute lg:top-0 lg:left-0 lg:bottom-0 w-full lg:w-[68%] h-full z-20 overflow-hidden bg-[#0A0F13]"
         >
-          <canvas
-            id="dining-canvas"
-            class="w-full h-full block"
-          ></canvas>
+          <!-- Soft Ambient Blurred Backdrop (Blends any non-16:9 margins seamlessly without cropping) -->
+          <img
+            id="dining-bg-a"
+            src={slides[0]?.src}
+            alt=""
+            aria-hidden="true"
+            class="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-35 pointer-events-none"
+            style="transition: opacity 0.65s ease;"
+          />
+          <img
+            id="dining-bg-b"
+            src={slides[1]?.src || slides[0]?.src}
+            alt=""
+            aria-hidden="true"
+            class="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-0 pointer-events-none"
+            style="transition: opacity 0.65s ease;"
+          />
 
-          <!-- Subtle cinematic vignette (kept light so every frame renders crisply) -->
-          <div
-            class="pointer-events-none absolute inset-0"
-            style="background: linear-gradient(180deg, rgba(16,20,22,0.08) 0%, rgba(16,20,22,0.02) 50%, rgba(16,20,22,0.48) 100%);"
-          ></div>
+          <!-- Crisp Full-View Foreground Images (Zero Top/Bottom Cropping, Native Sharpness) -->
+          <img
+            id="dining-slide-a"
+            src={slides[0]?.src}
+            alt={slides[0]?.title || 'Sea Hills Dining'}
+            class="relative z-10 w-full h-full object-contain object-center opacity-100"
+            style="transition: opacity 0.65s ease;"
+            decoding="async"
+          />
+          <img
+            id="dining-slide-b"
+            src={slides[1]?.src || slides[0]?.src}
+            alt={slides[1]?.title || 'Sea Hills Dining'}
+            class="absolute inset-0 z-10 w-full h-full object-contain object-center opacity-0"
+            style="transition: opacity 0.65s ease;"
+            decoding="async"
+          />
 
-          <!-- Mobile / Initial Compact Badge (visible when not expanded on mobile or at start) -->
-          <div
-            id="dining-left-badge"
-            class="absolute top-5 left-5 sm:top-6 sm:left-6 z-20 flex items-center gap-2.5 rounded-full bg-[#101416]/75 backdrop-blur-md border border-[#D6B66C]/35 px-3.5 py-1.5"
+          <!-- Carousel Prev / Next Arrows -->
+          <button
+            type="button"
+            id="dining-prev-btn"
+            aria-label="Previous image"
+            class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#101416]/65 hover:bg-[#D6B66C] text-[#F3E7C4] hover:text-[#101416] border border-[#D6B66C]/45 flex items-center justify-center backdrop-blur-md transition-all shadow-lg"
           >
-            <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
-            <span id="dining-badge-label" class="text-[11px] uppercase tracking-[0.2em] text-[#F3E7C4] font-medium">
-              01 / 03 · Signature Dining
-            </span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            id="dining-next-btn"
+            aria-label="Next image"
+            class="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#101416]/65 hover:bg-[#D6B66C] text-[#F3E7C4] hover:text-[#101416] border border-[#D6B66C]/45 flex items-center justify-center backdrop-blur-md transition-all shadow-lg"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          <!-- Subtle Bottom Scrim for Inside-Image Caption -->
+          <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#070C10]/92 via-[#070C10]/50 to-transparent z-20"></div>
+
+          <!-- EACH IMAGE CAPTION INSIDE THE IMAGE (Place + Title + Description + Counter) -->
+          <div class="absolute inset-x-0 bottom-0 z-30 px-4 sm:px-7 pb-4 sm:pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-2.5">
+            <div class="min-w-0 max-w-2xl">
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#D6B66C]"></span>
+                <span id="dining-caption-place" class="text-[10px] uppercase tracking-[0.22em] text-[#D6B66C] font-semibold drop-shadow">
+                  {slides[0]?.place}
+                </span>
+              </div>
+              <h3 id="dining-caption-title" class="font-cormorant text-xl sm:text-3xl text-[#F5F1E8] leading-snug drop-shadow">
+                {slides[0]?.title}
+              </h3>
+              <p id="dining-caption-desc" class="hidden sm:block text-xs sm:text-[13px] text-[#E5DFD2]/90 font-light mt-1 line-clamp-2 drop-shadow">
+                {slides[0]?.description}
+              </p>
+            </div>
+
+            <div class="flex-shrink-0 self-start sm:self-end">
+              <span id="dining-photo-counter" class="inline-block px-3.5 py-1 rounded-full bg-[#101416]/80 backdrop-blur-md border border-[#D6B66C]/45 text-[11px] font-mono tracking-widest text-[#F3E7C4]">
+                01 / {String(slides.length).padStart(2, '0')}
+              </span>
+            </div>
           </div>
 
-          <!-- Bottom-Left Compact Corner Card (Never hides the frame on mobile or desktop) -->
-          <div
-            id="dining-corner-card"
-            class="absolute bottom-3 left-3 right-3 sm:right-auto sm:bottom-5 sm:left-5 z-30 sm:max-w-[360px] rounded-xl sm:rounded-2xl bg-[#101416]/78 backdrop-blur-lg border border-[#D6B66C]/35 p-3 sm:p-4 shadow-[0_14px_35px_rgba(0,0,0,0.55)] opacity-0 translate-y-4 pointer-events-none"
-          >
-            <div class="flex items-center justify-between gap-2 mb-1">
-              <span
-                id="dining-card-eyebrow"
-                class="text-[9.5px] uppercase tracking-[0.22em] text-[#D6B66C] font-semibold"
-              >
-                SIGNATURE DINING
-              </span>
-              <span
-                id="dining-card-index"
-                class="text-[10px] font-mono tracking-widest text-[#F3E7C4] bg-[#D6B66C]/15 border border-[#D6B66C]/30 rounded-full px-2 py-0.5"
-              >
-                01 / 03
-              </span>
-            </div>
-
-            <h3
-              id="dining-card-title"
-              class="font-serif text-base sm:text-xl text-[#F5F1E8] leading-snug"
-            >
-              Egyptian-Themed &amp; Candlelight Dining
-            </h3>
-
-            <p
-              id="dining-card-subtitle"
-              class="text-[10.5px] sm:text-[11px] uppercase tracking-[0.14em] text-[#D6B66C]/90 mt-0.5 sm:mb-1.5"
-            >
-              Sea Hills Port Blair &amp; Havelock
-            </p>
-
-            <p
-              id="dining-card-desc"
-              class="hidden sm:block text-[12px] leading-relaxed text-[#C8BFAE] line-clamp-2 mb-2.5"
-            >
-              Savour Andaman coastal specialities and continental favourites at Cleopatra Restaurant—or a candlelit dinner under the stars at Havelock.
-            </p>
-
-            <div
-              id="dining-card-highlights"
-              class="hidden sm:flex flex-wrap gap-1.5"
-            >
-              <span class="text-[10px] text-[#F3E7C4] bg-white/[0.06] border border-white/10 rounded-full px-2 py-0.5">
-                Cleopatra Restaurant
-              </span>
-              <span class="text-[10px] text-[#F3E7C4] bg-white/[0.06] border border-white/10 rounded-full px-2 py-0.5">
-                Anubis Bar
-              </span>
-              <span class="text-[10px] text-[#F3E7C4] bg-white/[0.06] border border-white/10 rounded-full px-2 py-0.5">
-                Outdoor Pools
-              </span>
-            </div>
+          <!-- Thin Progress Line -->
+          <div class="absolute inset-x-0 bottom-0 h-[3px] bg-white/10 z-30">
+            <div id="dining-progress-bar" class="h-full bg-gradient-to-r from-[#D6B66C] via-[#FFF3D6] to-[#D6B66C]" style="width: 0%;"></div>
           </div>
         </div>
       </div>
 
-      <!-- Subtle Progress Strip Below Stage -->
-      <div class="mt-4 flex items-center justify-between px-1 text-[11px] uppercase tracking-[0.2em] text-[#C8BFAE]/75">
-        <div class="flex items-center gap-4">
-          <button type="button" data-dining-step="0" class="dining-step-pill text-[#F3E7C4] font-semibold transition-colors">
-            01 Dining
-          </button>
-          <span class="text-white/20">/</span>
-          <button type="button" data-dining-step="1" class="dining-step-pill hover:text-[#F3E7C4] transition-colors">
-            02 Bar &amp; Lounge
-          </button>
-          <span class="text-white/20">/</span>
-          <button type="button" data-dining-step="2" class="dining-step-pill hover:text-[#F3E7C4] transition-colors">
-            03 Swimming Pool
-          </button>
-        </div>
-
-        <div class="hidden sm:flex items-center gap-3 w-44">
-          <div class="h-[2px] flex-1 bg-white/10 rounded-full overflow-hidden">
-            <div id="dining-progress-bar" class="h-full w-0 bg-[#D6B66C]"></div>
-          </div>
-          <span id="dining-progress-pct" class="font-mono text-[10px] text-[#D6B66C] w-8 text-right">0%</span>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -237,304 +413,263 @@ const experiences = [
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
   gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
 
   function initDiningSection() {
-    const section = document.getElementById('dining-bar-banner') as HTMLElement | null;
-    const stageBanner = document.getElementById('dining-stage-banner') as HTMLElement | null;
-    const canvasPanel = document.getElementById('dining-canvas-panel') as HTMLElement | null;
+    const section = document.getElementById('dining-bar-banner');
+    const imagePanel = document.getElementById('dining-image-panel') as HTMLElement | null;
     const rightText = document.getElementById('dining-right-text') as HTMLElement | null;
-    const cornerCard = document.getElementById('dining-corner-card') as HTMLElement | null;
-    const badgeLabel = document.getElementById('dining-badge-label') as HTMLElement | null;
-    const canvas = document.getElementById('dining-canvas') as HTMLCanvasElement | null;
-    const progressBar = document.getElementById('dining-progress-bar') as HTMLElement | null;
-    const progressPct = document.getElementById('dining-progress-pct') as HTMLElement | null;
+    const imgA = document.getElementById('dining-slide-a') as HTMLImageElement | null;
+    const imgB = document.getElementById('dining-slide-b') as HTMLImageElement | null;
+    const bgA = document.getElementById('dining-bg-a') as HTMLImageElement | null;
+    const bgB = document.getElementById('dining-bg-b') as HTMLImageElement | null;
+    const prevBtn = document.getElementById('dining-prev-btn');
+    const nextBtn = document.getElementById('dining-next-btn');
+    const progressBar = document.getElementById('dining-progress-bar');
+    const placeEl = document.getElementById('dining-caption-place');
+    const titleEl = document.getElementById('dining-caption-title');
+    const descEl = document.getElementById('dining-caption-desc');
+    const counterEl = document.getElementById('dining-photo-counter');
+    const thumbStrip = document.getElementById('dining-thumb-strip');
+    const filterBtns = Array.from(document.querySelectorAll('.dining-filter-btn')) as HTMLElement[];
+    const islandPills = Array.from(document.querySelectorAll('.dining-island-pill')) as HTMLElement[];
+    const thumbBtns = Array.from(document.querySelectorAll('.dining-thumb-btn')) as HTMLElement[];
 
-    const cardEyebrow = document.getElementById('dining-card-eyebrow') as HTMLElement | null;
-    const cardIndex = document.getElementById('dining-card-index') as HTMLElement | null;
-    const cardTitle = document.getElementById('dining-card-title') as HTMLElement | null;
-    const cardSubtitle = document.getElementById('dining-card-subtitle') as HTMLElement | null;
-    const cardDesc = document.getElementById('dining-card-desc') as HTMLElement | null;
-    const cardHighlights = document.getElementById('dining-card-highlights') as HTMLElement | null;
-    const stepPills = Array.from(document.querySelectorAll('.dining-step-pill')) as HTMLElement[];
+    if (!section || !imagePanel || !imgA || !imgB) return;
 
-    if (!section || !stageBanner || !canvasPanel || !canvas) return;
-    if (section.dataset.initialized === 'true') return;
-    section.dataset.initialized = 'true';
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const frameFiles: string[] = JSON.parse(section.dataset.frameFiles || '[]');
-    const experiences: Array<{
-      index: string;
-      eyebrow: string;
+    const slides: Array<{
+      src: string;
+      island: 'havelock' | 'portblair';
+      filter: 'dining' | 'bar' | 'reception';
+      place: string;
       title: string;
-      subtitle: string;
-      timing: string;
-      highlights: string[];
       description: string;
-      image: string;
-    }> = JSON.parse(section.dataset.experiences || '[]');
+    }> = JSON.parse(section.dataset.slides || '[]');
 
-    const hasFrameSeq = frameFiles.length > 0;
-    const imageSources = hasFrameSeq ? frameFiles : experiences.map((e) => e.image);
-    const loadedImages: HTMLImageElement[] = new Array(imageSources.length);
+    if (slides.length === 0) return;
 
-    let lastActiveIdx = -1;
-    let currentProgress = 0;
+    let activeFilter: 'all' | 'dining' | 'bar' | 'reception' = 'all';
+    let activeIsland: 'all' | 'havelock' | 'portblair' = 'all';
+    let filteredIndices: number[] = slides.map((_, i) => i);
+    let currentPos = 0;
+    let currentIdx = 0;
+    let showingA = true;
+    let isPaused = false;
+    let isVisible = false;
+    let hasExpanded = false;
+    const AUTO_MS = 3200;
+    let autoStart = performance.now();
 
-    function syncCanvasResolution() {
-      if (!canvas || !canvasPanel) return;
-      const rect = canvasPanel.getBoundingClientRect();
-      if (rect.width <= 0 || rect.height <= 0) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const targetW = Math.round(rect.width * dpr);
-      const targetH = Math.round(rect.height * dpr);
-      if (canvas.width !== targetW || canvas.height !== targetH) {
-        canvas.width = targetW;
-        canvas.height = targetH;
-      }
-    }
+    function updateCaptionAndThumbs(slideIdx: number) {
+      const slide = slides[slideIdx];
+      if (!slide) return;
+      const displayPos = Math.max(1, filteredIndices.indexOf(slideIdx) + 1);
 
-    function drawCoverImage(img: HTMLImageElement, alpha = 1, zoom = 1) {
-      if (!canvas || !ctx || !img || !img.complete || img.naturalWidth === 0) return;
-      const cw = canvas.width;
-      const ch = canvas.height;
-      if (cw === 0 || ch === 0) return;
-
-      const iw = img.naturalWidth;
-      const ih = img.naturalHeight;
-      const scale = Math.max(cw / iw, ch / ih) * zoom;
-      const dw = iw * scale;
-      const dh = ih * scale;
-      const dx = (cw - dw) / 2;
-      const dy = (ch - dh) / 2;
-
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(img, dx, dy, dw, dh);
-      ctx.restore();
-    }
-
-    function renderCanvas(progress: number) {
-      if (!canvas || !ctx) return;
-      syncCanvasResolution();
-      const cw = canvas.width;
-      const ch = canvas.height;
-      if (cw === 0 || ch === 0) return;
-
-      ctx.clearRect(0, 0, cw, ch);
-
-      if (hasFrameSeq) {
-        const frameIdx = Math.min(
-          loadedImages.length - 1,
-          Math.max(0, Math.round(progress * (loadedImages.length - 1)))
-        );
-        let img = loadedImages[frameIdx];
-        if (!img || !img.complete || img.naturalWidth === 0) {
-          for (let d = 1; d < loadedImages.length; d++) {
-            const prev = loadedImages[frameIdx - d];
-            if (prev && prev.complete && prev.naturalWidth > 0) {
-              img = prev;
-              break;
-            }
-            const next = loadedImages[frameIdx + d];
-            if (next && next.complete && next.naturalWidth > 0) {
-              img = next;
-              break;
-            }
-          }
-        }
-        if (img && img.complete && img.naturalWidth > 0) drawCoverImage(img, 1, 1);
-        return;
+      if (placeEl) placeEl.textContent = slide.place;
+      if (titleEl) titleEl.textContent = slide.title;
+      if (descEl) descEl.textContent = slide.description;
+      if (counterEl) {
+        counterEl.textContent = `${String(displayPos).padStart(2, '0')} / ${String(filteredIndices.length).padStart(2, '0')}`;
       }
 
-      // Cross-fade + subtle Ken Burns motion across Dining (0..0.38), Bar (0.38..0.72), Swimming (0.72..1.0)
-      const count = loadedImages.length;
-      if (count === 0) return;
-
-      const scaled = Math.max(0, Math.min(count - 1, progress * (count - 1)));
-      const idxA = Math.floor(scaled);
-      const idxB = Math.min(count - 1, idxA + 1);
-      const frac = scaled - idxA;
-
-      const imgA = loadedImages[idxA];
-      const imgB = loadedImages[idxB];
-
-      const zoomA = 1.02 + frac * 0.04;
-      const zoomB = 1.06 - frac * 0.04;
-
-      if (imgA && imgA.complete && imgA.naturalWidth > 0) {
-        drawCoverImage(imgA, 1, zoomA);
-      }
-      if (idxB !== idxA && frac > 0 && imgB && imgB.complete && imgB.naturalWidth > 0) {
-        drawCoverImage(imgB, frac, zoomB);
-      }
-    }
-
-    function updateCardContent(expIdx: number) {
-      if (expIdx === lastActiveIdx || !experiences[expIdx]) return;
-      lastActiveIdx = expIdx;
-      const exp = experiences[expIdx];
-
-      if (badgeLabel) badgeLabel.textContent = `${exp.index} · ${exp.eyebrow}`;
-      if (cardEyebrow) cardEyebrow.textContent = exp.eyebrow;
-      if (cardIndex) cardIndex.textContent = exp.index;
-      if (cardTitle) cardTitle.textContent = exp.title;
-      if (cardSubtitle) cardSubtitle.textContent = `${exp.subtitle} · ${exp.timing}`;
-      if (cardDesc) cardDesc.textContent = exp.description;
-      if (cardHighlights) {
-        cardHighlights.innerHTML = exp.highlights
-          .map(
-            (h) =>
-              `<span class="text-[11px] text-[#F3E7C4] bg-white/[0.06] border border-white/10 rounded-full px-2.5 py-1">${h}</span>`
-          )
-          .join('');
-      }
-
-      stepPills.forEach((pill, i) => {
-        if (i === expIdx) {
-          pill.classList.add('text-[#F3E7C4]', 'font-semibold');
-          pill.classList.remove('text-[#C8BFAE]/75');
-        } else {
-          pill.classList.remove('text-[#F3E7C4]', 'font-semibold');
-        }
+      thumbBtns.forEach((btn, i) => {
+        const inFilter = filteredIndices.includes(i);
+        btn.classList.toggle('hidden', !inFilter);
+        const active = i === slideIdx;
+        btn.classList.toggle('border-[#D6B66C]', active);
+        btn.classList.toggle('ring-2', active);
+        btn.classList.toggle('ring-[#D6B66C]/60', active);
+        btn.classList.toggle('opacity-100', active);
+        btn.classList.toggle('scale-[1.03]', active);
+        btn.classList.toggle('border-white/15', !active);
+        btn.classList.toggle('opacity-55', !active);
       });
+
+      const activeThumb = thumbBtns[slideIdx];
+      if (activeThumb && thumbStrip) {
+        const left = activeThumb.offsetLeft - thumbStrip.clientWidth / 2 + activeThumb.clientWidth / 2;
+        thumbStrip.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
+      }
     }
 
-    function applyLayoutForProgress(p: number) {
-      currentProgress = p;
-      const isDesktop = window.innerWidth >= 1024;
+    function showSlide(nextSlideIdx: number, force = false) {
+      if (!force && nextSlideIdx === currentIdx) return;
+      const slide = slides[nextSlideIdx];
+      if (!slide) return;
 
-      // Expand from LEFT 62% -> 100% (0.04..0.18), hold 100% (0.18..0.82), return to LEFT 62% (0.82..0.96)
-      let expand = 0;
-      if (p <= 0.04) {
-        expand = 0;
-      } else if (p < 0.18) {
-        expand = (p - 0.04) / 0.14;
-      } else if (p <= 0.82) {
-        expand = 1;
-      } else if (p < 0.96) {
-        expand = 1 - (p - 0.82) / 0.14;
+      const incoming = showingA ? imgB : imgA;
+      const outgoing = showingA ? imgA : imgB;
+      const incomingBg = showingA ? bgB : bgA;
+      const outgoingBg = showingA ? bgA : bgB;
+
+      incoming.src = slide.src;
+      incoming.alt = `${slide.place} — ${slide.title}`;
+      incoming.style.opacity = '1';
+      outgoing.style.opacity = '0';
+
+      if (incomingBg && outgoingBg) {
+        incomingBg.src = slide.src;
+        incomingBg.style.opacity = '0.35';
+        outgoingBg.style.opacity = '0';
+      }
+
+      showingA = !showingA;
+      currentIdx = nextSlideIdx;
+      const pos = filteredIndices.indexOf(currentIdx);
+      currentPos = pos >= 0 ? pos : 0;
+      autoStart = performance.now();
+      updateCaptionAndThumbs(currentIdx);
+    }
+
+    function stepCarousel(delta: number) {
+      if (filteredIndices.length === 0) return;
+      currentPos = (currentPos + delta + filteredIndices.length) % filteredIndices.length;
+      showSlide(filteredIndices[currentPos]);
+    }
+
+    function applyFilters() {
+      filteredIndices = slides
+        .map((s, i) => ({ s, i }))
+        .filter(
+          ({ s }) =>
+            (activeFilter === 'all' || s.filter === activeFilter) &&
+            (activeIsland === 'all' || s.island === activeIsland)
+        )
+        .map(({ i }) => i);
+
+      // Fallback if e.g. Havelock + Bar has 0 items, reset island to all for that category
+      if (filteredIndices.length === 0) {
+        filteredIndices = slides
+          .map((s, i) => ({ s, i }))
+          .filter(({ s }) => activeFilter === 'all' || s.filter === activeFilter)
+          .map(({ i }) => i);
+      }
+      if (filteredIndices.length === 0) {
+        filteredIndices = slides.map((_, i) => i);
+      }
+
+      filterBtns.forEach((btn) => {
+        const active = btn.dataset.diningFilter === activeFilter;
+        btn.classList.toggle('bg-[#D6B66C]', active);
+        btn.classList.toggle('text-[#101416]', active);
+        btn.classList.toggle('border-[#D6B66C]', active);
+        btn.classList.toggle('font-semibold', active);
+        btn.classList.toggle('bg-[#161C20]', !active);
+        btn.classList.toggle('text-[#F3E7C4]', !active);
+        btn.classList.toggle('border-[#D6B66C]/35', !active);
+      });
+
+      islandPills.forEach((pill) => {
+        const active = pill.dataset.diningIsland === activeIsland;
+        pill.classList.toggle('border-[#D6B66C]/60', active);
+        pill.classList.toggle('bg-[#D6B66C]/15', active);
+        pill.classList.toggle('text-[#F3E7C4]', active);
+        pill.classList.toggle('font-semibold', active);
+        pill.classList.toggle('border-white/15', !active);
+        pill.classList.toggle('bg-[#161C20]', !active);
+        pill.classList.toggle('text-[#C8BFAE]', !active);
+      });
+
+      currentPos = 0;
+      showSlide(filteredIndices[0], true);
+    }
+
+    // When reaching Dining section: image starts on Left (68%), then smoothly moves to 100% Full Card on first scroll (no pinning/sticking)
+    function updateInitialExpand(p: number) {
+      if (hasExpanded) return;
+      if (window.innerWidth >= 1024) {
+        const clamped = Math.min(1, Math.max(0, p));
+        imagePanel!.style.width = `${68 + clamped * 32}%`;
+        if (rightText) {
+          rightText.style.opacity = String(Math.max(0, 1 - clamped * 2));
+        }
+        if (clamped >= 1) {
+          hasExpanded = true;
+        }
       } else {
-        expand = 0;
-      }
-
-      // Smoothstep easing for panel expansion
-      const eased = expand * expand * (3 - 2 * expand);
-
-      if (canvasPanel) {
-        if (isDesktop) {
-          const widthPct = 62 + 38 * eased;
-          canvasPanel.style.width = `${widthPct.toFixed(3)}%`;
-        } else {
-          canvasPanel.style.width = '100%';
-        }
-      }
-
-      if (rightText && isDesktop) {
-        const textOpacity = Math.max(0, 1 - eased * 1.45);
-        rightText.style.opacity = textOpacity.toFixed(3);
-        rightText.style.transform = `translateX(${(eased * 28).toFixed(1)}px)`;
-      }
-
-      if (cornerCard) {
-        const cardVisible = isDesktop ? Math.max(0, Math.min(1, (eased - 0.55) / 0.35)) : 1;
-        cornerCard.style.opacity = cardVisible.toFixed(3);
-        cornerCard.style.transform = isDesktop ? `translateY(${((1 - cardVisible) * 16).toFixed(1)}px)` : 'none';
-      }
-
-      // Map scroll progress to 3 experiences: 0 = Dining, 1 = Bar, 2 = Swimming
-      const expIdx = p < 0.36 ? 0 : p < 0.7 ? 1 : 2;
-      updateCardContent(expIdx);
-
-      if (progressBar) progressBar.style.width = `${Math.round(p * 100)}%`;
-      if (progressPct) progressPct.textContent = `${Math.round(p * 100)}%`;
-
-      renderCanvas(p);
-    }
-
-    function loadDiningImage(i: number): Promise<void> {
-      return new Promise((resolve) => {
-        if (loadedImages[i]) return resolve();
-        const img = new Image();
-        img.decoding = 'async';
-        img.onload = () => {
-          loadedImages[i] = img;
-          if (i === 0 || Math.abs(currentProgress * (imageSources.length - 1) - i) <= 1.2) {
-            renderCanvas(currentProgress);
-          }
-          resolve();
-        };
-        img.onerror = () => resolve();
-        img.src = imageSources[i];
-      });
-    }
-
-    async function preloadDiningBatch() {
-      for (let i = 1; i < imageSources.length; i += 6) {
-        const batch: Promise<void>[] = [];
-        for (let j = i; j < Math.min(i + 6, imageSources.length); j++) {
-          batch.push(loadDiningImage(j));
-        }
-        await Promise.all(batch);
+        imagePanel!.style.width = '100%';
+        hasExpanded = true;
       }
     }
-
-    // Load frame 0 immediately; defer remaining 113 frames until approaching Dining section
-    loadDiningImage(0);
-    let diningPreloaded = false;
-    const startDiningPreload = () => {
-      if (diningPreloaded) return;
-      diningPreloaded = true;
-      preloadDiningBatch();
-    };
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(
-        (entries) => {
-          if (entries.some((e) => e.isIntersecting)) {
-            startDiningPreload();
-            io.disconnect();
-          }
-        },
-        { rootMargin: '1400px 0px' }
-      );
-      io.observe(section);
-    } else {
-      startDiningPreload();
-    }
-
-    const resizeObserver = new ResizeObserver(() => {
-      syncCanvasResolution();
-      renderCanvas(currentProgress);
-    });
-    resizeObserver.observe(canvasPanel);
 
     ScrollTrigger.create({
       trigger: section,
-      start: 'top top',
-      end: 'bottom bottom',
+      start: 'top 55%',
+      end: 'top 15%',
       scrub: true,
-      onUpdate: (self) => {
-        applyLayoutForProgress(self.progress);
-      },
+      onUpdate: (self) => updateInitialExpand(self.progress),
     });
 
-    // Clickable step pills jump smoothly to that chapter
-    stepPills.forEach((pill, i) => {
-      pill.addEventListener('click', () => {
-        const rect = section.getBoundingClientRect();
-        const sectionTop = window.scrollY + rect.top;
-        const scrollable = Math.max(1, section.offsetHeight - window.innerHeight);
-        const targets = [0.24, 0.52, 0.78];
-        const targetY = sectionTop + scrollable * (targets[i] ?? 0.24);
-        window.scrollTo({ top: targetY, behavior: 'smooth' });
+    // Normal smooth carousel playback across all filtered images
+    function tick(now: number) {
+      if (isVisible && !isPaused && filteredIndices.length > 1) {
+        if (now - autoStart >= AUTO_MS) {
+          stepCarousel(1);
+        }
+        if (progressBar) {
+          progressBar.style.width = `${Math.min(100, ((now - autoStart) / AUTO_MS) * 100)}%`;
+        }
+      } else {
+        autoStart = now;
+      }
+      requestAnimationFrame(tick);
+    }
+
+    prevBtn?.addEventListener('click', () => stepCarousel(-1));
+    nextBtn?.addEventListener('click', () => stepCarousel(1));
+
+    thumbBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const idx = Number(btn.dataset.thumbIdx || '0');
+        showSlide(idx);
       });
     });
 
-    applyLayoutForProgress(0);
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeFilter = (btn.dataset.diningFilter as typeof activeFilter) || 'all';
+        applyFilters();
+      });
+    });
+
+    islandPills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        activeIsland = (pill.dataset.diningIsland as typeof activeIsland) || 'all';
+        applyFilters();
+      });
+    });
+
+    imagePanel.addEventListener('mouseenter', () => { isPaused = true; });
+    imagePanel.addEventListener('mouseleave', () => { isPaused = false; });
+
+    let touchStartX = 0;
+    imagePanel.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      isPaused = true;
+    }, { passive: true });
+    imagePanel.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) stepCarousel(dx < 0 ? 1 : -1);
+      isPaused = false;
+    }, { passive: true });
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          isVisible = entries.some((e) => e.isIntersecting);
+          if (isVisible) {
+            autoStart = performance.now();
+          }
+        },
+        { threshold: 0.05 }
+      );
+      io.observe(section);
+    } else {
+      isVisible = true;
+    }
+
+    updateCaptionAndThumbs(0);
+    requestAnimationFrame(tick);
   }
 
   if (document.readyState === 'loading') {
