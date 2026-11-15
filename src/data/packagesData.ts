@@ -270,6 +270,8 @@ export const ISLAND_PROPERTY_GUIDES: Record<'havelock' | 'port-blair', IslandPro
   },
 };
 
+export const OFFICIAL_RESORT_DOSSIER = ISLAND_PROPERTY_GUIDES;
+
 export const RESORT_PACKAGES: ResortPackage[] = [
   {
     slug: 'havelock-pristine-beach-retreat',
